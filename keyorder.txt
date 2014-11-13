@@ -1,0 +1,160 @@
+Packet 1:
+
+Header:
+
+0x00, 0x7F, 0x01, 0x3C, 0x00
+
+1 - ~
+2 - Escape
+3 - Caps Lock
+4 - Tab
+5 - Left Control
+6 - Left Shift
+7 - +
+8 - F12
+9 - Num 7
+10 - Lock Button
+11 - Unknown
+12 - Unknown
+13 - 1
+14 - F1
+15 - A
+16 - Q
+17 - Left Windows Key
+18 - Unknown
+19 - Unknown
+20 - Print Screen
+21 - Num 8
+22 - Mute/Unmute Multimedia Button
+23 - Unknown
+24 - Unknown
+25 - 2
+26 - F2
+27 - S
+28 - W
+29 - Left Alt
+30 - Z
+31 - Backspace
+32 - Scroll Lock
+33 - Num 9
+34 - Stop Multimedia Button
+35 - Unknown
+36 - Unknown
+37 - 3
+38 - F3
+39 - D
+40 - E
+41 - Unknown
+42 - X
+43 - Delete
+44 - Pause/Break
+45 - Unknown
+46 - Previous Track Multimedia Button
+47 - Unknown
+48 - Unknown
+49 - 4
+50 - F4
+51 - F
+52 - R
+53 - Spacebar
+54 - C
+55 - End
+56 - Insert
+57 - Num 4
+58 - Play/Pause Multimedia Button
+59 - Unknown
+60 - Unknown
+61 - 5
+62 - F5
+63 - G
+64 - T
+65 - Unknown
+66 - V
+67 - Page Down
+68 - Home
+69 - Num 5
+70 - Next Track Multimedia Button
+71 - Unknown
+72 - Unknown
+73 - 6
+74 - F6
+75 - H
+76 - Y
+77 - Unknown
+78 - B
+79 - Right Shift
+80 - Page Up
+81 - Num 6
+82 - Num Lock
+83 - Unknown
+84 - Unknown
+85 - 7
+86 - F7
+87 - J
+88 - U
+89 - Right Alt
+90 - N
+91 - Right Ctrl
+92 - }
+93 - Num 1
+94 - Num /
+95 - Unknown
+96 - Unknown
+97 - 8
+98 - F8
+99 - K
+100 - I
+101 - Right Windows Key
+102 - M
+103 - Up Arrow
+104 - |
+105 - Num 2
+106 - Num *
+107 - Unknown
+108 - Unknown
+109 - 9
+110 - F9
+111 - L
+112 - O
+113 - Function Key
+114 - <
+115 - Left Arrow
+116 - Unknown
+117 - Num 3
+118 - Num -
+119 - Unknown
+120 - Unknown
+
+Packet 2:
+
+Header:
+
+0x00, 0x7F, 0x02, 0x3C, 0x00
+
+121 - 0
+122 - F10
+123 - :
+124 - P
+125 - Unknown
+126 - >
+127 - Down Arrow
+128 - Enter
+129 - Num 0
+130 - Num +
+131 - Unknown
+132 - Unknown
+133 - -
+134 - F11
+135 - "
+136 - {
+137 - Brightness Button
+138 - ?
+139 - Right Arrow
+140 - Unknown
+141 - Num .
+142 - Num Enter
+143 - Unknown
+144 - Unknown
+
+END RED - REPEAT GREEN
+END GREEN - REPEAT BLUE
