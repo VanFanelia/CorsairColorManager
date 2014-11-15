@@ -48,15 +48,12 @@ public class BasicProgram {
 		}
 		this.ruleMap = aliasMap;
 
-		try {
-			this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);
-			this.startActionRule = this.getRuleMap().get(this.colorMixingRuleString);
-			if(startAction == null){
-				throw new ProgramParseException("Start Rule not found");
-			}
-		}catch (final IllegalArgumentException e ) {
-			throw new ProgramParseException("Color Mixing rule not found");
+		this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);
+		if(startAction == null || !this.getRuleMap().containsKey(startAction))
+		{
+			throw new ProgramParseException("Start Rule not found");
 		}
+		this.startActionRule = this.getRuleMap().get(this.colorMixingRuleString);
 
 		for(final AbstractColorRule rule: this.ruleMap.values()) {
 			rule.initObjects(this);
@@ -110,6 +107,8 @@ public class BasicProgram {
 	public void setRuleMap(Map<String, AbstractColorRule> ruleMap) {
 		this.ruleMap = ruleMap;
 	}
+
+
 
 	@Override
 	public String toString() {

@@ -58,7 +58,8 @@ public class TimeManagerTest {
 
 		System.out.println(json);
 
-		final BasicProgram bp = tm.parseJsonToObject(json);
+		tm.parseProgram(json);
+		final BasicProgram bp = tm.getCurrentProgram();
 
 		assertNotNull(bp);
 		assertNotNull(bp.getAbstractColorRules());

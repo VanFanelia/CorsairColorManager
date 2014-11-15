@@ -1,8 +1,6 @@
 package de.foobar.timemanager.rules;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
@@ -19,24 +17,30 @@ import java.util.TimerTask;
  * Editor: van on 28.10.14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+
+@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+		@JsonSubTypes.Type(value = SetColor.class, name = "SetColor"),
+		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange")
+})
 public abstract class AbstractColorRule extends TimerTask {
 
     /**
      * Reference Name of alias
      */
-    @JsonProperty( "alias" )
+    @JsonProperty("alias")
     private String alias = "";
 
 	@JsonIgnore
 	private BasicProgram basicProgram;
 
-	@JsonProperty( "keys")
+	@JsonProperty("keys")
 	private List<String> keyListTmp = new ArrayList<String>();
 
 	@JsonIgnore
-	private List<Key> keysTmp = new ArrayList<Key>();
+	private List<Key> keys = new ArrayList<Key>();
 
-    @JsonProperty(" doAfter")
+    @JsonProperty("doAfter")
     private List<String> doAfterListTmp = new ArrayList<String>();
 
 	@JsonIgnore
@@ -65,6 +69,17 @@ public abstract class AbstractColorRule extends TimerTask {
 			}
 			this.doAfterRules.add(ruleMap.get(rule));
 		}
+		for(final String key : keyListTmp)
+		{
+			try
+			{
+				this.keys.add(Key.valueOf(key));
+			}
+			catch (final IllegalArgumentException e)
+			{
+				throw new ProgramParseException("cannot find key: "+ key);
+			}
+		}
 	}
 
 	public String getAlias() {
@@ -90,6 +105,14 @@ public abstract class AbstractColorRule extends TimerTask {
     public void setDoAfterListTmp(final List<String> doAfterListTmp) {
         this.doAfterListTmp = doAfterListTmp;
     }
+
+	public List<Key> getKeys() {
+		return keys;
+	}
+
+	public void setKeys(final List<Key> keys) {
+		this.keys = keys;
+	}
 
 	@Override
 	public String toString() {

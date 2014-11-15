@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.LinearColorChange;
-import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.rules.SetColor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -30,15 +30,15 @@ public class TimeManager {
      * Convert a json rule string in objects and execute them.
      * @param jsonRules
      */
-    public void parseProgram(final String jsonRules) throws IOException {
+    public void parseProgram(final String jsonRules) throws IOException, ProgramParseException {
 
 	    try {
 		    this.currentProgram = parseJsonToObject(jsonRules);
 		    this.currentProgram.initObjects();
 		    this.start();
-	    }catch (ProgramParseException e){
+	    }catch (final IOException e){
 		    e.printStackTrace();
-
+			throw new ProgramParseException("General IOException", e);
 	    }
     }
 
@@ -55,11 +55,16 @@ public class TimeManager {
 			objectMapper.enable(MapperFeature.USE_ANNOTATIONS);
 			objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-			SimpleModule customModule = new SimpleModule("CustomModule", new Version(1, 0, 0, null, "g1", "CustomModule"))
-					.addAbstractTypeMapping(AbstractColorRule.class, SetColor.class)
-					.addAbstractTypeMapping(AbstractColorRule.class, LinearColorChange.class);
+			final SimpleModule customModule = new SimpleModule("CustomModule", new Version(1, 0, 0, null, "g1", "CustomModule"));
+					customModule.addAbstractTypeMapping(AbstractColorRule.class, SetColor.class);
+					customModule.addAbstractTypeMapping(AbstractColorRule.class, LinearColorChange.class);
+					customModule.registerSubtypes(SetColor.class);
+					customModule.registerSubtypes(LinearColorChange.class);
+
 			objectMapper.registerModule(customModule);
-			objectMapper.registerSubtypes(AbstractColorRule.class);
+
+			//objectMapper.registerSubtypes(SetColor.class);
+			//objectMapper.registerSubtypes(LinearColorChange.class);
 			return objectMapper.readValue(jsonRules, BasicProgram.class);
 	}
 
@@ -85,6 +90,14 @@ public class TimeManager {
         this.stop();
 	    this.currentProgram = null;
     }
+
+	public BasicProgram getCurrentProgram() {
+		return currentProgram;
+	}
+
+	public void setCurrentProgram(BasicProgram currentProgram) {
+		this.currentProgram = currentProgram;
+	}
 
 	@Override
 	public String toString() {

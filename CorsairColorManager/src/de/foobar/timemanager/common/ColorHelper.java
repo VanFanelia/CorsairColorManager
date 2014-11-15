@@ -16,14 +16,14 @@ public class ColorHelper {
 		}
 
 		if (hexColor.length() == 6) {
-			return new Color(Integer.valueOf(hexColor.substring(1, 3), 16),
-					Integer.valueOf(hexColor.substring(3, 5), 16),
-					Integer.valueOf(hexColor.substring(5, 7), 16));
+			return new Color(Integer.valueOf(hexColor.substring(0, 2), 16),
+					Integer.valueOf(hexColor.substring(2, 4), 16),
+					Integer.valueOf(hexColor.substring(4, 6), 16));
 		} else {
-			return new Color(Integer.valueOf(hexColor.substring(1, 3), 16),
-					Integer.valueOf(hexColor.substring(3, 5), 16),
-					Integer.valueOf(hexColor.substring(5, 7), 16),
-					Integer.valueOf(hexColor.substring(7, 9), 16));
+			return new Color(Integer.valueOf(hexColor.substring(0, 2), 16),
+					Integer.valueOf(hexColor.substring(2, 4), 16),
+					Integer.valueOf(hexColor.substring(4, 6), 16),
+					Integer.valueOf(hexColor.substring(6, 8), 16));
 		}
 	}
 }
