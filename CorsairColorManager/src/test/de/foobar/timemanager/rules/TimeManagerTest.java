@@ -68,7 +68,6 @@ public class TimeManagerTest {
 
 		assertEquals(bp.getAbstractColorRules().size(), 1);
 		assertNotNull(bp.getStartActionRule());
-		assertNotNull(bp.getRuleMap().get("setRedFGK").getDoAfterListTmp());
 		assertNotNull(bp.getRuleMap().get("setRedFGK").getDoAfterRules());
 		assertEquals(bp.getRuleMap().get("setRedFGK").getDoAfterRules().size(), 1);
 

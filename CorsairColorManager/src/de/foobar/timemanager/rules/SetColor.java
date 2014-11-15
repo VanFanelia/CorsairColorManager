@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
+import java.util.Timer;
 
 /**
  * Editor: van on 28.10.14.
@@ -27,7 +28,12 @@ public class SetColor extends AbstractColorRule {
 
 	@Override
 	public void run() {
+		final Timer programTimer = this.getBasicProgram().getProgramTimer();
 
+		for(final AbstractColorRule rule: this.getDoAfterRules())
+		{
+			programTimer.schedule( rule, this.getDelay() );
+		}
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException

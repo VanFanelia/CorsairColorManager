@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 /**
  *
@@ -37,8 +38,21 @@ public class BasicProgram {
 	@JsonIgnore
 	private Map<String, AbstractColorRule> ruleMap;
 
+	@JsonIgnore
+	private Timer programTimer;
+
 	public BasicProgram() {
 	}
+
+	/**
+	 * Start the program
+	 */
+	public void startProgram()
+	{
+		this.programTimer = new Timer();
+		this.programTimer.schedule( this.getStartActionRule(), 1 );
+	}
+
 
 	public void initObjects() throws ProgramParseException {
 
@@ -63,6 +77,8 @@ public class BasicProgram {
 			rule.initObjects(this);
 		}
 	}
+
+	// Getter & Setter
 
 	public ColorMixingRule getColorMixingRule() {
 		return colorMixingRule;
@@ -112,7 +128,13 @@ public class BasicProgram {
 		this.ruleMap = ruleMap;
 	}
 
+	public Timer getProgramTimer() {
+		return programTimer;
+	}
 
+	public void setProgramTimer(Timer programTimer) {
+		this.programTimer = programTimer;
+	}
 
 	@Override
 	public String toString() {

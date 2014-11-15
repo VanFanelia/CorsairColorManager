@@ -98,20 +98,20 @@ public abstract class AbstractColorRule extends TimerTask {
         this.doAfterRules = doAfterRules;
     }
 
-    public List<String> getDoAfterListTmp() {
-        return doAfterListTmp;
-    }
-
-    public void setDoAfterListTmp(final List<String> doAfterListTmp) {
-        this.doAfterListTmp = doAfterListTmp;
-    }
-
 	public List<Key> getKeys() {
 		return keys;
 	}
 
 	public void setKeys(final List<Key> keys) {
 		this.keys = keys;
+	}
+
+	public BasicProgram getBasicProgram() {
+		return basicProgram;
+	}
+
+	public void setBasicProgram(BasicProgram basicProgram) {
+		this.basicProgram = basicProgram;
 	}
 
 	@Override
