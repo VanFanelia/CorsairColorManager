@@ -22,9 +22,7 @@ public class TimeManager {
 
 	private BasicProgram currentProgram;
 
-    public TimeManager() {
-    }
-
+    public TimeManager() { }
 
     /**
      * Convert a json rule string in objects and execute them.
@@ -41,7 +39,6 @@ public class TimeManager {
 			throw new ProgramParseException("General IOException", e);
 	    }
     }
-
 
 	/**
 	 * use object Mapper to create Object
@@ -61,10 +58,7 @@ public class TimeManager {
 					customModule.registerSubtypes(SetColor.class);
 					customModule.registerSubtypes(LinearColorChange.class);
 
-			objectMapper.registerModule(customModule);
-
-			//objectMapper.registerSubtypes(SetColor.class);
-			//objectMapper.registerSubtypes(LinearColorChange.class);
+//			objectMapper.registerModule(customModule);
 			return objectMapper.readValue(jsonRules, BasicProgram.class);
 	}
 

@@ -1,6 +1,6 @@
 {
     "colorMixingRule": "OVERRIDE",
-    "startAction" : "action1",
+    "startAction" : "setRedFGK",
     "rules": [
         {
             "type": "SetColor",

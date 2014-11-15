@@ -1,6 +1,5 @@
 package de.foobar.timemanager.rules;
 
-import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.TimeManager;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
@@ -11,7 +10,6 @@ import org.junit.Test;
 import java.io.InputStream;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 
 /**
  * Editor: van on 09.11.14.
@@ -21,7 +19,7 @@ public class TimeManagerTest {
 
 
 
-	@Test
+	@Test(expected = ProgramParseException.class)
 	public void testParseJsonToObjectEmptyProgram() throws Exception
 	{
 
@@ -33,11 +31,7 @@ public class TimeManagerTest {
 
 		System.out.println(json);
 
-		final BasicProgram bp = tm.parseJsonToObject(json);
-
-		assertNotNull(bp);
-		assertNotNull(bp.getAbstractColorRules());
-		assertEquals(bp.getAbstractColorRules().size(), 0);
+		tm.parseProgram(json);
 	}
 
 	@Test
@@ -47,8 +41,7 @@ public class TimeManagerTest {
 		assertEquals(KeyToNumber.getNumber(Key.NONE),-1);
 	}
 
-
-	@Test(expected = ProgramParseException.class)
+	@Test
 	public void testParseJsonToObjectSimpleSetColorProgram() throws Exception {
 
 		final TimeManager tm = new TimeManager();
@@ -57,10 +50,8 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		System.out.println(json);
-
 		tm.parseProgram(json);
-
+		System.out.println(json);
 	}
 
 }
