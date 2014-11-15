@@ -2,9 +2,9 @@ package de.foobar.timemanager;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
-import de.foobar.timemanager.exception.ProgramParseException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -42,18 +42,22 @@ public class BasicProgram {
 
 	public void initObjects() throws ProgramParseException {
 
-		final HashMap<String, AbstractColorRule> aliasMap = new HashMap<String, AbstractColorRule>();
+		this.ruleMap = new HashMap<String, AbstractColorRule>();
 		for(final AbstractColorRule rule : this.getAbstractColorRules()) {
-			aliasMap.put(rule.getAlias(), rule);
+			this.ruleMap.put(rule.getAlias(), rule);
 		}
-		this.ruleMap = aliasMap;
-
-		this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);
+		try {
+			this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);
+		}
+		catch (final IllegalArgumentException e)
+		{
+			throw new ProgramParseException("Color Mixing Rule not found");
+		}
 		if(startAction == null || !this.getRuleMap().containsKey(startAction))
 		{
 			throw new ProgramParseException("Start Rule not found");
 		}
-		this.startActionRule = this.getRuleMap().get(this.colorMixingRuleString);
+		this.startActionRule = this.getRuleMap().get(this.startAction);
 
 		for(final AbstractColorRule rule: this.ruleMap.values()) {
 			rule.initObjects(this);
@@ -101,10 +105,10 @@ public class BasicProgram {
 	}
 
 	public Map<String, AbstractColorRule> getRuleMap() {
-		return ruleMap;
+		return this.ruleMap;
 	}
 
-	public void setRuleMap(Map<String, AbstractColorRule> ruleMap) {
+	public void setRuleMap(final Map<String, AbstractColorRule> ruleMap) {
 		this.ruleMap = ruleMap;
 	}
 

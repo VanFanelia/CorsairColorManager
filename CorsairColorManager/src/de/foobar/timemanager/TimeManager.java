@@ -1,14 +1,9 @@
 package de.foobar.timemanager;
 
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import de.foobar.timemanager.exception.ProgramParseException;
-import de.foobar.timemanager.rules.AbstractColorRule;
-import de.foobar.timemanager.rules.LinearColorChange;
-import de.foobar.timemanager.rules.SetColor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -52,13 +47,6 @@ public class TimeManager {
 			objectMapper.enable(MapperFeature.USE_ANNOTATIONS);
 			objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-			final SimpleModule customModule = new SimpleModule("CustomModule", new Version(1, 0, 0, null, "g1", "CustomModule"));
-					customModule.addAbstractTypeMapping(AbstractColorRule.class, SetColor.class);
-					customModule.addAbstractTypeMapping(AbstractColorRule.class, LinearColorChange.class);
-					customModule.registerSubtypes(SetColor.class);
-					customModule.registerSubtypes(LinearColorChange.class);
-
-//			objectMapper.registerModule(customModule);
 			return objectMapper.readValue(jsonRules, BasicProgram.class);
 	}
 
