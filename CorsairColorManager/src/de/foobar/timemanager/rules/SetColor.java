@@ -2,6 +2,9 @@ package de.foobar.timemanager.rules;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.foobar.timemanager.BasicProgram;
+import de.foobar.timemanager.common.ColorHelper;
+import de.foobar.timemanager.exception.ProgramParseException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,56 +17,36 @@ import java.awt.*;
 public class SetColor extends AbstractColorRule {
 
     @JsonProperty("color")
-    private String color;
+    private String colorTmp;
 
 	@JsonIgnore
-	private Color colorObject;
+	private Color color;
 
     @JsonProperty("delay")
     private int delay = 0;
-
 
 	@Override
 	public void run() {
 
 	}
 
-	protected void initObject() throws ProgramParseException {
-		super.initObject();
-		if(this.color == null || (this.color.length() != 6 && this.color.length() != 8 )) {
-			throw new ProgramParseException("color value not valid. please use RGB or RGBA Color code in HEX cods like: ff0000 for red or ff0000ff for Red with 100% Alpha");
-		}
-		if(this.delay < 0 ) {
+	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
+	{
+		super.initObjects(basicProgram);
+
+		if (this.delay < 0) {
 			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
 		}
 
-		if(this.color.length() == 6) {
-			this.colorObject = new Color( Integer.valueOf( this.color.substring( 1, 3 ), 16 ),
-										  Integer.valueOf( this.color.substring( 3, 5 ), 16 ),
-										  Integer.valueOf( this.color.substring( 5, 7 ), 16 ) );
-		} else {
-			this.colorObject = new Color( Integer.valueOf( this.color.substring( 1, 3 ), 16 ),
-										  Integer.valueOf( this.color.substring( 3, 5 ), 16 ),
-										  Integer.valueOf( this.color.substring( 5, 7 ), 16 ),
-										  Integer.valueOf( this.color.substring( 7, 9 ), 16 ) );
-		}
-
+		this.color = ColorHelper.convertRGBAHexColorToColor(this.colorTmp);
 	}
 
 	public SetColor() {
 	}
 
-	public SetColor(final String color, final int delay) {
-        this.color = color;
+	public SetColor(final String colorTmp, final int delay) {
+        this.colorTmp = colorTmp;
         this.delay = delay;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(final String color) {
-        this.color = color;
     }
 
     public int getDelay() {
@@ -74,12 +57,12 @@ public class SetColor extends AbstractColorRule {
         this.delay = delay;
     }
 
-	public Color getColorObject() {
-		return colorObject;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setColorObject(final Color colorObject) {
-		this.colorObject = colorObject;
+	public void setColor(final Color color) {
+		this.color = color;
 	}
 
 	@Override

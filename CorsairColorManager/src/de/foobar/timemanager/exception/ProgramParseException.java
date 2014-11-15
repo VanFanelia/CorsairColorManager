@@ -1,9 +1,9 @@
-package de.foobar.timemanager.rules;
+package de.foobar.timemanager.exception;
 
 /**
  * Editor: van on 09.11.14.
  */
-public class ProgramParseException extends RuntimeException {
+public class ProgramParseException extends Exception {
 
 	public ProgramParseException() {
 	}

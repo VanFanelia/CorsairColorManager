@@ -4,20 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
+import de.foobar.timemanager.exception.ProgramParseException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Example for an empty program
- * {
- * "colorMixingRule": "OVERRIDE",
- * "startAction" : "action1",
- * "rules": []
- * }
- *
  *
  * Editor: van on 09.11.14.
  */
@@ -38,8 +34,33 @@ public class BasicProgram {
 	@JsonProperty("rules")
 	private List<AbstractColorRule> abstractColorRules;
 
+	@JsonIgnore
+	private Map<String, AbstractColorRule> ruleMap;
 
 	public BasicProgram() {
+	}
+
+	public void initObjects() throws ProgramParseException {
+
+		final HashMap<String, AbstractColorRule> aliasMap = new HashMap<String, AbstractColorRule>();
+		for(final AbstractColorRule rule : this.getAbstractColorRules()) {
+			aliasMap.put(rule.getAlias(), rule);
+		}
+		this.ruleMap = aliasMap;
+
+		try {
+			this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);
+			this.startActionRule = this.getRuleMap().get(this.colorMixingRuleString);
+			if(startAction == null){
+				throw new ProgramParseException("Start Rule not found");
+			}
+		}catch (final IllegalArgumentException e ) {
+			throw new ProgramParseException("Color Mixing rule not found");
+		}
+
+		for(final AbstractColorRule rule: this.ruleMap.values()) {
+			rule.initObjects(this);
+		}
 	}
 
 	public ColorMixingRule getColorMixingRule() {
@@ -80,6 +101,14 @@ public class BasicProgram {
 
 	public void setAbstractColorRules(final List<AbstractColorRule> abstractColorRules) {
 		this.abstractColorRules = abstractColorRules;
+	}
+
+	public Map<String, AbstractColorRule> getRuleMap() {
+		return ruleMap;
+	}
+
+	public void setRuleMap(Map<String, AbstractColorRule> ruleMap) {
+		this.ruleMap = ruleMap;
 	}
 
 	@Override

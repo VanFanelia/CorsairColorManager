@@ -1,6 +1,10 @@
 package de.foobar.timemanager.rules;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.foobar.timemanager.BasicProgram;
+import de.foobar.timemanager.common.ColorHelper;
+import de.foobar.timemanager.exception.ProgramParseException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,10 +17,16 @@ import java.awt.*;
 public class LinearColorChange extends AbstractColorRule {
 
 	@JsonProperty("startColor")
+	private String startColorTmp;
+
+	@JsonIgnore
     private Color startColor;
 
 	@JsonProperty("endColor")
-    private Color endColor;
+    private String endColorTmp;
+
+	@JsonIgnore
+	private Color endColor;
 
 	@JsonProperty("delay")
     private int delay;
@@ -33,8 +43,12 @@ public class LinearColorChange extends AbstractColorRule {
 
 	}
 
-	protected void initObject() throws ProgramParseException{
-		//TODO IMPLEMENT
+	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException {
+		super.initObjects(basicProgram);
+
+		this.endColor = ColorHelper.convertRGBAHexColorToColor(this.endColorTmp);
+		this.startColor = ColorHelper.convertRGBAHexColorToColor(this.startColorTmp);
+
 	}
 
 

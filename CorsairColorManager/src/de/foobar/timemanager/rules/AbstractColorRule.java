@@ -3,12 +3,16 @@ package de.foobar.timemanager.rules;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.foobar.timemanager.BasicProgram;
+import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.Key;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimerTask;
 
 /**
@@ -17,18 +21,23 @@ import java.util.TimerTask;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractColorRule extends TimerTask {
 
-
     /**
      * Reference Name of alias
      */
     @JsonProperty( "alias" )
     private String alias = "";
 
+	@JsonIgnore
+	private BasicProgram basicProgram;
+
 	@JsonProperty( "keys")
-	private List<String> keys = new ArrayList<String>();
+	private List<String> keyListTmp = new ArrayList<String>();
+
+	@JsonIgnore
+	private List<Key> keysTmp = new ArrayList<Key>();
 
     @JsonProperty(" doAfter")
-    private List<String> doAfterAlias = new ArrayList<String>();
+    private List<String> doAfterListTmp = new ArrayList<String>();
 
 	@JsonIgnore
     private List<AbstractColorRule> doAfterRules = new ArrayList<AbstractColorRule>();
@@ -37,15 +46,25 @@ public abstract class AbstractColorRule extends TimerTask {
 
     }
 
-	protected AbstractColorRule(final String alias,final List<String> keys,final List<String> doAfterAlias,final List<AbstractColorRule> doAfterRules) {
+	protected AbstractColorRule(final String alias,final List<String> keyListTmp,final List<String> doAfterListTmp,final List<AbstractColorRule> doAfterRules) {
 		this.alias = alias;
-		this.keys = keys;
-		this.doAfterAlias = doAfterAlias;
+		this.keyListTmp = keyListTmp;
+		this.doAfterListTmp = doAfterListTmp;
 		this.doAfterRules = doAfterRules;
 	}
-	
-	protected void initObject() throws ProgramParseException{
-		//TODO IMPLEMENT
+
+	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
+	{
+		this.basicProgram = basicProgram;
+		final Map<String,AbstractColorRule> ruleMap = basicProgram.getRuleMap();
+		for(final String rule: doAfterListTmp)
+		{
+			if(!ruleMap.containsKey(rule))
+			{
+				throw new ProgramParseException("cannot find role: " + rule);
+			}
+			this.doAfterRules.add(ruleMap.get(rule));
+		}
 	}
 
 	public String getAlias() {
@@ -64,21 +83,13 @@ public abstract class AbstractColorRule extends TimerTask {
         this.doAfterRules = doAfterRules;
     }
 
-    public List<String> getDoAfterAlias() {
-        return doAfterAlias;
+    public List<String> getDoAfterListTmp() {
+        return doAfterListTmp;
     }
 
-    public void setDoAfterAlias(final List<String> doAfterAlias) {
-        this.doAfterAlias = doAfterAlias;
+    public void setDoAfterListTmp(final List<String> doAfterListTmp) {
+        this.doAfterListTmp = doAfterListTmp;
     }
-
-	public List<String> getKeys() {
-		return keys;
-	}
-
-	public void setKeys(final List<String> keys) {
-		this.keys = keys;
-	}
 
 	@Override
 	public String toString() {
@@ -94,6 +105,7 @@ public abstract class AbstractColorRule extends TimerTask {
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this, false);
 	}
+
 
 }
 

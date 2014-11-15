@@ -6,48 +6,42 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import de.foobar.timemanager.rules.AbstractColorRule;
+import de.foobar.timemanager.rules.LinearColorChange;
+import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.rules.SetColor;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Editor: van on 28.10.14.
  */
 public class TimeManager {
 
-    private HashMap<String, AbstractColorRule> ruleMap;
+	private BasicProgram currentProgram;
 
     public TimeManager() {
     }
 
-    public TimeManager(final HashMap<String, AbstractColorRule> ruleMap) {
-        this.ruleMap = ruleMap;
-    }
 
     /**
      * Convert a json rule string in objects and execute them.
      * @param jsonRules
      */
-    public TimeManager parseProgram(final String jsonRules) throws IOException {
-        TimeManager tm = new TimeManager();
+    public void parseProgram(final String jsonRules) throws IOException {
 
-		BasicProgram program = parseJsonToObject(jsonRules);
+	    try {
+		    this.currentProgram = parseJsonToObject(jsonRules);
+		    this.currentProgram.initObjects();
+		    this.start();
+	    }catch (ProgramParseException e){
+		    e.printStackTrace();
 
-	    tm.registerObjects(program.getAbstractColorRules());
-        tm.initObjects();
-	    tm.start();
-        return tm;
+	    }
     }
 
-	private void initObjects() {
-		//TODO IMPLEMENT initObject()
-	}
 
 	/**
 	 * use object Mapper to create Object
@@ -56,59 +50,20 @@ public class TimeManager {
 	 * @throws IOException
 	 */
 	public BasicProgram parseJsonToObject (final String jsonRules) throws IOException {
-		final ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		objectMapper.enable(MapperFeature.USE_ANNOTATIONS);
-		//objectMapper.enableDefaultTyping();
-		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+			final ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+			objectMapper.enable(MapperFeature.USE_ANNOTATIONS);
+			objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
 
-		SimpleModule customModule = new SimpleModule("CustomModule", new Version(1, 0, 0, null,"g1","CustomModule"))
-			//	.addDeserializer(AbstractColorRule.class, new RuleDeserializer())
-			//	.addDeserializer(BasicProgram.class, new BasicProgramDeserializer())
-				.addAbstractTypeMapping(AbstractColorRule.class, SetColor.class);
-		objectMapper.registerModule(customModule);
-		objectMapper.registerSubtypes(AbstractColorRule.class);
-
-
-		return objectMapper.readValue(jsonRules, BasicProgram.class);
+			SimpleModule customModule = new SimpleModule("CustomModule", new Version(1, 0, 0, null, "g1", "CustomModule"))
+					.addAbstractTypeMapping(AbstractColorRule.class, SetColor.class)
+					.addAbstractTypeMapping(AbstractColorRule.class, LinearColorChange.class);
+			objectMapper.registerModule(customModule);
+			objectMapper.registerSubtypes(AbstractColorRule.class);
+			return objectMapper.readValue(jsonRules, BasicProgram.class);
 	}
 
     /**
-     * TODO: implement
-     * parse string to jsonObjects
-     * @param jsonRules
-     * @return
-     */
-    private Object parseObjects(String jsonRules) {
-        return null;
-    }
-
-    /**
-     * TODO: implement
-     * Convert JSON Objects to parse Rules
-     * @param jsonObjectTree
-     * @return
-     */
-    private List<AbstractColorRule> parseRules(Object jsonObjectTree) {
-        List<AbstractColorRule> result = new ArrayList<AbstractColorRule>();
-        return result;
-    }
-
-    /**
-     * TODO: implement
-     * add rules to
-     * @param colorRules
-     */
-    private void registerObjects(List<AbstractColorRule> colorRules) {
-        HashMap<String, AbstractColorRule> aliasMap = new HashMap<String, AbstractColorRule>();
-        for(AbstractColorRule cr :colorRules) {
-            aliasMap.put(cr.getAlias(),cr);
-        }
-        this.ruleMap = aliasMap;
-    }
-
-    /**
-     * TODO implement
      * start current program
      */
     private void start() {
@@ -124,13 +79,12 @@ public class TimeManager {
     }
 
     /**
-     * remove all events from this manager
+     * remove program from this manager
      */
     private void flush() {
         this.stop();
-        this.ruleMap = new HashMap<String, AbstractColorRule>();
+	    this.currentProgram = null;
     }
-
 
 	@Override
 	public String toString() {
