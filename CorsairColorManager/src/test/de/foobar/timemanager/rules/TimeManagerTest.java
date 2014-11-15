@@ -2,6 +2,7 @@ package de.foobar.timemanager.rules;
 
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.TimeManager;
+import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
 import de.foobar.timemanager.keys.KeyToNumber;
 import org.apache.commons.io.IOUtils;
@@ -21,7 +22,8 @@ public class TimeManagerTest {
 
 
 	@Test
-	public void testParseJsonToObjectEmptyProgram() throws Exception {
+	public void testParseJsonToObjectEmptyProgram() throws Exception
+	{
 
 		final TimeManager tm = new TimeManager();
 
@@ -36,18 +38,17 @@ public class TimeManagerTest {
 		assertNotNull(bp);
 		assertNotNull(bp.getAbstractColorRules());
 		assertEquals(bp.getAbstractColorRules().size(), 0);
-
 	}
 
 	@Test
-	public void testKeyToNumber (){
-
+	public void testKeyToNumber ()
+	{
 		// test unknown key;
 		assertEquals(KeyToNumber.getNumber(Key.NONE),-1);
 	}
 
 
-	@Test
+	@Test(expected = ProgramParseException.class)
 	public void testParseJsonToObjectSimpleSetColorProgram() throws Exception {
 
 		final TimeManager tm = new TimeManager();
@@ -59,11 +60,6 @@ public class TimeManagerTest {
 		System.out.println(json);
 
 		tm.parseProgram(json);
-		final BasicProgram bp = tm.getCurrentProgram();
-
-		assertNotNull(bp);
-		assertNotNull(bp.getAbstractColorRules());
-		assertEquals(bp.getAbstractColorRules().size(), 1);
 
 	}
 
