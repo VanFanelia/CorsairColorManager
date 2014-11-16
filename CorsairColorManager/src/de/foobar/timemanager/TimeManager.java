@@ -41,7 +41,8 @@ public class TimeManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public BasicProgram parseJsonToObject (final String jsonRules) throws IOException {
+	public BasicProgram parseJsonToObject (final String jsonRules) throws IOException
+	{
 			final ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 			objectMapper.enable(MapperFeature.USE_ANNOTATIONS);
@@ -54,7 +55,7 @@ public class TimeManager {
      * start current program
      */
     private void start() {
-
+		this.currentProgram.startProgram();
     }
 
     /**
