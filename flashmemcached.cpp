@@ -1,4 +1,4 @@
-// compile with:  g++ testmc.cpp -lusb -std=c++11 -Wl,--unresolved-symbols=ignore-in-object-files -o test -lmemcached
+// compile with:  g++ flashmemcached -lusb -std=c++11 -Wl,--unresolved-symbols=ignore-in-object-files -o keyboardColorChanger -lmemcached
 #include <stdio.h>
 #include <usb.h>
 #include <math.h>

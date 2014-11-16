@@ -28,6 +28,7 @@ public class CustomMemcachedClient extends MemcachedClient {
 
 	public void set(final String key, final int ttl, final String value) {
 		super.set(key, ttl, value);
+		System.out.println("Set "+ key + " to value: "+value);
 	}
 
 	public String get(final String key) {

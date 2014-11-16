@@ -12,7 +12,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -39,7 +41,7 @@ public class BasicProgram {
 	private Map<String, AbstractColorRule> ruleMap;
 
 	@JsonIgnore
-	private Timer programTimer;
+	private ScheduledExecutorService timerPool;
 
 	public BasicProgram() {
 	}
@@ -49,8 +51,8 @@ public class BasicProgram {
 	 */
 	public void startProgram()
 	{
-		this.programTimer = new Timer();
-		this.programTimer.schedule( this.getStartActionRule(), 1 );
+		this.timerPool = Executors.newScheduledThreadPool(10);
+		this.timerPool.schedule( this.getStartActionRule(), 1 , TimeUnit.MILLISECONDS);
 	}
 
 
@@ -128,12 +130,12 @@ public class BasicProgram {
 		this.ruleMap = ruleMap;
 	}
 
-	public Timer getProgramTimer() {
-		return programTimer;
+	public ScheduledExecutorService getTimerPool() {
+		return timerPool;
 	}
 
-	public void setProgramTimer(Timer programTimer) {
-		this.programTimer = programTimer;
+	public void setTimerPool(ScheduledExecutorService timerPool) {
+		this.timerPool = timerPool;
 	}
 
 	@Override

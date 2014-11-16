@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Editor: van on 28.10.14.
@@ -84,11 +86,11 @@ public abstract class AbstractColorRule extends TimerTask {
 
 	public void scheduleDoAfter()
 	{
-		final Timer programTimer = this.getBasicProgram().getProgramTimer();
+		final ScheduledExecutorService programTimer = this.getBasicProgram().getTimerPool();
 
 		for(final AbstractColorRule rule: this.getDoAfterRules())
 		{
-			programTimer.schedule( rule, this.getDelay() );
+			programTimer.schedule( rule, this.getDelay(), TimeUnit.MILLISECONDS );
 		}
 	}
 
