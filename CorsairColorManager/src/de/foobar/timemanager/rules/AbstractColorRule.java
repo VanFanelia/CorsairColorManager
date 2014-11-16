@@ -8,10 +8,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Editor: van on 28.10.14.
@@ -45,6 +42,9 @@ public abstract class AbstractColorRule extends TimerTask {
 
 	@JsonIgnore
     private List<AbstractColorRule> doAfterRules = new ArrayList<AbstractColorRule>();
+
+	@JsonProperty("delay")
+	private int delay = 0;
 
     protected AbstractColorRule() {
 
@@ -82,6 +82,16 @@ public abstract class AbstractColorRule extends TimerTask {
 		}
 	}
 
+	public void scheduleDoAfter()
+	{
+		final Timer programTimer = this.getBasicProgram().getProgramTimer();
+
+		for(final AbstractColorRule rule: this.getDoAfterRules())
+		{
+			programTimer.schedule( rule, this.getDelay() );
+		}
+	}
+
 	public String getAlias() {
         return alias;
     }
@@ -112,6 +122,14 @@ public abstract class AbstractColorRule extends TimerTask {
 
 	public void setBasicProgram(BasicProgram basicProgram) {
 		this.basicProgram = basicProgram;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
 	}
 
 	@Override

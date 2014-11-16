@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
-import java.util.Timer;
 
 /**
  * Editor: van on 28.10.14.
@@ -23,24 +22,20 @@ public class SetColor extends AbstractColorRule {
 	@JsonIgnore
 	private Color color;
 
-    @JsonProperty("delay")
-    private int delay = 0;
+
 
 	@Override
-	public void run() {
-		final Timer programTimer = this.getBasicProgram().getProgramTimer();
+	public void run()
+	{
 
-		for(final AbstractColorRule rule: this.getDoAfterRules())
-		{
-			programTimer.schedule( rule, this.getDelay() );
-		}
+		super.scheduleDoAfter();
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
 	{
 		super.initObjects(basicProgram);
 
-		if (this.delay < 0) {
+		if (this.getDelay() < 0) {
 			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
 		}
 
@@ -52,15 +47,7 @@ public class SetColor extends AbstractColorRule {
 
 	public SetColor(final String colorTmp, final int delay) {
         this.colorTmp = colorTmp;
-        this.delay = delay;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(final int delay) {
-        this.delay = delay;
+        this.setDelay(delay);
     }
 
 	public Color getColor() {

@@ -5,11 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.common.ColorHelper;
 import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.Key;
+import de.foobar.timemanager.keys.KeyToNumber;
+import de.foobar.timemanager.memcached.CustomMemcachedClient;
+import de.foobar.timemanager.memcached.MemcachedClientPool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Editor: van on 28.10.14.
@@ -28,9 +33,6 @@ public class LinearColorChange extends AbstractColorRule {
 	@JsonIgnore
 	private Color endColor;
 
-	@JsonProperty("delay")
-    private int delay;
-
 	@JsonProperty("duration")
     private int duration;
 
@@ -40,7 +42,16 @@ public class LinearColorChange extends AbstractColorRule {
 
 	@Override
 	public void run() {
-
+		try {
+			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
+			for(final Key key: this.getKeys())
+			{
+				client.set(KeyToNumber.getNumber(key), 0, startColor);
+			}
+			super.scheduleDoAfter();
+		}catch (final IOException e){
+			System.err.println(e.getMessage());
+		}
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException {
@@ -74,14 +85,6 @@ public class LinearColorChange extends AbstractColorRule {
 
     public void setDuration(final int duration) {
         this.duration = duration;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(final int delay) {
-        this.delay = delay;
     }
 
 	@Override
