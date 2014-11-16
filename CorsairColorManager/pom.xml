@@ -61,11 +61,6 @@
     <build>
         <finalName>CorsairColorManager</finalName>
 
-        <!-- resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources -->
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
@@ -85,30 +80,29 @@
                 </configuration>
             </plugin>
 
-            <!-- Make this jar executable -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2.2</version>
                 <configuration>
-                    <!-- DO NOT include log4j.properties file in your Jar -->
                     <archive>
                         <manifest>
                             <!-- Jar file entry point -->
                             <mainClass>de.foobar.CorsairColorManager</mainClass>
                         </manifest>
                     </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.2</version>
-                <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
