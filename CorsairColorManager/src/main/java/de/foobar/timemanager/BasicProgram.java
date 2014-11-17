@@ -54,7 +54,7 @@ public class BasicProgram {
 	public void startProgram()
 	{
 		try {
-			this.timerPool = Executors.newScheduledThreadPool(100);
+			this.timerPool = Executors.newScheduledThreadPool(500);
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
 		}catch (final Exception e)
 		{
