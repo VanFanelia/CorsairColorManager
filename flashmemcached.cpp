@@ -1,4 +1,4 @@
-// compile with:  g++ flashmemcached -lusb -std=c++11 -Wl,--unresolved-symbols=ignore-in-object-files -o keyboardColorChanger -lmemcached
+// compile with:  g++ flashmemcached.cpp -lusb -std=c++11 -Wl,--unresolved-symbols=ignore-in-object-files -o keyboardColorChanger -lmemcached
 #include <stdio.h>
 #include <usb.h>
 #include <math.h>
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
       //printf("update keyboard \n");
       update_keyboard();
       //printf("finish keyboard \n");
-      printf("paintFrame %d \n", i);
+      //printf("paintFrame %d \n", i);
       
       usleep(25000 - ((clock() - Start)));
       //usleep(25000);
@@ -327,12 +327,12 @@ static std::string getColorForKey(char* key)
   {
     std::string strFromChar;
     strFromChar.append(color);
-    printf("Color from DB: %s \n", strFromChar.c_str());
+    //printf("Color from DB: %s \n", strFromChar.c_str()); debug only
     return strFromChar;
   }
 
 
-  std::string defaultColor = "ffffff0";
+  std::string defaultColor = "ffffffff"; //default white
   return defaultColor;
 }
 
