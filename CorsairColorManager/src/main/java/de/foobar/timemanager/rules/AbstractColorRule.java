@@ -4,11 +4,19 @@ import com.fasterxml.jackson.annotation.*;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
+import de.foobar.timemanager.keys.KeyToNumber;
+import de.foobar.timemanager.memcached.CustomMemcachedClient;
+import de.foobar.timemanager.memcached.MemcachedClientPool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.*;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -84,13 +92,29 @@ public abstract class AbstractColorRule extends TimerTask {
 		}
 	}
 
-	public void scheduleDoAfter()
+	/**
+	 *
+	 * @param delay delay in Milliseconds
+	 */
+	public void scheduleDoAfter(final int delay)
 	{
 		final ScheduledExecutorService programTimer = this.getBasicProgram().getTimerPool();
 
 		for(final AbstractColorRule rule: this.getDoAfterRules())
 		{
-			programTimer.schedule( rule, this.getDelay(), TimeUnit.MILLISECONDS );
+			programTimer.schedule( rule, delay, TimeUnit.MILLISECONDS );
+		}
+	}
+
+	public void setColorForAllKeys(final Color color)
+	{
+		try{
+			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
+			for (final Key key : this.getKeys()) {
+				client.set(KeyToNumber.getNumber(key), 0, color);
+			}
+		} catch (final IOException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -133,6 +157,8 @@ public abstract class AbstractColorRule extends TimerTask {
 	public void setDelay(int delay) {
 		this.delay = delay;
 	}
+
+
 
 	@Override
 	public String toString() {

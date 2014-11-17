@@ -53,4 +53,13 @@ public class ColorHelper {
 		return result.toString();
 
 	}
+
+	public static Color calculateLinearColorChange(final Color startColor, final Color endColor, final float percentDone)
+	{
+		final int red   = startColor.getRed() - Math.round(((float) (startColor.getRed() - endColor.getRed()) ) * percentDone);
+		final int green = startColor.getGreen() - Math.round(((float) (startColor.getGreen() - endColor.getGreen()) ) * percentDone);
+		final int blue  = startColor.getBlue() - Math.round(((float) (startColor.getBlue() - endColor.getBlue()) ) * percentDone);
+		final int alpha = startColor.getAlpha() - Math.round(((float) (startColor.getAlpha() - endColor.getAlpha()) ) * percentDone);
+		return new Color(red, green,blue,alpha);
+	}
 }

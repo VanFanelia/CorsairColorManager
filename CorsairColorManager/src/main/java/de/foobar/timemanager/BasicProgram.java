@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class BasicProgram {
 
+	public static final int FRAME_RATE = 25; // in Milliseconds 40 frames / Second;
+
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;
 

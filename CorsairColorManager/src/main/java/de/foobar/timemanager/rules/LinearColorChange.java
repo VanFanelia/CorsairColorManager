@@ -15,6 +15,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Editor: van on 28.10.14.
@@ -40,17 +43,48 @@ public class LinearColorChange extends AbstractColorRule {
         super();
     }
 
+	// for period execution
+
+	@JsonIgnore
+	private boolean inLoop = false;
+
+	@JsonIgnore
+	private int timeRunning = 0;
+
+	@JsonIgnore
+	private ScheduledFuture periodicExecution;
+
 	@Override
-	public void run() {
-		try {
-			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			for(final Key key: this.getKeys())
-			{
-				client.set(KeyToNumber.getNumber(key), 0, startColor);
+	public synchronized void run() {
+		if(!this.inLoop) {
+			//start Linear
+			final ScheduledExecutorService programTimer = this.getBasicProgram().getTimerPool();
+			this.inLoop = true;
+			this.periodicExecution = programTimer.scheduleWithFixedDelay( this, BasicProgram.FRAME_RATE, BasicProgram.FRAME_RATE, TimeUnit.MILLISECONDS );
+			try {
+				final CustomMemcachedClient client = MemcachedClientPool.getInstance();
+				for (final Key key : this.getKeys()) {
+					client.set(KeyToNumber.getNumber(key), 0, startColor);
+				}
+				final int delayCalculated = this.duration + this.getDelay();
+				super.scheduleDoAfter(delayCalculated);
+			} catch (final IOException e) {
+				System.err.println(e.getMessage());
 			}
-			super.scheduleDoAfter();
-		}catch (final IOException e){
-			System.err.println(e.getMessage());
+		}
+		else
+		{
+			this.timeRunning += BasicProgram.FRAME_RATE;
+			float percentDone = (float) this.timeRunning / (float) this.duration;
+			System.out.println("Percent Done: "+ String.valueOf(percentDone));
+			if(percentDone > 1 )
+			{
+				this.periodicExecution.cancel(false);
+				System.out.println("Call Cancel");
+				percentDone = 1;
+			}
+			final Color currentColor = ColorHelper.calculateLinearColorChange(this.startColor, this.endColor, percentDone);
+			this.setColorForAllKeys(currentColor);
 		}
 	}
 

@@ -38,7 +38,7 @@ public class SetColor extends AbstractColorRule {
 			{
 				client.set(KeyToNumber.getNumber(key), 0, this.color);
 			}
-			super.scheduleDoAfter();
+			super.scheduleDoAfter(this.getDelay());
 		}catch (final IOException e){
 			System.err.println(e.getMessage());
 		}
