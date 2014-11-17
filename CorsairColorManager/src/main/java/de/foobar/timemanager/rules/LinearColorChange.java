@@ -65,13 +65,12 @@ public class LinearColorChange extends AbstractColorRule {
 		{
 			this.setTimeRunning( this.getTimeRunning() + BasicProgram.FRAME_RATE);
 			float percentDone = ((float) this.getTimeRunning()) / ((float) this.getDuration());
-			System.out.println("Percent Done: "+ String.valueOf(percentDone));
+			// System.out.println("Percent Done: "+ String.valueOf(percentDone)); only 4 debug
 			if(percentDone > 1f )
 			{
 				this.getPeriodicExecution().cancel(false);
 				this.setInLoop(false);
 				this.reset();
-				System.out.println("Call Cancel");
 				percentDone = 1f;
 			}
 			final Color currentColor = this.calculateCurrentColor(this.getStartColor(), this.getEndColor(), percentDone);

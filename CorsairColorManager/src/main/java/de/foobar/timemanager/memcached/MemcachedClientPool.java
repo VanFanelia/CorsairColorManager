@@ -2,7 +2,6 @@ package de.foobar.timemanager.memcached;
 
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.BinaryConnectionFactory;
-import net.spy.memcached.MemcachedClient;
 
 import java.io.IOException;
 
@@ -25,7 +24,6 @@ public class MemcachedClientPool
 
 	public static synchronized CustomMemcachedClient getInstance() throws IOException {
 		if(instance == null) {
-			System.out.println("Creating a new instance");
 			instance = new MemcachedClientPool();
 		}
 		return instance.getCache();
