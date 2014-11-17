@@ -53,8 +53,13 @@ public class BasicProgram {
 	 */
 	public void startProgram()
 	{
-		this.timerPool = Executors.newScheduledThreadPool(10);
-		this.timerPool.schedule( this.getStartActionRule(), 1 , TimeUnit.MILLISECONDS);
+		try {
+			this.timerPool = Executors.newScheduledThreadPool(100);
+			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
+		}catch (final Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 
 
@@ -136,7 +141,7 @@ public class BasicProgram {
 		return timerPool;
 	}
 
-	public void setTimerPool(ScheduledExecutorService timerPool) {
+	public void setTimerPool(final ScheduledExecutorService timerPool) {
 		this.timerPool = timerPool;
 	}
 

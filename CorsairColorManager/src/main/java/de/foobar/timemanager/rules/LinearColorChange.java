@@ -5,16 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.common.ColorHelper;
 import de.foobar.timemanager.exception.ProgramParseException;
-import de.foobar.timemanager.keys.Key;
-import de.foobar.timemanager.keys.KeyToNumber;
-import de.foobar.timemanager.memcached.CustomMemcachedClient;
-import de.foobar.timemanager.memcached.MemcachedClientPool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -56,36 +51,43 @@ public class LinearColorChange extends AbstractColorRule {
 
 	@Override
 	public synchronized void run() {
-		if(!this.inLoop) {
+		if(!this.isInLoop()) {
 			//start Linear
+			this.setInLoop(true);
 			final ScheduledExecutorService programTimer = this.getBasicProgram().getTimerPool();
-			this.inLoop = true;
-			this.periodicExecution = programTimer.scheduleWithFixedDelay( this, BasicProgram.FRAME_RATE, BasicProgram.FRAME_RATE, TimeUnit.MILLISECONDS );
-			try {
-				final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-				for (final Key key : this.getKeys()) {
-					client.set(KeyToNumber.getNumber(key), 0, startColor);
-				}
-				final int delayCalculated = this.duration + this.getDelay();
-				super.scheduleDoAfter(delayCalculated);
-			} catch (final IOException e) {
-				System.err.println(e.getMessage());
-			}
+			this.setPeriodicExecution(programTimer.scheduleWithFixedDelay( this, BasicProgram.FRAME_RATE, BasicProgram.FRAME_RATE, TimeUnit.MILLISECONDS ));
+
+			super.setColorForAllKeys(this.getStartColor());
+			final int delayCalculated = this.getDuration() + this.getDelay();
+			super.scheduleDoAfter(delayCalculated);
 		}
 		else
 		{
-			this.timeRunning += BasicProgram.FRAME_RATE;
-			float percentDone = (float) this.timeRunning / (float) this.duration;
+			this.setTimeRunning( this.getTimeRunning() + BasicProgram.FRAME_RATE);
+			float percentDone = ((float) this.getTimeRunning()) / ((float) this.getDuration());
 			System.out.println("Percent Done: "+ String.valueOf(percentDone));
-			if(percentDone > 1 )
+			if(percentDone > 1f )
 			{
-				this.periodicExecution.cancel(false);
+				this.getPeriodicExecution().cancel(false);
+				this.setInLoop(false);
+				this.reset();
 				System.out.println("Call Cancel");
-				percentDone = 1;
+				percentDone = 1f;
 			}
-			final Color currentColor = ColorHelper.calculateLinearColorChange(this.startColor, this.endColor, percentDone);
+			final Color currentColor = this.calculateCurrentColor(this.getStartColor(), this.getEndColor(), percentDone);
 			this.setColorForAllKeys(currentColor);
 		}
+	}
+
+	public void reset()
+	{
+		this.setInLoop(false);
+		this.timeRunning = 0;
+	}
+
+	public Color calculateCurrentColor(final Color startColor, final Color endColor,final float percentDone)
+	{
+		return ColorHelper.calculateLinearColorChange(startColor, endColor, percentDone);
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException {
@@ -120,6 +122,30 @@ public class LinearColorChange extends AbstractColorRule {
     public void setDuration(final int duration) {
         this.duration = duration;
     }
+
+	public boolean isInLoop() {
+		return inLoop;
+	}
+
+	public void setInLoop(final boolean inLoop) {
+		this.inLoop = inLoop;
+	}
+
+	public int getTimeRunning() {
+		return timeRunning;
+	}
+
+	public void setTimeRunning(final int timeRunning) {
+		this.timeRunning = timeRunning;
+	}
+
+	public ScheduledFuture getPeriodicExecution() {
+		return periodicExecution;
+	}
+
+	public void setPeriodicExecution(final ScheduledFuture periodicExecution) {
+		this.periodicExecution = periodicExecution;
+	}
 
 	@Override
 	public String toString() {

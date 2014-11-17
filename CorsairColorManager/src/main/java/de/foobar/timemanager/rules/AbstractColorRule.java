@@ -28,7 +28,8 @@ import java.util.concurrent.TimeUnit;
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = SetColor.class, name = "SetColor"),
-		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange")
+		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange"),
+		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange")
 })
 public abstract class AbstractColorRule extends TimerTask {
 
