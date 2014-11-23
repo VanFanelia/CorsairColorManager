@@ -35,3 +35,9 @@ Execute: (compiled source in CorsairColorManager/lab)
 - register key presses and animate
 - color mixing rules for multiple color settings per key
 - alpha channel support
+
+
+####Greetings####
+Special thanks to:
+CalcProgrammer1 (https://github.com/CalcProgrammer1) for his excellent work with the linux driver
+The corsair forum community for inspiration and discussions
