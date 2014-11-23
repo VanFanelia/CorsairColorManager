@@ -36,6 +36,8 @@ Execute: (compiled source in CorsairColorManager/lab)
 - register key presses and animate
 - color mixing rules for multiple color settings per key
 - alpha channel support
+- group keys
+- Add key rules like ALL_KEY - "WASD"
 
 
 ####Greetings####
