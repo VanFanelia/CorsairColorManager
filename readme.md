@@ -30,7 +30,8 @@ Execute: (compiled source in CorsairColorManager/lab)
 
 ####Know issiues / todos:####
 - Currently the program is designed for german keyboard Layout.
-- fixed frame rate of 30 Frames / Second.
+- HowTo and description of the color rules
+- remove fixed frame rate of 30 Frames / Second.
 - only linux supported in c++ driver.
 - register key presses and animate
 - color mixing rules for multiple color settings per key
@@ -39,5 +40,5 @@ Execute: (compiled source in CorsairColorManager/lab)
 
 ####Greetings####
 Special thanks to:
-CalcProgrammer1 (https://github.com/CalcProgrammer1) for his excellent work with the linux driver
-The corsair forum community for inspiration and discussions
+- CalcProgrammer1 (https://github.com/CalcProgrammer1) for his excellent work with the linux driver
+- The corsair forum community for inspiration and discussions
