@@ -1,0 +1,30 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "setRed",
+    "rules": [
+        {
+            "type": "SetColor",
+            "delay": "1000",
+            "color": "ff0000ff",
+            "alias": "setRed",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["setGreen"]
+        },
+        {
+            "type": "SetColor",
+            "delay": "1000",
+            "color": "00ff00ff",
+            "alias": "setGreen",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["setBlue"]
+        },
+        {
+            "type": "SetColor",
+            "delay": "1000",
+            "color": "0000ffff",
+            "alias": "setBlue",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["setRed"]
+        }
+    ]
+}

@@ -1,0 +1,40 @@
+## Corsair Color Manager ##
+
+### Description ###
+
+####What is this program about?####
+This program shall simplify the uses the linux driver of d<Person> to
+
+
+####What the structure of this tool?####
+The base of the program is the linux driver of CalcProgrammer1 (https://github.com/CalcProgrammer1). To control the colors of the keyboard it continuously reads color codes from a memcached "server". This allows the programmer to manipulate colors dynamically over a common standard.
+The next layer of this project is the java program. To give everyone the ability to write cool color effects without knowledge about memcached, the java program convert simple json rules to shiny color effects.
+
+C++ program for keyboard control
+    ^
+    |
+Memcached "Server" for color exchange support
+    ^
+    |
+Java program to execute color rules
+    ^
+    |
+JSON program in human readable form
+
+
+
+#### What does i need to execute?####
+Dependencies
+- You have to install memcached server on your machine
+- you need libusb (libusb-0.1)
+- java jre
+
+Execute: (compiled source in CorsairColorManager/lab)
+- start the linux driver by execute: ./keyboardColorChanger
+- start the java program: java -jar CorsairColorManager.jar <pathToYourJSONProgram>
+
+
+####Know Issues:####
+- Currently the program is designed for German Keyboard Layout.
+- fixed frame rate of 30 Frames / Second.
+- only linux supported in c++ driver.

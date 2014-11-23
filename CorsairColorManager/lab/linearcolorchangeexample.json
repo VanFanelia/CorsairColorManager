@@ -1,0 +1,26 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "fadeToRed",
+    "rules": [
+        {
+            "type": "LinearColorChange",
+            "delay": "3000",
+            "startColor": "ffffffff",
+            "endColor": "ff0000ff",
+            "duration": "5000",
+            "alias": "fadeToRed",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["toBlue"]
+        },
+        {
+            "type": "LinearColorChange",
+            "delay": "0",
+            "startColor": "ff0000ff",
+            "endColor": "0000ffff",
+            "duration": "5000",
+            "alias": "toBlue",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  []
+        }
+    ]
+}

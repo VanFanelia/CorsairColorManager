@@ -1,0 +1,26 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "fromBlue",
+    "rules": [
+        {
+            "type": "HSVColorChange",
+            "delay": 0,
+            "startColor": "0000ffff",
+            "endColor": "ffff00ff",
+            "duration": 2500,
+            "alias": "fromBlue",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["toBlue"]
+        },
+        {
+            "type": "HSVColorChange",
+            "delay": 0,
+            "startColor": "ffff00ff",
+            "endColor": "0000ffff",
+            "duration": 2500,
+            "alias": "toBlue",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  ["fromBlue"]
+        }
+    ]
+}

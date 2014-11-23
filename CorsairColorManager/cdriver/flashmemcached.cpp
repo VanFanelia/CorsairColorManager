@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
       //printf("finish keyboard \n");
       //printf("paintFrame %d \n", i);
       
-      usleep(25000 - ((clock() - Start)));
+      usleep(33333 - ((clock() - Start)));
       //usleep(25000);
     }
 
