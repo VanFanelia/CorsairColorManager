@@ -11,14 +11,14 @@ The base of the program is the linux driver of CalcProgrammer1 (https://github.c
 The next layer of this project is the java program. To give everyone the ability to write cool color effects without knowledge about memcached, the java program convert simple json rules to shiny color effects.
 
 C++ program for keyboard control
+
     ^
-    |
 Memcached "Server" for color exchange support
+
     ^
-    |
 Java program to execute color rules
+
     ^
-    |
 JSON program in human readable form
 
 
