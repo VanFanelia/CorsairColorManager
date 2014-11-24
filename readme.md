@@ -28,16 +28,16 @@ Execute: (compiled source in CorsairColorManager/lab)
 - start the java program: java -jar CorsairColorManager.jar <pathToYourJSONProgram>
 
 
-####Know issiues / todos:####
-- Currently the program is designed for german keyboard Layout.
+####Know issues / todos:####
+- Currently the program is designed for german keyboard Layout / add en layout switch.
 - HowTo and description of the color rules
-- remove fixed frame rate of 30 Frames / Second.
+- remove fixed frame rate of 30 frames / second.
 - only linux supported in c++ driver.
 - register key presses and animate
 - color mixing rules for multiple color settings per key
 - alpha channel support
 - group keys
-- Add key rules like ALL_KEY - "WASD"
+- add key rules like ALL_KEY - "WASD"
 
 
 ####Greetings####
