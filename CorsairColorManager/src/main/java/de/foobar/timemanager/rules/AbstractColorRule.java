@@ -112,7 +112,7 @@ public abstract class AbstractColorRule extends TimerTask {
 		try{
 			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
 			for (final Key key : this.getKeys()) {
-				client.set(KeyToNumber.getNumber(key), 0, color);
+				client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, color);
 			}
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());

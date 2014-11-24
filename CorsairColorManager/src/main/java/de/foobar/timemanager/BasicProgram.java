@@ -3,6 +3,7 @@ package de.foobar.timemanager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.KeyboardLayout;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -44,6 +45,9 @@ public class BasicProgram {
 
 	@JsonIgnore
 	private ScheduledExecutorService timerPool;
+
+	@JsonIgnore
+	private KeyboardLayout keyboardLayout;
 
 	public BasicProgram() {
 	}
@@ -143,6 +147,14 @@ public class BasicProgram {
 
 	public void setTimerPool(final ScheduledExecutorService timerPool) {
 		this.timerPool = timerPool;
+	}
+
+	public KeyboardLayout getKeyboardLayout() {
+		return keyboardLayout;
+	}
+
+	public void setKeyboardLayout(final KeyboardLayout keyboardLayout) {
+		this.keyboardLayout = keyboardLayout;
 	}
 
 	@Override

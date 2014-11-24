@@ -5,6 +5,7 @@ import de.foobar.timemanager.TimeManager;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
 import de.foobar.timemanager.keys.KeyToNumber;
+import de.foobar.timemanager.keys.KeyboardLayout;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -33,7 +34,7 @@ public class TimeManagerTest {
 
 		System.out.println(json);
 
-		tm.parseProgram(json);
+		tm.parseProgram(json, KeyboardLayout.DE);
 	}
 
 	@Test(expected = ProgramParseException.class)
@@ -45,14 +46,14 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 		System.out.println(json);
-		tm.parseProgram(json);
+		tm.parseProgram(json, KeyboardLayout.DE);
 	}
 
 	@Test
 	public void testKeyToNumber ()
 	{
 		// test unknown key;
-		assertEquals(KeyToNumber.getNumber(Key.NONE),-1);
+		assertEquals(KeyToNumber.getNumber(KeyboardLayout.DE, Key.NONE),-1);
 	}
 
 	@Test
@@ -65,7 +66,7 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json);
+		tm.parseProgram(json, KeyboardLayout.DE);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 

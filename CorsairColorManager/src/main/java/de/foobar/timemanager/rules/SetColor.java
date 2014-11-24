@@ -36,7 +36,7 @@ public class SetColor extends AbstractColorRule {
 			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
 			for(final Key key: this.getKeys())
 			{
-				client.set(KeyToNumber.getNumber(key), 0, this.color);
+				client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, this.color);
 			}
 			super.scheduleDoAfter(this.getDelay());
 		}catch (final IOException e){

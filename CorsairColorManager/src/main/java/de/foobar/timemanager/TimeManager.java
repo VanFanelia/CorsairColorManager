@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.KeyboardLayout;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -23,11 +24,12 @@ public class TimeManager {
      * Convert a json rule string in objects and execute them.
      * @param jsonRules
      */
-    public void parseProgram(final String jsonRules) throws IOException, ProgramParseException {
+    public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout) throws IOException, ProgramParseException {
 
 	    try {
 		    this.currentProgram = parseJsonToObject(jsonRules);
 		    this.currentProgram.initObjects();
+		    this.currentProgram.setKeyboardLayout(keyboardLayout);
 		    this.start();
 	    }catch (final IOException e){
 		    e.printStackTrace();
