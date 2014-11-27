@@ -29,7 +29,8 @@ import java.util.concurrent.TimeUnit;
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = SetColor.class, name = "SetColor"),
 		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange"),
-		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange")
+		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange"),
+		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine")
 })
 public abstract class AbstractColorRule extends TimerTask {
 
@@ -114,6 +115,16 @@ public abstract class AbstractColorRule extends TimerTask {
 			for (final Key key : this.getKeys()) {
 				client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, color);
 			}
+		} catch (final IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public void setColorForKey(final Color color,final Key key)
+	{
+		try{
+			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
+			client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, color);
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());
 		}

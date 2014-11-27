@@ -5,16 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.common.ColorHelper;
 import de.foobar.timemanager.exception.ProgramParseException;
-import de.foobar.timemanager.keys.Key;
-import de.foobar.timemanager.keys.KeyToNumber;
-import de.foobar.timemanager.memcached.CustomMemcachedClient;
-import de.foobar.timemanager.memcached.MemcachedClientPool;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Editor: van on 28.10.14.
@@ -32,16 +27,8 @@ public class SetColor extends AbstractColorRule {
 	@Override
 	public void run()
 	{
-		try {
-			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			for(final Key key: this.getKeys())
-			{
-				client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, this.color);
-			}
-			super.scheduleDoAfter(this.getDelay());
-		}catch (final IOException e){
-			System.err.println(e.getMessage());
-		}
+		super.setColorForAllKeys( this.color);
+		super.scheduleDoAfter(this.getDelay());
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException

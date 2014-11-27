@@ -13,7 +13,9 @@ import java.util.List;
 /**
  * Editor: van on 16.11.14.
  */
-public class CustomMemcachedClient extends MemcachedClient {
+public class CustomMemcachedClient extends MemcachedClient
+{
+
 	public CustomMemcachedClient(final InetSocketAddress... ia) throws IOException {
 		super(ia);
 	}
@@ -28,7 +30,7 @@ public class CustomMemcachedClient extends MemcachedClient {
 
 	public void set(final String key, final int ttl, final String value) {
 		super.set(key, ttl, value);
-		//System.out.println("Set "+ key + " to value: "+value); only 4 debug
+		System.out.println("Set "+ key + " to value: "+value); //only 4 debug
 	}
 
 	public String get(final String key) {
@@ -43,8 +45,8 @@ public class CustomMemcachedClient extends MemcachedClient {
 		return super.delete(key);
 	}
 
-	public void set(final int number, final int i, final Color startColor)
+	public void set(final int number, final int i, final Color color)
 	{
-		this.set(String.valueOf(number), i, ColorHelper.convertColorToHexRGAString(startColor));
+		this.set(String.valueOf(number), i, ColorHelper.convertColorToHexRGAString(color));
 	}
 }

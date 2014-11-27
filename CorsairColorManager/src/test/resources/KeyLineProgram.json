@@ -1,0 +1,17 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "redKeyLine",
+    "rules": [
+        {
+            "type": "KeyLine",
+            "delay": 1,
+            "alias": "redKeyLine",
+            "keys": ["A","S","D","F","G","H","J","K","L","Ö","Ä"],
+            "doAfter": [],
+            "lineColor": "ff0000ff",
+            "keyShowDuration": 4000,
+            "keyInterval" : 1000,
+            "backgroundColor": "000000ff"
+        }
+    ]
+}
