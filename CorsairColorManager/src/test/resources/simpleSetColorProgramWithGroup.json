@@ -1,0 +1,19 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "setRedFGK",
+    "groups" : [
+        {
+            "name" : "Group1",
+            "keys" : ["W","A","S","D"]
+        }
+    ],
+    "rules": [
+        {
+            "type": "SetColor",
+            "delay": "4000",
+            "color": "ff0000ff",
+            "alias": "setRedFGK",
+            "keys": ["Group1"]
+        }
+    ]
+}

@@ -10,9 +10,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 /**
  * Editor: van on 09.11.14.
@@ -53,7 +55,7 @@ public class TimeManagerTest {
 	public void testKeyToNumber ()
 	{
 		// test unknown key;
-		assertEquals(KeyToNumber.getNumber(KeyboardLayout.DE, Key.NONE),-1);
+		assertEquals(new ArrayList(), KeyToNumber.getNumber(KeyboardLayout.DE, Key.NONE));
 	}
 
 	@Test
@@ -77,4 +79,39 @@ public class TimeManagerTest {
 
 	}
 
+	@Test
+	public void testParseJsonToObjectSimpleSetColorProgramWithGroup() throws Exception {
+
+		final TimeManager tm = new TimeManager();
+
+		final ClassLoader classLoader = getClass().getClassLoader();
+		final InputStream stream = classLoader.getResource("simpleSetColorProgramWithGroup.json").openStream();
+
+		final String json = IOUtils.toString(stream, "UTF8");
+
+		tm.parseProgram(json, KeyboardLayout.DE);
+		System.out.println(json);
+		final BasicProgram bp = tm.getCurrentProgram();
+
+		assertNotNull(bp.getGroupMap().get("Group1"));
+
+	}
+
+	@Test(expected = ProgramParseException.class)
+	public void testParseJsonToObjectSimpleSetColorProgramWithInvalidGroup() throws Exception {
+
+		final TimeManager tm = new TimeManager();
+
+		final ClassLoader classLoader = getClass().getClassLoader();
+		final InputStream stream = classLoader.getResource("simpleSetColorProgramWithInvalidGroup.json").openStream();
+
+		final String json = IOUtils.toString(stream, "UTF8");
+
+		tm.parseProgram(json, KeyboardLayout.DE);
+		System.out.println(json);
+		final BasicProgram bp = tm.getCurrentProgram();
+
+		assertNotNull(bp.getGroupMap().get("Group1"));
+
+	}
 }

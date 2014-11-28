@@ -3,7 +3,7 @@ package de.foobar.timemanager.keys;
 /**
  * Editor: van on 09.11.14.
  */
-public enum Key {
+public enum Key implements KeyReference {
 	NONE,
 	ESC,
 	ACCENT_KEY_CIRCUMFLEX,
@@ -137,4 +137,4 @@ public enum Key {
 	BRACKET_OPEN,
 	QUESTION_MARK,
 	NUM_DOT
-	}
+}

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
+import de.foobar.timemanager.keys.KeyGroup;
+import de.foobar.timemanager.keys.KeyReference;
 import de.foobar.timemanager.keys.KeyToNumber;
 import de.foobar.timemanager.memcached.CustomMemcachedClient;
 import de.foobar.timemanager.memcached.MemcachedClientPool;
@@ -32,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange"),
 		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine")
 })
-public abstract class AbstractColorRule extends TimerTask {
+public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 
     /**
      * Reference Name of alias
@@ -47,7 +49,7 @@ public abstract class AbstractColorRule extends TimerTask {
 	private List<String> keyListTmp = new ArrayList<String>();
 
 	@JsonIgnore
-	private List<Key> keys = new ArrayList<Key>();
+	private List<KeyReference> keys = new ArrayList<KeyReference>();
 
     @JsonProperty("doAfter")
     private List<String> doAfterListTmp = new ArrayList<String>();
@@ -89,7 +91,13 @@ public abstract class AbstractColorRule extends TimerTask {
 			}
 			catch (final IllegalArgumentException e)
 			{
-				throw new ProgramParseException("cannot find key: "+ key);
+				// not found in Key, try in Key Group
+				final KeyGroup group = basicProgram.getGroupMap().get(key);
+				if(group == null)
+				{
+					throw new ProgramParseException("cannot find key or group: " + key);
+				}
+				this.keys.add(group);
 			}
 		}
 	}
@@ -112,19 +120,25 @@ public abstract class AbstractColorRule extends TimerTask {
 	{
 		try{
 			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			for (final Key key : this.getKeys()) {
-				client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, color);
+			for (final KeyReference key : this.getKeys()) {
+				final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
+				for(final int keyNr : toSet){
+					client.set(keyNr, 0, color);
+				}
 			}
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());
 		}
 	}
 
-	public void setColorForKey(final Color color,final Key key)
+	public void setColorForKey(final Color color, final KeyReference key)
 	{
 		try{
 			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			client.set(KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key), 0, color);
+			final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
+			for(final int keyNr : toSet){
+				client.set(keyNr, 0, color);
+			}
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());
 		}
@@ -146,11 +160,11 @@ public abstract class AbstractColorRule extends TimerTask {
         this.doAfterRules = doAfterRules;
     }
 
-	public List<Key> getKeys() {
+	public List<KeyReference> getKeys() {
 		return keys;
 	}
 
-	public void setKeys(final List<Key> keys) {
+	public void setKeys(final List<KeyReference> keys) {
 		this.keys = keys;
 	}
 

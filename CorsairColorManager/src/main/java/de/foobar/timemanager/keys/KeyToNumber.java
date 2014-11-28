@@ -1,6 +1,8 @@
 package de.foobar.timemanager.keys;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static de.foobar.timemanager.keys.Key.*;
@@ -281,15 +283,35 @@ public final class KeyToNumber {
 	 */
 	public static Key getKey(final KeyboardLayout keyboardLayout, final int number)
 	{
-
 		return INTTOENUM.get(keyboardLayout).get(number);
 	}
 
-	public static int getNumber(final KeyboardLayout keyboardLayout, final Key key) {
+	public static List<Integer> getNumber(final KeyboardLayout keyboardLayout, final KeyReference key) {
 		try {
-			return ENUMTOINT.get(keyboardLayout).get(key);
+			if(key instanceof Key) {
+				final List<Integer> result = new ArrayList<Integer>();
+				final Integer toAdd = ENUMTOINT.get(keyboardLayout).get(key);
+				if(toAdd != null && toAdd > 0)
+				{
+					result.add(toAdd);
+				}
+				return result;
+			}
+			if(key instanceof KeyGroup)
+			{
+				final List<Integer> result = new ArrayList<Integer>();
+				final List<Key> keys = ((KeyGroup) key).getKeyList();
+				for(Key k : keys)
+				{
+					result.add(ENUMTOINT.get(keyboardLayout).get(k));
+				}
+				return result;
+			}
+			return new ArrayList<Integer>();
 		}catch (NullPointerException e) {
-			return -1;
+			final List<Integer> errorList =  new ArrayList<Integer>();
+			errorList.add(-1);
+			return errorList;
 		}
 	}
 

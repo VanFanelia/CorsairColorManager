@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.common.ColorHelper;
 import de.foobar.timemanager.exception.ProgramParseException;
-import de.foobar.timemanager.keys.Key;
+import de.foobar.timemanager.keys.KeyReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -49,7 +49,7 @@ public class KeyLine extends AbstractColorRule {
 	private ScheduledFuture periodicExecution;
 
 	@JsonIgnore
-	private HashMap<Integer, Key> currentFocus = new HashMap<Integer, Key>();
+	private HashMap<Integer, KeyReference> currentFocus = new HashMap<Integer, KeyReference>();
 
 	@Override
 	public synchronized void run() {
@@ -71,7 +71,7 @@ public class KeyLine extends AbstractColorRule {
 			//Add keys to show list
 			if(currentKey < this.getKeys().size() && !currentFocus.containsKey(currentKey))
 			{
-				final Key toAdd = this.getKeys().get(currentKey);
+				final KeyReference toAdd = this.getKeys().get(currentKey);
 				currentFocus.put(currentKey, toAdd);
 				super.setColorForKey(this.getLineColor(), toAdd);
 			}
@@ -87,7 +87,7 @@ public class KeyLine extends AbstractColorRule {
 					for(int i = ikeyToHide; i>=0; i--)
 					{
 						if( currentFocus.containsKey(i)) {
-							final Key toRemove = currentFocus.remove(i);
+							final KeyReference toRemove = currentFocus.remove(i);
 							super.setColorForKey(this.getBackgroundColor(), toRemove);
 						}
 					}

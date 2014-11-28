@@ -3,6 +3,7 @@ package de.foobar.timemanager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.KeyGroup;
 import de.foobar.timemanager.keys.KeyboardLayout;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
@@ -10,6 +11,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +42,9 @@ public class BasicProgram {
 	@JsonProperty("rules")
 	private List<AbstractColorRule> abstractColorRules;
 
+	@JsonProperty("groups")
+	private List<KeyGroup> groups = new ArrayList<>();
+
 	@JsonIgnore
 	private Map<String, AbstractColorRule> ruleMap;
 
@@ -48,6 +53,19 @@ public class BasicProgram {
 
 	@JsonIgnore
 	private KeyboardLayout keyboardLayout;
+
+	@JsonIgnore
+	private Map<String, KeyGroup> groupMap = new HashMap<String, KeyGroup>();
+
+	public Map<String, KeyGroup> getGroupMap() {
+		return groupMap;
+	}
+
+	public void setGroupMap(final Map<String, KeyGroup> groupMap) {
+		this.groupMap = groupMap;
+	}
+
+
 
 	public BasicProgram() {
 	}
@@ -69,6 +87,8 @@ public class BasicProgram {
 
 	public void initObjects() throws ProgramParseException {
 
+
+
 		this.ruleMap = new HashMap<String, AbstractColorRule>();
 		for(final AbstractColorRule rule : this.getAbstractColorRules()) {
 			this.ruleMap.put(rule.getAlias(), rule);
@@ -86,6 +106,13 @@ public class BasicProgram {
 		}
 		this.startActionRule = this.getRuleMap().get(this.startAction);
 
+		// init groups
+		for(final KeyGroup group: this.groups)
+		{
+			group.initObjects(this);
+		}
+
+		// init abstract Rules
 		for(final AbstractColorRule rule: this.ruleMap.values()) {
 			rule.initObjects(this);
 		}
@@ -172,4 +199,11 @@ public class BasicProgram {
 		return HashCodeBuilder.reflectionHashCode(this, false);
 	}
 
+	public List<KeyGroup> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<KeyGroup> groups) {
+		this.groups = groups;
+	}
 }

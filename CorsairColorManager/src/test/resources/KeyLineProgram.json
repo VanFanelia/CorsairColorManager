@@ -6,7 +6,7 @@
             "type": "KeyLine",
             "delay": 1,
             "alias": "redKeyLine",
-            "keys": ["A","S","D","F","G","H","J","K","L","Ö","Ä"],
+            "keys": ["A","S","D","F","G","H","J","K","L","OE","AE"],
             "doAfter": [],
             "lineColor": "ff0000ff",
             "keyShowDuration": 4000,
