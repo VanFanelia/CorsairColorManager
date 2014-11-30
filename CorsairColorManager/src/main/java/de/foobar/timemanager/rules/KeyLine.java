@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.BasicProgram;
 import de.foobar.timemanager.common.ColorHelper;
 import de.foobar.timemanager.exception.ProgramParseException;
+import de.foobar.timemanager.keys.Key;
+import de.foobar.timemanager.keys.KeyGroup;
 import de.foobar.timemanager.keys.KeyReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -68,17 +71,10 @@ public class KeyLine extends AbstractColorRule {
 			this.setTimeRunning( this.getTimeRunning() + BasicProgram.FRAME_RATE);
 			final int currentKey = this.getTimeRunning() / this.getKeyInterval();
 
-			//Add keys to show list
-			if(currentKey < this.getKeys().size() && !currentFocus.containsKey(currentKey))
-			{
-				final KeyReference toAdd = this.getKeys().get(currentKey);
-				currentFocus.put(currentKey, toAdd);
-				super.setColorForKey(this.getLineColor(), toAdd);
-			}
-
 			// remove Keys from show list & set background color on removed keys
 			//float percentDone = ((float) this.getTimeRunning()) / ((float) this.get());
 			final float keyToHide = (float) (this.getTimeRunning() - this.getKeyShowDuration()) / (float) this.getKeyInterval();
+			final ArrayList<Key> toRemoveList = new ArrayList<>();
 			if(keyToHide >= 0f)
 			{
 				final int ikeyToHide = (int) Math.floor(keyToHide);
@@ -88,10 +84,43 @@ public class KeyLine extends AbstractColorRule {
 					{
 						if( currentFocus.containsKey(i)) {
 							final KeyReference toRemove = currentFocus.remove(i);
-							super.setColorForKey(this.getBackgroundColor(), toRemove);
+							if(toRemove instanceof Key)
+							{
+								toRemoveList.add((Key) toRemove);
+							}else if(toRemove instanceof KeyGroup)
+							{
+								toRemoveList.addAll(((KeyGroup) toRemove).getKeyList());
+							}
 						}
 					}
 				}
+			}
+
+			//Add keys to show list
+			if(currentKey < this.getKeys().size() && !currentFocus.containsKey(currentKey))
+			{
+				final KeyReference toAdd = this.getKeys().get(currentKey);
+				currentFocus.put(currentKey, toAdd);
+				if(toAdd instanceof Key && toRemoveList.contains(toAdd))
+				{
+					toRemoveList.remove(toAdd);
+				}else if(toAdd instanceof KeyGroup)
+				{
+					for(final Key toAddFromList: ((KeyGroup) toAdd).getKeyList())
+					{
+						if(toRemoveList.contains(toAddFromList))
+						{
+							toRemoveList.remove(toAddFromList);
+						}
+					}
+				}
+				super.setColorForKey(this.getLineColor(), toAdd);
+			}
+
+			// all removed keys who are not added new will be set to background color
+			for(final Key setToBackgroundColor: toRemoveList)
+			{
+				super.setColorForKey(this.getBackgroundColor(), setToBackgroundColor);
 			}
 
 			// if focus list is empty, stop execution
