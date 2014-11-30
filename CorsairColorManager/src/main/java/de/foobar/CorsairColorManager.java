@@ -29,6 +29,7 @@ public class CorsairColorManager {
 					System.out.println("cannot find keyboard layout! ");
 				}
 			}
+			System.out.println("set Keyboard Layout to: "+ keyboardLayout.toString());
 
 			// Program
 			System.out.println("Start load Program ...");
