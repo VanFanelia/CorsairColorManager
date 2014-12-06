@@ -1,0 +1,14 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "setRedFGK",
+    "rules": [
+        {
+            "type": "SetColor",
+            "delay": 0,
+            "color": "ff0000ff",
+            "alias": "setRedFGK",
+            "layer": 99,
+            "keys": ["W","A","S","D"]
+        }
+    ]
+}

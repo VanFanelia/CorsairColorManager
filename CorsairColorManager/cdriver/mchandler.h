@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string>
+#include <string.h>
+using namespace std;
 #include <unistd.h>
 #include <libmemcached/memcached.h>
 #include <libmemcached/memcached.hpp>
@@ -40,17 +42,50 @@ public:
     }
   }
 
-  char* get (char* key) {
-    uint32_t flags= 0;
-    memcached_return error;
-    size_t return_value_length;
-    char *response  = memcached_get(memc, key, strlen (key), &return_value_length, &flags, &error);
-    if(error != 0){
-      //fprintf(stderr,"Couldn't get key (%s): %s \n", key, memcached_strerror(memc, error));
-      return NULL;
-    }
- 
-    return response;
+  std::string get (char* key) {
+
+      memcached_return_t rc;
+
+      char keys[5][10];
+      for(int i = 0; i < 5; i++)
+      {
+        snprintf(keys[i], sizeof keys[i], "%s-%d", key, (i+1));
+        //printf("load key: %s \n", keys[i]);
+      }
+
+
+      char* response;
+      size_t key_length[]= {strlen(keys[0]), strlen(keys[1]), strlen(keys[2]), strlen(keys[3]), strlen(keys[4])};
+      uint32_t flags;
+
+      char return_key[MEMCACHED_MAX_KEY];
+      size_t return_key_length;
+      char *return_value;
+      size_t return_value_length;
+
+      char *mkey[] {keys[0], keys[1], keys[2], keys[3], keys[4]};
+
+      rc= memcached_mget(memc, mkey, key_length, 5);
+
+      response= "ffffffff";
+
+      int x = 1;
+      std::string resultStr;
+      while (return_value= memcached_fetch(memc, return_key, &return_key_length, &return_value_length, &flags, &rc))
+      {
+        if(return_value != NULL)
+        {
+            response = return_value;
+            resultStr = "";
+            resultStr = resultStr.append(response);
+            free(response);
+            //printf("Layer %d response %s \n", x, response);
+        }
+        //free(return_value);
+        x++;
+      }
+      //printf("found:  %s \n", response);
+      return resultStr;
 
   }
 

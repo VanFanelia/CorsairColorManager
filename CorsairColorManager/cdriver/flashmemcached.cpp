@@ -24,10 +24,6 @@ static int init_keyboard();
 
 static void update_keyboard();
 
-static void init_memcached_server();
-
-static void read_memcached_server();
-
 static void set_led( int x, int r, int g, int b );
 
 static std::string getColorForKey(char* key);
@@ -75,12 +71,13 @@ int main(int argc, char *argv[])
     {
       i++;
       clock_t Start = clock();
+      //printf("start get keys \n");
       for(int j = 0; j < 144; j++)
       {
         string color = getColorForKey(key[j]);
         int red = convertColor(color.at(0),color.at(1));
         int green = convertColor(color.at(2),color.at(3));
-	int blue = convertColor(color.at(4),color.at(5));
+	    int blue = convertColor(color.at(4),color.at(5));
         set_led( j, red, green, blue);
       }
       //printf("update keyboard \n");
@@ -222,7 +219,7 @@ static int init_keyboard()
         printf("USB interface claim failed with error %d :(\n", status);
         return 1;
     }
-
+    return status;
 }
 
 static void update_keyboard()
@@ -322,18 +319,15 @@ static struct usb_device *find_device(uint16_t vendor, uint16_t product)
 static std::string getColorForKey(char* key)
 {
   //printf("start MyCache and get color for: %s \n", key);
-  char* color = handler.get(key);
-  if (color != NULL)
+  std::string color = handler.get(key);
+  if (color != "")
   {
-    std::string strFromChar;
-    strFromChar.append(color);
-    //printf("Color from DB: %s \n", strFromChar.c_str()); debug only
-    return strFromChar;
+    //printf("get color: %s \n", color.c_str()); //debug only
+    return color;
   }
 
-
-  std::string defaultColor = "ffffffff"; //default white
-  return defaultColor;
+  //printf("Default Color: %s \n", defaultColor.c_str()); //debug only
+  return "ffffffff";
 }
 
 

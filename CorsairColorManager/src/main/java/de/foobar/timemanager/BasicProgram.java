@@ -27,6 +27,8 @@ public class BasicProgram {
 
 	public static final int FRAME_RATE = 33; // in Milliseconds 30 frames/Second;
 
+	public static final int DEFAULT_LAYER = 3;
+
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;
 
@@ -92,6 +94,12 @@ public class BasicProgram {
 		this.ruleMap = new HashMap<String, AbstractColorRule>();
 		for(final AbstractColorRule rule : this.getAbstractColorRules()) {
 			this.ruleMap.put(rule.getAlias(), rule);
+
+			//check layer
+			if(rule.getLayer() > 5 || rule.getLayer() < 1)
+			{
+				throw new ProgramParseException("Layer is not in valid range (1-5)");
+			}
 		}
 		try {
 			this.colorMixingRule = ColorMixingRule.valueOf(this.colorMixingRuleString);

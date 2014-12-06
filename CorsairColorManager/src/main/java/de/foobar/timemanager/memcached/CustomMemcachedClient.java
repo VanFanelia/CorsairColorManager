@@ -30,7 +30,7 @@ public class CustomMemcachedClient extends MemcachedClient
 
 	public void set(final String key, final int ttl, final String value) {
 		super.set(key, ttl, value);
-		//System.out.println("Set "+ key + " to value: "+value); //only 4 debug
+		System.out.println("Set "+ key + " to value: "+value); //only 4 debug
 	}
 
 	public String get(final String key) {
@@ -45,8 +45,8 @@ public class CustomMemcachedClient extends MemcachedClient
 		return super.delete(key);
 	}
 
-	public void set(final int number, final int i, final Color color)
+	public void set(final int number, final int i, final Color color, final int layer)
 	{
-		this.set(String.valueOf(number), i, ColorHelper.convertColorToHexRGAString(color));
+		this.set(String.valueOf(number) + "-" + layer, i, ColorHelper.convertColorToHexRGAString(color) );
 	}
 }

@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = SetColor.class, name = "SetColor"),
+		@JsonSubTypes.Type(value = SetContinuousColor.class, name = "SetContinuousColor"),
 		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange"),
 		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange"),
 		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine")
@@ -59,6 +60,9 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 
 	@JsonProperty("delay")
 	private int delay = 0;
+
+	@JsonProperty("layer")
+	private int layer = basicProgram.DEFAULT_LAYER;
 
     protected AbstractColorRule() {
 
@@ -123,7 +127,7 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 			for (final KeyReference key : this.getKeys()) {
 				final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
 				for(final int keyNr : toSet){
-					client.set(keyNr, 0, color);
+					client.set(keyNr, 0, color, this.layer);
 				}
 			}
 		} catch (final IOException e) {
@@ -137,7 +141,7 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
 			final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
 			for(final int keyNr : toSet){
-				client.set(keyNr, 0, color);
+				client.set(keyNr, 0, color, this.layer);
 			}
 		} catch (final IOException e) {
 			System.err.println(e.getMessage());
@@ -202,5 +206,8 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 	}
 
 
+	public int getLayer() {
+		return layer;
+	}
 }
 
