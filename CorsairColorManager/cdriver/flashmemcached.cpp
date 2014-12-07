@@ -26,7 +26,7 @@ static void update_keyboard();
 
 static void set_led( int x, int r, int g, int b );
 
-static std::string getColorForKey(char* key);
+static std::string getColorForKey(const char* key);
 
 static int convertColor(char first, char second);
 
@@ -39,7 +39,7 @@ char grn_val[144];
 char blu_val[144];
 
 
-static char* key[] = {
+static const char* key[] = {
   "0","1","2","3","4","5","6","7","8","9",
   "10","11","12","13","14","15","16","17","18","19",
   "20","21","22","23","24","25","26","27","28","29",
@@ -316,7 +316,7 @@ static struct usb_device *find_device(uint16_t vendor, uint16_t product)
     return NULL;
 }
 
-static std::string getColorForKey(char* key)
+static std::string getColorForKey(const char* key)
 {
   //printf("start MyCache and get color for: %s \n", key);
   std::string color = handler.get(key);

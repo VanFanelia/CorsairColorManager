@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.KeyGroup;
 import de.foobar.timemanager.keys.KeyboardLayout;
+import de.foobar.timemanager.memcached.MemcachedClientPool;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
+import net.spy.memcached.internal.OperationFuture;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -79,6 +81,12 @@ public class BasicProgram {
 	{
 		try {
 			this.timerPool = Executors.newScheduledThreadPool(500);
+			final OperationFuture<Boolean> done =  MemcachedClientPool.getInstance().flush();
+
+			while(!done.isDone())
+			{
+				Thread.sleep(1);
+			}
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
 		}catch (final Exception e)
 		{
