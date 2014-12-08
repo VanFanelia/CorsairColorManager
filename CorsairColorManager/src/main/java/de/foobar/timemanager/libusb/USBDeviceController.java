@@ -56,7 +56,7 @@ public class USBDeviceController {
 	{
 		this.initLibUsb();
 		this.device = getCorsairKeyboard();
-		this.handle = initDevice(this.device);
+		this.handle = initDevice(this.device, false);
 	}
 
 	private Device getCorsairKeyboard() throws ProgramParseException
@@ -78,7 +78,7 @@ public class USBDeviceController {
 
 	}
 
-	private DeviceHandle initDevice(final Device device)
+	private DeviceHandle initDevice(final Device device, final boolean skipKernelAttach)
 	{
 		final DeviceHandle handle = new DeviceHandle();
 		final int result = LibUsb.open(device, handle);
@@ -86,7 +86,7 @@ public class USBDeviceController {
 			throw new LibUsbException("Unable to open USB device", result);
 		}
 
-		final boolean kernelAttachAvailable = (LibUsb.kernelDriverActive(handle, 3) == 1);
+		final boolean kernelAttachAvailable = !skipKernelAttach && (LibUsb.kernelDriverActive(handle, 3) == 1);
 			//	&& (LibUsb.hasCapability(LibUsb.CAP_SUPPORTS_DETACH_KERNEL_DRIVER));
 		if(kernelAttachAvailable)
 		{
