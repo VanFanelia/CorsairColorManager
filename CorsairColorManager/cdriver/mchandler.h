@@ -140,8 +140,6 @@ public:
     sstream << std::hex << final_int_alpha;
 
     std::string result = sstream.str();
-
-    printf("%f, %d, %d, %d and alpha as int: %d \n \n",final_alpha, final_red, final_green, final_blue, final_int_alpha);
     return result;
   }
 
