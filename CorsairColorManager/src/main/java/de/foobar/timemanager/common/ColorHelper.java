@@ -80,4 +80,58 @@ public class ColorHelper {
 
 		return new HSVColor(h,s,v,a).getRGB();
 	}
+
+	public static Color addColors(final Color src, final Color dst)
+	{
+		final float src_alpha = src.getAlpha() / 255f;
+		final float dst_alpha = dst.getAlpha() / 255f;
+		final float final_alpha = (src_alpha + dst_alpha) - (src_alpha * dst_alpha);
+
+		final float src_red = src.getRed() * src_alpha;
+		final float src_green = src.getGreen() * src_alpha;
+		final float src_blue = src.getBlue() * src_alpha;
+
+		final float dst_red = dst.getRed() * dst_alpha;
+		final float dst_green = dst.getGreen() * dst_alpha;
+		final float dst_blue = dst.getBlue() * dst_alpha;
+
+		final float final_red = (src_red + dst_red * (1- src_alpha)) / final_alpha;
+		final float final_green = (src_green + dst_green * (1- src_alpha)) / final_alpha;
+		final float final_blue = (src_blue + dst_blue * (1- src_alpha)) / final_alpha;
+
+		return new Color((int) final_red, (int) final_green, (int) final_blue ,(int) (final_alpha * 255));
+	}
+
+	public static Color randomColor() {
+		final int color = (int) (Math.random()* 12);
+		switch (color) {
+			case 0:
+				return Color.BLACK;
+			case 1:
+				return Color.WHITE;
+			case 2:
+				return Color.RED;
+			case 3:
+				return Color.GREEN;
+			case 4:
+				return Color.BLUE;
+			case 5:
+				return Color.YELLOW;
+			case 6:
+				return Color.ORANGE;
+			case 7:
+				return Color.CYAN;
+			case 8:
+				return Color.GRAY;
+			case 9:
+				return Color.PINK;
+			case 10:
+				return Color.LIGHT_GRAY;
+			case 11:
+				return Color.DARK_GRAY;
+			default:
+				return Color.WHITE;
+		}
+
+	}
 }

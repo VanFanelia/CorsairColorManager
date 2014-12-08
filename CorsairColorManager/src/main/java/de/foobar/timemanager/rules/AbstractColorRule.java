@@ -1,26 +1,27 @@
 package de.foobar.timemanager.rules;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import de.foobar.timemanager.BasicProgram;
+import de.foobar.timemanager.cache.SharedListController;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.Key;
 import de.foobar.timemanager.keys.KeyGroup;
 import de.foobar.timemanager.keys.KeyReference;
 import de.foobar.timemanager.keys.KeyToNumber;
-import de.foobar.timemanager.memcached.CustomMemcachedClient;
-import de.foobar.timemanager.memcached.MemcachedClientPool;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Editor: van on 28.10.14.
@@ -122,29 +123,21 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 
 	public void setColorForAllKeys(final Color color)
 	{
-		try{
-			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			for (final KeyReference key : this.getKeys()) {
-				final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
-				for(final int keyNr : toSet){
-					client.set(keyNr, 0, color, this.layer);
-				}
+		final SharedListController cache = SharedListController.get();
+		for (final KeyReference key : this.getKeys()) {
+			final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
+			for(final int keyNr : toSet){
+				cache.add (keyNr, this.layer, color);
 			}
-		} catch (final IOException e) {
-			System.err.println(e.getMessage());
 		}
 	}
 
 	public void setColorForKey(final Color color, final KeyReference key)
 	{
-		try{
-			final CustomMemcachedClient client = MemcachedClientPool.getInstance();
-			final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
-			for(final int keyNr : toSet){
-				client.set(keyNr, 0, color, this.layer);
-			}
-		} catch (final IOException e) {
-			System.err.println(e.getMessage());
+		final SharedListController cache = SharedListController.get();
+		final List<Integer> toSet = KeyToNumber.getNumber(this.getBasicProgram().getKeyboardLayout(), key);
+		for(final int keyNr : toSet){
+			cache.add(keyNr, this.layer, color);
 		}
 	}
 

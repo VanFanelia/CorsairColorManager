@@ -2,17 +2,14 @@ package de.foobar.timemanager;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import de.foobar.timemanager.cache.SharedListController;
 import de.foobar.timemanager.exception.ProgramParseException;
 import de.foobar.timemanager.keys.KeyGroup;
 import de.foobar.timemanager.keys.KeyboardLayout;
-import de.foobar.timemanager.memcached.MemcachedClientPool;
+import de.foobar.timemanager.libusb.USBDeviceController;
 import de.foobar.timemanager.rules.AbstractColorRule;
 import de.foobar.timemanager.rules.ColorMixingRule;
-import net.spy.memcached.internal.OperationFuture;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +17,15 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  *
  * Editor: van on 09.11.14.
  */
-public class BasicProgram {
+public class BasicProgram implements Runnable {
 
 	public static final int FRAME_RATE = 33; // in Milliseconds 30 frames/Second;
 
@@ -61,6 +61,9 @@ public class BasicProgram {
 	@JsonIgnore
 	private Map<String, KeyGroup> groupMap = new HashMap<String, KeyGroup>();
 
+	@JsonIgnore
+	private USBDeviceController controller;
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -80,18 +83,28 @@ public class BasicProgram {
 	public void startProgram()
 	{
 		try {
-			this.timerPool = Executors.newScheduledThreadPool(500);
-			final OperationFuture<Boolean> done =  MemcachedClientPool.getInstance().flush();
+			//init keyboard
+			this.controller = new USBDeviceController();
+			this.controller.init();
 
-			while(!done.isDone())
-			{
-				Thread.sleep(1);
-			}
+			this.timerPool = Executors.newScheduledThreadPool(5000);
+
+			SharedListController.flushAll();
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
-		}catch (final Exception e)
+			this.timerPool.scheduleWithFixedDelay(this, FRAME_RATE, FRAME_RATE, TimeUnit.MILLISECONDS);
+		}
+		catch (final Exception e)
 		{
 			System.out.println(e.getMessage());
+			this.controller.shutdownLibUsb();
 		}
+	}
+
+	@Override
+	public void run() {
+		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors();
+		this.controller.sendColors( keyboardColors);
+		//System.out.println(System.currentTimeMillis());
 	}
 
 
@@ -219,7 +232,8 @@ public class BasicProgram {
 		return groups;
 	}
 
-	public void setGroups(List<KeyGroup> groups) {
+	public void setGroups(final List<KeyGroup> groups) {
 		this.groups = groups;
 	}
+
 }
