@@ -1,7 +1,7 @@
 package de.foobar;
 
-import de.foobar.timemanager.TimeManager;
-import de.foobar.timemanager.keys.KeyboardLayout;
+import de.foobar.common.TimeManager;
+import de.foobar.keys.KeyboardLayout;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;

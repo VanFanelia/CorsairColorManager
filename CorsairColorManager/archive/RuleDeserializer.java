@@ -7,8 +7,8 @@ package de.foobar.timemanager;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import de.foobar.timemanager.rules.AbstractColorRule;
-import de.foobar.timemanager.rules.SetColor;
+import de.foobar.rules.AbstractColorRule;
+import de.foobar.rules.SetColor;
 
 import java.io.IOException;
 
