@@ -165,38 +165,46 @@
             "doAfter": ["MarioJumpAndStart"]
         },
         {
-            "alias": "MarioJumpAndStart", "type": "KeyLine", "delay": 0, "layer": 4, "lineColor": "d82800", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00A800",
-            "keys": ["ARROW_GREATER","A","Q","A","Y","X","C","V","B"],
-            "doAfter": []
+            "alias": "MarioJumpAndStart", "type": "KeyLine", "delay": 0, "layer": 4, "lineColor": "d82800", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
+            "keys": ["ARROW_GREATER","A","Q","A","Y","X","C","V","B","B"],
+            "doAfter": ["MarioStandMid1"]
         },
         {
-            "alias": "setHill1Start", "type": "SetColor", "delay": 4500, "layer": 2, "color": "00A800",
+            "alias": "MarioStandMid1", "type": "SetColor", "delay": 0, "layer": 4, "color": "d82800",
+            "keys": ["B"],
+            "doAfter": []
+        },
+
+
+
+        {
+            "alias": "setHill1Start", "type": "SetColor", "delay": 6000, "layer": 2, "color": "00A800",
             "keys": ["BigHillPos3"],
             "doAfter": ["setHillAndMoveFrom2"]
         },
         {
-            "alias": "setCloud1Start", "type": "SetColor", "delay": 4000, "layer": 2, "color": "ffffff",
+            "alias": "setCloud1Start", "type": "SetColor", "delay": 6000, "layer": 2, "color": "ffffff",
             "keys": ["CloudMedium12"],
             "doAfter": ["setMediumCloudAndMoveFrom12"]
         },
         {
-            "alias": "setHillAndMoveFrom2", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "00A800", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "5C94FC",
-            "keys": ["BigHillPos2","BigHillPos1","BigHillPos0"],
+            "alias": "setHillAndMoveFrom2", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "00A800", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
+            "keys": ["BigHillPos3","BigHillPos2","BigHillPos1","BigHillPos0"],
             "doAfter": []
 
         },
         {
-            "alias": "setMediumCloudAndMove",  "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "5C94FC",
+            "alias": "setMediumCloudAndMove",  "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
             "keys": ["CloudMedium22","CloudMedium21","CloudMedium20","CloudMedium19","CloudMedium18","CloudMedium17","CloudMedium16","CloudMedium15","CloudMedium14","CloudMedium13","CloudMedium12","CloudMedium11","CloudMedium10","CloudMedium9","CloudMedium8","CloudMedium7","CloudMedium6","CloudMedium5","CloudMedium4","CloudMedium3","CloudMedium2","CloudMedium1","CloudMedium0"],
             "doAfter": []
         },
         {
-            "alias": "setMediumCloudAndMoveFrom12", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "5C94FC",
+            "alias": "setMediumCloudAndMoveFrom12", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
             "keys": ["CloudMedium12","CloudMedium11","CloudMedium10","CloudMedium9","CloudMedium8","CloudMedium7","CloudMedium6","CloudMedium5","CloudMedium4","CloudMedium3","CloudMedium2","CloudMedium1","CloudMedium0"],
             "doAfter": []
         },
         {
-            "alias": "setBigCloudAndMove", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "5C94FC",
+            "alias": "setBigCloudAndMove", "type": "KeyLine", "delay": 0, "layer": 2, "lineColor": "ffffff", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
             "keys": ["CloudBig24","CloudBig23","CloudBig22","CloudBig21","CloudBig20","CloudBig19","CloudBig18","CloudBig17","CloudBig16","CloudBig15","CloudBig14","CloudBig13","CloudBig12","CloudBig11","CloudBig10","CloudBig9","CloudBig8","CloudBig7","CloudBig6","CloudBig5","CloudBig4","CloudBig3","CloudBig2","CloudBig1","CloudBig0"],
             "doAfter": []
         }

@@ -40,6 +40,7 @@ public class USBDeviceController {
 			final HashMap<Integer, Color> testColor = new HashMap<Integer, Color>();
 			for (int i = 0; i < 144; i++) {
 				testColor.put(i, ColorHelper.randomColor());
+
 			}
 			controller.sendColors(testColor);
 		}catch (final Exception e)

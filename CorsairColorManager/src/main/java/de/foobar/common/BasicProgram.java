@@ -64,6 +64,12 @@ public class BasicProgram implements Runnable {
 	@JsonIgnore
 	private USBDeviceController controller;
 
+	@JsonIgnore
+	private boolean debugMode = false;
+
+	@JsonIgnore
+	private boolean ignoreKeyboardMode = false;
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -84,12 +90,20 @@ public class BasicProgram implements Runnable {
 	{
 		try {
 			//init keyboard
-			this.controller = new USBDeviceController();
-			this.controller.init();
-
+			try {
+				this.controller = new USBDeviceController();
+				SharedListController.flushAll();
+				this.controller.init();
+			}catch (final Exception e)
+			{
+				System.out.println(e.getMessage());
+				if(!this.isIgnoreKeyboardMode()){
+					throw e;
+				}
+			}
 			this.timerPool = Executors.newScheduledThreadPool(5000);
 
-			SharedListController.flushAll();
+
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
 			this.timerPool.scheduleWithFixedDelay(this, FRAME_RATE, FRAME_RATE, TimeUnit.MILLISECONDS);
 		}
@@ -102,9 +116,18 @@ public class BasicProgram implements Runnable {
 
 	@Override
 	public void run() {
-		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors();
-		this.controller.sendColors( keyboardColors);
-		//System.out.println(System.currentTimeMillis());
+		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors(this.debugMode);
+		try
+		{
+			this.controller.sendColors(keyboardColors);
+		}
+		catch (final Exception e)
+		{
+			if(!this.isIgnoreKeyboardMode())
+			{
+				throw e;
+			}
+		}
 	}
 
 
@@ -143,7 +166,13 @@ public class BasicProgram implements Runnable {
 
 		// init abstract Rules
 		for(final AbstractColorRule rule: this.ruleMap.values()) {
-			rule.initObjects(this);
+			try {
+				rule.initObjects(this);
+			}
+			catch (final ProgramParseException e)
+			{
+				System.out.println("Error in rule (alias="+rule.getAlias()+"): " + e.getMessage());
+			}
 		}
 	}
 
@@ -211,6 +240,22 @@ public class BasicProgram implements Runnable {
 
 	public void setKeyboardLayout(final KeyboardLayout keyboardLayout) {
 		this.keyboardLayout = keyboardLayout;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public void setDebugMode(final boolean debugMode) {
+		this.debugMode = debugMode;
+	}
+
+	public boolean isIgnoreKeyboardMode() {
+		return ignoreKeyboardMode;
+	}
+
+	public void setIgnoreKeyboardMode(final boolean ignoreKeyboardMode) {
+		this.ignoreKeyboardMode = ignoreKeyboardMode;
 	}
 
 	@Override

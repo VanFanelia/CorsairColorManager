@@ -39,7 +39,7 @@ public class SharedListController {
 		}
 	}
 
-	public Map<Integer, Color> calculateCurrentColors()
+	public Map<Integer, Color> calculateCurrentColors(final boolean debug)
 	{
 		final HashMap<Integer, Color> result= new HashMap<Integer, Color>();
 		for(int i=0; i< 144; i++)
@@ -58,6 +58,9 @@ public class SharedListController {
 				}
 			}
 			result.put(i, calculated);
+			if(debug){
+				System.out.println("Key: "+i+" color: "+calculated.toString());
+			}
 		}
 		return result;
 	}

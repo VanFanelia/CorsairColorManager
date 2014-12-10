@@ -20,21 +20,27 @@ public class TimeManager {
 
     public TimeManager() { }
 
+	public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout, final boolean debugMode, final boolean ignoreKeyboardMode)
+			throws IOException, ProgramParseException {
+		try {
+			this.currentProgram = parseJsonToObject(jsonRules);
+			this.currentProgram.initObjects();
+			this.currentProgram.setDebugMode(debugMode);
+			this.currentProgram.setIgnoreKeyboardMode(ignoreKeyboardMode);
+			this.currentProgram.setKeyboardLayout(keyboardLayout);
+			this.start();
+		}catch (final IOException e){
+			e.printStackTrace();
+			throw new ProgramParseException("General IOException", e);
+		}
+	}
+
     /**
      * Convert a json rule string in objects and execute them.
      * @param jsonRules
      */
     public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout) throws IOException, ProgramParseException {
-
-	    try {
-		    this.currentProgram = parseJsonToObject(jsonRules);
-		    this.currentProgram.initObjects();
-		    this.currentProgram.setKeyboardLayout(keyboardLayout);
-		    this.start();
-	    }catch (final IOException e){
-		    e.printStackTrace();
-			throw new ProgramParseException("General IOException", e);
-	    }
+	    this.parseProgram(jsonRules, keyboardLayout, false, false);
     }
 
 	/**

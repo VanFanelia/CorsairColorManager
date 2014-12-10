@@ -2,10 +2,11 @@ package de.foobar;
 
 import de.foobar.common.TimeManager;
 import de.foobar.keys.KeyboardLayout;
-import org.apache.commons.io.IOUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
+import org.apache.commons.io.IOUtils;
 
 /**
  * Editor: van on 28.10.14.
@@ -16,14 +17,27 @@ public class CorsairColorManager {
 	}
 
 	public static void main(final String args[]) throws Exception{
-		if(args.length == 1 || args.length == 2)
+		if(args.length >= 1)
 		{
 			// Keyboard Layout
+			final Map<String,String> params = new HashMap<String, String>();
+			for(int i=1; i < args.length; i++)
+			{
+				final int indexOfEqual = args[i].indexOf('=');
+				if(indexOfEqual == -1){
+					params.put(args[i], "");
+				}else {
+					final String key = args[i].substring(0, indexOfEqual);
+					final String value = args[i].substring(indexOfEqual+1);
+					params.put(key, value);
+				}
+			}
+
 			KeyboardLayout keyboardLayout = KeyboardLayout.DE;
-			if(args.length == 2 && args[1] != null)
+			if(params.containsKey("layout"))
 			{
 				try {
-					keyboardLayout = KeyboardLayout.valueOf(args[1].toUpperCase());
+					keyboardLayout = KeyboardLayout.valueOf(params.get("layout").toUpperCase());
 				}catch (final IllegalArgumentException e)
 				{
 					System.out.println("cannot find keyboard layout! ");
@@ -41,9 +55,14 @@ public class CorsairColorManager {
 			}
 			final FileInputStream stream = new FileInputStream(file);
 			final String json = IOUtils.toString(stream, "UTF8");
+
+			boolean debugMode = params.containsKey("debug");
+
+			boolean ignoreKeyboardMode = params.containsKey("ignoreKeyboard");
+
 			try{
 				final TimeManager tm = new TimeManager();
-				tm.parseProgram(json, keyboardLayout);
+				tm.parseProgram(json, keyboardLayout, debugMode, ignoreKeyboardMode);
 			}
 			catch (final Exception e)
 			{
