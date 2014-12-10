@@ -166,11 +166,11 @@
         },
         {
             "alias": "MarioJumpAndStart", "type": "KeyLine", "delay": 0, "layer": 4, "lineColor": "d82800", "keyShowDuration": 500, "keyInterval": 500, "backgroundColor": "00000000",
-            "keys": ["ARROW_GREATER","A","Q","A","Y","X","C","V","B","B"],
+            "keys": ["ARROW_GREATER","A","Q","A","Y","X","C","V","B"],
             "doAfter": ["MarioStandMid1"]
         },
         {
-            "alias": "MarioStandMid1", "type": "SetColor", "delay": 0, "layer": 4, "color": "d82800",
+            "alias": "MarioStandMid1", "type": "SetContinuousColor", "interval": 10, "delay": 2000, "layer": 4, "color": "d82800",
             "keys": ["B"],
             "doAfter": []
         },

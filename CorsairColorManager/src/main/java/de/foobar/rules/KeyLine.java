@@ -62,9 +62,6 @@ public class KeyLine extends AbstractColorRule {
 			final ScheduledExecutorService programTimer = this.getBasicProgram().getTimerPool();
 			this.setPeriodicExecution(programTimer.scheduleWithFixedDelay( this, BasicProgram.FRAME_RATE, BasicProgram.FRAME_RATE, TimeUnit.MILLISECONDS ));
 
-
-			final int delayCalculated = (this.getKeys().size() * this.getKeyInterval()) + this.getKeyShowDuration() + this.getDelay();
-			super.scheduleDoAfter(delayCalculated);
 		}
 		else
 		{
@@ -127,6 +124,7 @@ public class KeyLine extends AbstractColorRule {
 			if(this.currentFocus.isEmpty())
 			{
 				this.getPeriodicExecution().cancel(false);
+				super.scheduleDoAfter(this.getDelay());
 				this.reset();
 			}
 		}
