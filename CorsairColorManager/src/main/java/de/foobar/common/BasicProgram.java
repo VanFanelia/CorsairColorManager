@@ -31,6 +31,8 @@ public class BasicProgram implements Runnable {
 
 	public static final int DEFAULT_LAYER = 3;
 
+	public static final int MAX_PROGRAM_DURATION = 5;// in seconds
+
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;
 
@@ -70,6 +72,9 @@ public class BasicProgram implements Runnable {
 	@JsonIgnore
 	private boolean ignoreKeyboardMode = false;
 
+	@JsonIgnore
+	private StopProgramTask stopper;
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -101,8 +106,9 @@ public class BasicProgram implements Runnable {
 					throw e;
 				}
 			}
+			this.stopper = new StopProgramTask(this);
 			this.timerPool = Executors.newScheduledThreadPool(5000);
-
+			this.timerPool.schedule(this.stopper, MAX_PROGRAM_DURATION,TimeUnit.SECONDS);
 
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
 			this.timerPool.scheduleWithFixedDelay(this, FRAME_RATE, FRAME_RATE, TimeUnit.MILLISECONDS);
@@ -114,8 +120,15 @@ public class BasicProgram implements Runnable {
 		}
 	}
 
+	public void stop() {
+		System.out.println("Shutdown!");
+		this.timerPool.shutdown();
+		this.controller.shutdownLibUsb();
+	}
+
 	@Override
-	public void run() {
+	public void run()
+	{
 		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors(this.debugMode);
 		try
 		{
@@ -131,10 +144,8 @@ public class BasicProgram implements Runnable {
 	}
 
 
-	public void initObjects() throws ProgramParseException {
-
-
-
+	public void initObjects() throws ProgramParseException
+	{
 		this.ruleMap = new HashMap<String, AbstractColorRule>();
 		for(final AbstractColorRule rule : this.getAbstractColorRules()) {
 			this.ruleMap.put(rule.getAlias(), rule);
