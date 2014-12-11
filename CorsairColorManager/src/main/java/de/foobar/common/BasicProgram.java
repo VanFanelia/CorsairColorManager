@@ -31,7 +31,7 @@ public class BasicProgram implements Runnable {
 
 	public static final int DEFAULT_LAYER = 3;
 
-	public static final int MAX_PROGRAM_DURATION = 5;// in seconds
+	public static final int MAX_PROGRAM_DURATION = 60;// in seconds
 
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;

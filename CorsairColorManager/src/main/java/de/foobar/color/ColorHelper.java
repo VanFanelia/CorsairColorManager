@@ -63,15 +63,26 @@ public class ColorHelper {
 		return new Color(red, green,blue,alpha);
 	}
 
-	public static Color calculateHSVColorChange(final Color startColor, final Color endColor, final float percentDone)
+	public static Color calculateHSVColorChange(final Color startColor, final Color endColor, final float percentDone, float direction)
 	{
 		final HSVColor startHSVColor = new HSVColor(startColor);
 		final HSVColor endHSVColor = new HSVColor(endColor);
 
+
 		final float difference = Math.max(startHSVColor.getHue(), endHSVColor.getHue()) -
 								 Math.min(startHSVColor.getHue(), endHSVColor.getHue());
-		final float distance = difference > 180.0f ? difference - 180.0f : difference;
-		final float direction = difference > 180.0f ? -1.0f : 1.0f; //walk back if difference is bigger then
+
+		final float distance;
+
+		if(startHSVColor.getHue() <= endHSVColor.getHue())
+		{
+			distance = direction > 0 ? difference : 360f - difference;
+		}
+		else
+		{
+			// startHSVColor.getHue() > endHSVColor.getHue()
+			distance = direction < 0 ? difference : 360f - difference;
+		}
 
 		final float h = (startHSVColor.getHue() + ( distance * percentDone * direction)) % 360;
 		final float s = startHSVColor.getSaturation() - ((startHSVColor.getSaturation() - endHSVColor.getSaturation()) * percentDone);

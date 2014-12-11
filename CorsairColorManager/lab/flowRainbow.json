@@ -1,0 +1,93 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "start",
+    "groups": [
+        { "name" : "Line1", "keys" : ["ESC","ACCENT_KEY_CIRCUMFLEX","TAB","SHIFT_HOLD","SHIFT_LEFT","STRG_LEFT","ARROW_GREATER","WINDOWS_LEFT"]},
+        { "name" : "Line2", "keys" : ["N1","Q","A","Y","ALT_LEFT"]},
+        { "name" : "Line3", "keys" : ["F1","N2","W","S","X"]},
+        { "name" : "Line4", "keys" : ["F2","N3","E","D","C"]},
+        { "name" : "Line5", "keys" : ["F3","N4","R","F","V"]},
+        { "name" : "Line6", "keys" : ["F4","N5","T","G","B","SPACE"]},
+        { "name" : "Line7", "keys" : ["N6","Z","H","N"]},
+        { "name" : "Line8", "keys" : ["F5","N7","U","J","M"]},
+        { "name" : "Line9", "keys" : ["F6","N8","I","K","SEMICOLON"]},
+        { "name" : "Line10", "keys" : ["F7","N9","O","L","DOUBLE_POINT","ALT_GR"]},
+        { "name" : "Line11", "keys" : ["F8","N0","P","OE","MINUS","WINDOWS_RIGHT"]},
+        { "name" : "Line12", "keys" : ["F9","SS","UE","AE","CONTEXT_MENU"]},
+        { "name" : "Line13", "keys" : ["F10","ACCENT_KEY_ACUTE","PLUS","SHIFT_RIGHT","STRG_RIGHT"]},
+        { "name" : "Line14", "keys" : ["F11","F12","BACKSPACE","ENTER"]},
+        { "name" : "Line15", "keys" : ["PRINT","INSERT","ENTF","ARROW_LEFT","SPECIAL_KEY_LIGHT"]},
+        { "name" : "Line16", "keys" : ["ROLL","POS1","END","ARROW_UP","ARROW_DOWN","SPECIAL_KEY_LOCK"]},
+        { "name" : "Line17", "keys" : ["BREAK","PAGE_UP","PAGE_DOWN","ARROW_RIGHT"]},
+        { "name" : "Line18", "keys" : ["MEDIA_STOP","NUM","NUM_7","NUM_4","NUM_1","NUM_0"]},
+        { "name" : "Line19", "keys" : ["MEDIA_MUTE","MEDIA_LEFT","NUM_DIVIDE","NUM_8","NUM_5","NUM_2"]},
+        { "name" : "Line20", "keys" : ["MEDIA_PLAY","NUM_MULTIPLY","NUM_9","NUM_6","NUM_3","NUM_COMMA"]},
+        { "name" : "Line21", "keys" : ["MEDIA_RIGHT","NUM_MINUS","NUM_PLUS","NUM_ENTER"]}
+
+    ],
+    "rules": [
+        {"alias":"start","type": "SetColor","delay":1, "color":"ffffffff","keys":[],"doAfter":["sl1","sl2","sl3","sl4","sl5","sl6","sl7","sl8","sl9","sl10","sl11","sl12"]},
+
+        {"alias": "sl1", "delay": 0, "type": "HSVColorChange", "startColor": "FF0000", "endColor": "00FFFF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line1","Line13"], "doAfter" :  ["sl1b"]},
+        {"alias": "sl1b","delay": 0, "type": "HSVColorChange", "startColor": "00FFFF", "endColor": "FF0000", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line1","Line13"], "doAfter" :  ["sl1"] },
+
+        {"alias": "sl2", "delay": 0, "type": "HSVColorChange", "startColor": "FF8000", "endColor": "0080FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line2","Line14"], "doAfter" :  ["sl2b"]},
+        {"alias": "sl2b","delay": 0, "type": "HSVColorChange", "startColor": "0080FF", "endColor": "FF8000", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line2","Line14"], "doAfter" :  ["sl2"] },
+
+        {"alias": "sl3", "delay": 0, "type": "HSVColorChange", "startColor": "FFFF00", "endColor": "0000FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line3","Line15"], "doAfter" :  ["sl3b"]},
+        {"alias": "sl3b","delay": 0, "type": "HSVColorChange", "startColor": "0000FF", "endColor": "FFFF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line3","Line15"], "doAfter" :  ["sl3"] },
+
+        {"alias": "sl4", "delay": 0, "type": "HSVColorChange", "startColor": "80FF00", "endColor": "8000FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line4","Line16"], "doAfter" :  ["sl4b"]},
+        {"alias": "sl4b","delay": 0, "type": "HSVColorChange", "startColor": "8000FF", "endColor": "80FF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line4","Line16"], "doAfter" :  ["sl4"] },
+
+        {"alias": "sl5", "delay": 0, "type": "HSVColorChange", "startColor": "00FF00", "endColor": "FF00FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line5","Line17"], "doAfter" :  ["sl5b"]},
+        {"alias": "sl5b","delay": 0, "type": "HSVColorChange", "startColor": "FF00FF", "endColor": "00FF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line5","Line17"], "doAfter" :  ["sl5"] },
+
+        {"alias": "sl6", "delay": 0, "type": "HSVColorChange", "startColor": "00FF80", "endColor": "FF0080", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line6","Line18"], "doAfter" :  ["sl6b"]},
+        {"alias": "sl6b","delay": 0, "type": "HSVColorChange", "startColor": "FF0080", "endColor": "00FF80", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line6","Line18"], "doAfter" :  ["sl6"] },
+
+        {"alias": "sl7", "delay": 0, "type": "HSVColorChange", "startColor": "00FFFF", "endColor": "FF0000", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line7","Line19"], "doAfter" :  ["sl7b"]},
+        {"alias": "sl7b","delay": 0, "type": "HSVColorChange", "startColor": "FF0000", "endColor": "00FFFF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line7","Line19"], "doAfter" :  ["sl7"] },
+
+        {"alias": "sl8", "delay": 0, "type": "HSVColorChange", "startColor": "0080FF", "endColor": "FF8000", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line8","Line20"], "doAfter" :  ["sl8b"]},
+        {"alias": "sl8b","delay": 0, "type": "HSVColorChange", "startColor": "FF8000", "endColor": "0080FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line8","Line20"], "doAfter" :  ["sl8"] },
+
+        {"alias": "sl9", "delay": 0, "type": "HSVColorChange", "startColor": "0000FF", "endColor": "FFFF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line9","Line21"], "doAfter" :  ["sl9b"]},
+        {"alias": "sl9b","delay": 0, "type": "HSVColorChange", "startColor": "FFFF00", "endColor": "0000FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line9","Line21"], "doAfter" :  ["sl9"] },
+
+        {"alias": "sl10", "delay": 0, "type": "HSVColorChange", "startColor": "8000FF", "endColor": "80FF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line10"], "doAfter" :  ["sl10b"]},
+        {"alias": "sl10b","delay": 0, "type": "HSVColorChange", "startColor": "80FF00", "endColor": "8000FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line10"], "doAfter" :  ["sl10"] },
+
+        {"alias": "sl11", "delay": 0, "type": "HSVColorChange", "startColor": "FF00FF", "endColor": "00FF00", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line11"], "doAfter" :  ["sl11b"]},
+        {"alias": "sl11b","delay": 0, "type": "HSVColorChange", "startColor": "00FF00", "endColor": "FF00FF", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line11"], "doAfter" :  ["sl11"] },
+
+        {"alias": "sl12", "delay": 0, "type": "HSVColorChange", "startColor": "FF0080", "endColor": "00FF80", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line12"], "doAfter" :  ["sl12b"]},
+        {"alias": "sl12b","delay": 0, "type": "HSVColorChange", "startColor": "00FF80", "endColor": "FF0080", "duration": 2000, "layer": 3, "direction":1,
+            "keys": ["Line12"], "doAfter" :  ["sl12"] }
+
+
+    ]
+}

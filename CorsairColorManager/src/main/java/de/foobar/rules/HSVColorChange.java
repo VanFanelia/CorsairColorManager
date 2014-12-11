@@ -1,5 +1,6 @@
 package de.foobar.rules;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.foobar.color.ColorHelper;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -11,6 +12,9 @@ import java.awt.*;
  * Editor: van on 28.10.14.
  */
 public class HSVColorChange extends LinearColorChange {
+
+	@JsonIgnoreProperties
+	private int direction = 1;
 
     public HSVColorChange() {
         super();
@@ -26,7 +30,7 @@ public class HSVColorChange extends LinearColorChange {
 	@Override
 	public Color calculateCurrentColor(final Color startColor, final Color endColor,final float percentDone)
 	{
-		return ColorHelper.calculateHSVColorChange(startColor, endColor, percentDone);
+		return ColorHelper.calculateHSVColorChange(startColor, endColor, percentDone, direction);
 	}
 
 
