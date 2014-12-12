@@ -14,7 +14,7 @@
         { "name" : "Line10", "keys" : ["F7","N9","O","L","DOUBLE_POINT","ALT_GR"]},
         { "name" : "Line11", "keys" : ["F8","N0","P","OE","MINUS","WINDOWS_RIGHT"]},
         { "name" : "Line12", "keys" : ["F9","SS","UE","AE","CONTEXT_MENU"]},
-        { "name" : "Line13", "keys" : ["F10","ACCENT_KEY_ACUTE","PLUS","SHIFT_RIGHT","STRG_RIGHT"]},
+        { "name" : "Line13", "keys" : ["F10","ACCENT_KEY_ACUTE","PLUS","HASH","SHIFT_RIGHT","STRG_RIGHT"]},
         { "name" : "Line14", "keys" : ["F11","F12","BACKSPACE","ENTER"]},
         { "name" : "Line15", "keys" : ["PRINT","INSERT","ENTF","ARROW_LEFT","SPECIAL_KEY_LIGHT"]},
         { "name" : "Line16", "keys" : ["ROLL","POS1","END","ARROW_UP","ARROW_DOWN","SPECIAL_KEY_LOCK"]},
