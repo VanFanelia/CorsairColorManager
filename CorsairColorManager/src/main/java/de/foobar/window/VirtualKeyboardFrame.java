@@ -23,9 +23,9 @@ public class VirtualKeyboardFrame extends JFrame {
 	}
 
 	private void initWindow() {
-		this.setSize(1600,800);
+		this.setSize(940,340);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		final Container container= this.getContentPane();
 		container.setLayout(null);

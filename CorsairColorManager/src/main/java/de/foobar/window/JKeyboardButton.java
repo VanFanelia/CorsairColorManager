@@ -36,6 +36,8 @@ public class JKeyboardButton extends JButton {
 		label = "".equals(label) ? this.key.name() : label;
 		this.setText(label);
 		this.setFocusPainted(false);
+
+		this.setToolTipText("Button name: " + key.name());
 	}
 
 	public void setColor(final Color color)
