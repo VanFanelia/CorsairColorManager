@@ -3,7 +3,7 @@ package de.foobar.common;
 /**
  * Editor: van on 11.12.14.
  */
-public class StopProgramTask implements Runnable {
+public class StopProgramTask extends Thread implements Runnable {
 
 	private BasicProgram basic;
 

@@ -9,6 +9,7 @@ import de.foobar.keys.KeyboardLayout;
 import de.foobar.libusb.USBDeviceController;
 import de.foobar.rules.AbstractColorRule;
 import de.foobar.rules.ColorMixingRule;
+import de.foobar.window.VirtualKeyboardFrame;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +74,9 @@ public class BasicProgram implements Runnable {
 	private boolean ignoreKeyboardMode = false;
 
 	@JsonIgnore
+	private VirtualKeyboardFrame window;
+
+	@JsonIgnore
 	private StopProgramTask stopper;
 
 	public Map<String, KeyGroup> getGroupMap() {
@@ -94,6 +98,10 @@ public class BasicProgram implements Runnable {
 	public void startProgram()
 	{
 		try {
+			if(isIgnoreKeyboardMode())
+			{
+				window = new VirtualKeyboardFrame(this.keyboardLayout, "K70RGB-Debug-Window");
+			}
 			//init keyboard
 			try {
 				this.controller = new USBDeviceController();
@@ -107,6 +115,7 @@ public class BasicProgram implements Runnable {
 				}
 			}
 			this.stopper = new StopProgramTask(this);
+			Runtime.getRuntime().addShutdownHook(stopper);
 			this.timerPool = Executors.newScheduledThreadPool(5000);
 			this.timerPool.schedule(this.stopper, MAX_PROGRAM_DURATION,TimeUnit.SECONDS);
 
@@ -116,6 +125,7 @@ public class BasicProgram implements Runnable {
 		catch (final Exception e)
 		{
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 			this.controller.shutdownLibUsb();
 		}
 	}
@@ -130,6 +140,13 @@ public class BasicProgram implements Runnable {
 	public void run()
 	{
 		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors(this.debugMode);
+		if(this.isDebugMode())
+		{
+			for(final Map.Entry<Integer, Color> setting: keyboardColors.entrySet())
+			{
+				window.changeButtonColor(setting.getKey(), setting.getValue());
+			}
+		}
 		try
 		{
 			this.controller.sendColors(keyboardColors);

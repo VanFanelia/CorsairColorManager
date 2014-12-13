@@ -1,11 +1,140 @@
 package de.foobar.keys;
 
+import static de.foobar.keys.Key.A;
+import static de.foobar.keys.Key.ACCENT_KEY_ACUTE;
+import static de.foobar.keys.Key.ACCENT_KEY_CIRCUMFLEX;
+import static de.foobar.keys.Key.AE;
+import static de.foobar.keys.Key.ALT_GR;
+import static de.foobar.keys.Key.ALT_LEFT;
+import static de.foobar.keys.Key.ALT_RIGHT;
+import static de.foobar.keys.Key.ARROW_DOWN;
+import static de.foobar.keys.Key.ARROW_GREATER;
+import static de.foobar.keys.Key.ARROW_LEFT;
+import static de.foobar.keys.Key.ARROW_RIGHT;
+import static de.foobar.keys.Key.ARROW_SMALLER;
+import static de.foobar.keys.Key.ARROW_UP;
+import static de.foobar.keys.Key.B;
+import static de.foobar.keys.Key.BACKSPACE;
+import static de.foobar.keys.Key.BRACKET_CLOSE;
+import static de.foobar.keys.Key.BRACKET_OPEN;
+import static de.foobar.keys.Key.BREAK;
+import static de.foobar.keys.Key.C;
+import static de.foobar.keys.Key.CAPS_LOCK;
+import static de.foobar.keys.Key.CONTEXT_MENU;
+import static de.foobar.keys.Key.CTRL_LEFT;
+import static de.foobar.keys.Key.CTRL_RIGHT;
+import static de.foobar.keys.Key.D;
+import static de.foobar.keys.Key.DELETE;
+import static de.foobar.keys.Key.DOUBLE_POINT;
+import static de.foobar.keys.Key.E;
+import static de.foobar.keys.Key.END;
+import static de.foobar.keys.Key.ENTER;
+import static de.foobar.keys.Key.ENTF;
+import static de.foobar.keys.Key.ESC;
+import static de.foobar.keys.Key.F;
+import static de.foobar.keys.Key.F1;
+import static de.foobar.keys.Key.F10;
+import static de.foobar.keys.Key.F11;
+import static de.foobar.keys.Key.F12;
+import static de.foobar.keys.Key.F2;
+import static de.foobar.keys.Key.F3;
+import static de.foobar.keys.Key.F4;
+import static de.foobar.keys.Key.F5;
+import static de.foobar.keys.Key.F6;
+import static de.foobar.keys.Key.F7;
+import static de.foobar.keys.Key.F8;
+import static de.foobar.keys.Key.F9;
+import static de.foobar.keys.Key.G;
+import static de.foobar.keys.Key.H;
+import static de.foobar.keys.Key.HASH;
+import static de.foobar.keys.Key.HOME;
+import static de.foobar.keys.Key.I;
+import static de.foobar.keys.Key.INSERT;
+import static de.foobar.keys.Key.J;
+import static de.foobar.keys.Key.K;
+import static de.foobar.keys.Key.L;
+import static de.foobar.keys.Key.M;
+import static de.foobar.keys.Key.MEDIA_LEFT;
+import static de.foobar.keys.Key.MEDIA_MUTE;
+import static de.foobar.keys.Key.MEDIA_PLAY;
+import static de.foobar.keys.Key.MEDIA_RIGHT;
+import static de.foobar.keys.Key.MEDIA_STOP;
+import static de.foobar.keys.Key.MENU;
+import static de.foobar.keys.Key.MINUS;
+import static de.foobar.keys.Key.N;
+import static de.foobar.keys.Key.N0;
+import static de.foobar.keys.Key.N1;
+import static de.foobar.keys.Key.N2;
+import static de.foobar.keys.Key.N3;
+import static de.foobar.keys.Key.N4;
+import static de.foobar.keys.Key.N5;
+import static de.foobar.keys.Key.N6;
+import static de.foobar.keys.Key.N7;
+import static de.foobar.keys.Key.N8;
+import static de.foobar.keys.Key.N9;
+import static de.foobar.keys.Key.NUM;
+import static de.foobar.keys.Key.NUM_0;
+import static de.foobar.keys.Key.NUM_1;
+import static de.foobar.keys.Key.NUM_2;
+import static de.foobar.keys.Key.NUM_3;
+import static de.foobar.keys.Key.NUM_4;
+import static de.foobar.keys.Key.NUM_5;
+import static de.foobar.keys.Key.NUM_6;
+import static de.foobar.keys.Key.NUM_7;
+import static de.foobar.keys.Key.NUM_8;
+import static de.foobar.keys.Key.NUM_9;
+import static de.foobar.keys.Key.NUM_COMMA;
+import static de.foobar.keys.Key.NUM_DIVIDE;
+import static de.foobar.keys.Key.NUM_DOT;
+import static de.foobar.keys.Key.NUM_ENTER;
+import static de.foobar.keys.Key.NUM_LOCK;
+import static de.foobar.keys.Key.NUM_MINUS;
+import static de.foobar.keys.Key.NUM_MULTIPLY;
+import static de.foobar.keys.Key.NUM_PLUS;
+import static de.foobar.keys.Key.O;
+import static de.foobar.keys.Key.OE;
+import static de.foobar.keys.Key.P;
+import static de.foobar.keys.Key.PAGE_DOWN;
+import static de.foobar.keys.Key.PAGE_UP;
+import static de.foobar.keys.Key.PAUSE_BREAK;
+import static de.foobar.keys.Key.PIPE;
+import static de.foobar.keys.Key.PLUS;
+import static de.foobar.keys.Key.POS1;
+import static de.foobar.keys.Key.PRINT;
+import static de.foobar.keys.Key.Q;
+import static de.foobar.keys.Key.QUESTION_MARK;
+import static de.foobar.keys.Key.QUOTATION_MARK;
+import static de.foobar.keys.Key.R;
+import static de.foobar.keys.Key.ROLL;
+import static de.foobar.keys.Key.S;
+import static de.foobar.keys.Key.SCROLL_LOCK;
+import static de.foobar.keys.Key.SEMICOLON;
+import static de.foobar.keys.Key.SHIFT_HOLD;
+import static de.foobar.keys.Key.SHIFT_LEFT;
+import static de.foobar.keys.Key.SHIFT_RIGHT;
+import static de.foobar.keys.Key.SPACE;
+import static de.foobar.keys.Key.SPECIAL_KEY_LIGHT;
+import static de.foobar.keys.Key.SPECIAL_KEY_LOCK;
+import static de.foobar.keys.Key.SS;
+import static de.foobar.keys.Key.STRG_LEFT;
+import static de.foobar.keys.Key.STRG_RIGHT;
+import static de.foobar.keys.Key.T;
+import static de.foobar.keys.Key.TAB;
+import static de.foobar.keys.Key.TILDE;
+import static de.foobar.keys.Key.U;
+import static de.foobar.keys.Key.UE;
+import static de.foobar.keys.Key.V;
+import static de.foobar.keys.Key.W;
+import static de.foobar.keys.Key.WINDOWS_LEFT;
+import static de.foobar.keys.Key.WINDOWS_RIGHT;
+import static de.foobar.keys.Key.X;
+import static de.foobar.keys.Key.Y;
+import static de.foobar.keys.Key.Z;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static de.foobar.keys.Key.*;
+import java.util.Set;
 
 /**
  * Editor: van on 09.11.14.
@@ -284,6 +413,11 @@ public final class KeyToNumber {
 	public static Key getKey(final KeyboardLayout keyboardLayout, final int number)
 	{
 		return INTTOENUM.get(keyboardLayout).get(number);
+	}
+
+	public static Set<Key> getKeyList(final KeyboardLayout layout)
+	{
+		return ENUMTOINT.get(layout).keySet();
 	}
 
 	public static List<Integer> getNumber(final KeyboardLayout keyboardLayout, final KeyReference key) {
