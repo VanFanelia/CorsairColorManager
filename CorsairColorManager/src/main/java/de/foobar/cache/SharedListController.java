@@ -59,7 +59,7 @@ public class SharedListController {
 			}
 			result.put(i, calculated);
 			if(debug){
-				System.out.println("Key: "+i+" color: "+calculated.toString());
+				//System.out.println("Key: "+i+" color: "+calculated.toString());
 			}
 		}
 		return result;

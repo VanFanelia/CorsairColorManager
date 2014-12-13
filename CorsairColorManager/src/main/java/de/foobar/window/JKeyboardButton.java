@@ -37,6 +37,9 @@ public class JKeyboardButton extends JButton {
 		this.setText(label);
 		this.setFocusPainted(false);
 
+		ToolTipManager.sharedInstance().setInitialDelay(1);
+		ToolTipManager.sharedInstance().setReshowDelay(1);
+
 		this.setToolTipText("Button name: " + key.name());
 	}
 

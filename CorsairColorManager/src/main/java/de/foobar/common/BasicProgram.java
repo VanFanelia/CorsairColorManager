@@ -98,7 +98,7 @@ public class BasicProgram implements Runnable {
 	public void startProgram()
 	{
 		try {
-			if(isIgnoreKeyboardMode())
+			if(isDebugMode())
 			{
 				window = new VirtualKeyboardFrame(this.keyboardLayout, "K70RGB-Debug-Window");
 			}
