@@ -25,11 +25,11 @@ public class CorsairColorManager {
 			{
 				final int indexOfEqual = args[i].indexOf('=');
 				if(indexOfEqual == -1){
-					params.put(args[i], "");
+					params.put(args[i].toLowerCase(), "");
 				}else {
 					final String key = args[i].substring(0, indexOfEqual);
 					final String value = args[i].substring(indexOfEqual+1);
-					params.put(key, value);
+					params.put(key.toLowerCase(), value.toLowerCase());
 				}
 			}
 
@@ -58,11 +58,24 @@ public class CorsairColorManager {
 
 			boolean debugMode = params.containsKey("debug");
 
-			boolean ignoreKeyboardMode = params.containsKey("ignoreKeyboard");
+			//TODO Add parameter for maximu execution time
+			boolean ignoreKeyboardMode = params.containsKey("ignorekeyboard");
+
+			int executionTime = -1;
+			if(params.containsKey("duration"))
+			{
+				try {
+					executionTime = Integer.valueOf(params.get("duration"));
+				}
+				catch (final Exception e)
+				{
+					System.out.println("cannot parse duration time.. use default");
+				}
+			}
 
 			try{
 				final TimeManager tm = new TimeManager();
-				tm.parseProgram(json, keyboardLayout, debugMode, ignoreKeyboardMode);
+				tm.parseProgram(json, keyboardLayout, debugMode, ignoreKeyboardMode, executionTime);
 			}
 			catch (final Exception e)
 			{

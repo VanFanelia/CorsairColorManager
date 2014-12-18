@@ -20,7 +20,8 @@ public class TimeManager {
 
     public TimeManager() { }
 
-	public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout, final boolean debugMode, final boolean ignoreKeyboardMode)
+	public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout, final boolean debugMode,
+	                         final boolean ignoreKeyboardMode, final int duration)
 			throws IOException, ProgramParseException {
 		try {
 			this.currentProgram = parseJsonToObject(jsonRules);
@@ -28,6 +29,7 @@ public class TimeManager {
 			this.currentProgram.setDebugMode(debugMode);
 			this.currentProgram.setIgnoreKeyboardMode(ignoreKeyboardMode);
 			this.currentProgram.setKeyboardLayout(keyboardLayout);
+			this.currentProgram.setMaxProgramDuration(duration);
 			this.start();
 		}catch (final IOException e){
 			e.printStackTrace();
@@ -40,7 +42,7 @@ public class TimeManager {
      * @param jsonRules
      */
     public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout) throws IOException, ProgramParseException {
-	    this.parseProgram(jsonRules, keyboardLayout, false, false);
+	    this.parseProgram(jsonRules, keyboardLayout, false, false, BasicProgram.MAX_PROGRAM_DURATION);
     }
 
 	/**

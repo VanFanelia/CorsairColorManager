@@ -32,7 +32,7 @@ public class BasicProgram implements Runnable {
 
 	public static final int DEFAULT_LAYER = 3;
 
-	public static final int MAX_PROGRAM_DURATION = 60;// in seconds
+	public static final int MAX_PROGRAM_DURATION = 3600;// in seconds
 
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;
@@ -79,6 +79,9 @@ public class BasicProgram implements Runnable {
 	@JsonIgnore
 	private StopProgramTask stopper;
 
+	@JsonIgnore
+	private int maxProgramDuration = MAX_PROGRAM_DURATION;
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -117,7 +120,7 @@ public class BasicProgram implements Runnable {
 			this.stopper = new StopProgramTask(this);
 			Runtime.getRuntime().addShutdownHook(stopper);
 			this.timerPool = Executors.newScheduledThreadPool(5000);
-			this.timerPool.schedule(this.stopper, MAX_PROGRAM_DURATION,TimeUnit.SECONDS);
+			this.timerPool.schedule(this.stopper, this.getMaxProgramDuration(), TimeUnit.SECONDS);
 
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
 			this.timerPool.scheduleWithFixedDelay(this, FRAME_RATE, FRAME_RATE, TimeUnit.MILLISECONDS);
@@ -309,4 +312,17 @@ public class BasicProgram implements Runnable {
 		this.groups = groups;
 	}
 
+	public void setMaxProgramDuration(int maxProgramDuration)
+	{
+		if (maxProgramDuration <= 0)
+		{
+			this.maxProgramDuration = MAX_PROGRAM_DURATION;
+		}else{
+			this.maxProgramDuration = maxProgramDuration;
+		}
+	}
+
+	public int getMaxProgramDuration() {
+		return maxProgramDuration;
+	}
 }
