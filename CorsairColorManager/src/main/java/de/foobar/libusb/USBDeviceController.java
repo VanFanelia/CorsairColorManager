@@ -121,8 +121,13 @@ public class USBDeviceController {
 		}catch (final Exception e){
 			System.out.println("Error on release Interface: " + e.getMessage());
 		}finally {
-			LibUsb.close(this.handle);
-			LibUsb.exit(this.context);
+			try {
+				LibUsb.close(this.handle);
+				LibUsb.exit(this.context);
+			} catch (final Exception e)
+			{
+				System.out.println("Error on close Interface: " + e.getMessage());
+			}
 		}
 	}
 

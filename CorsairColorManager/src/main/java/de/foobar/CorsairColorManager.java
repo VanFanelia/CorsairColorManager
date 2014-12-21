@@ -86,10 +86,12 @@ public class CorsairColorManager {
 				catch (final Exception closeException){
 					//empty
 				}
+				System.exit(7);
 			}
 
 		} else {
 			System.out.println("Need a path to a json file... ");
+			System.exit(7);
 		}
     }
 }
