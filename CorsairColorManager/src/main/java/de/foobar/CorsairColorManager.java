@@ -1,5 +1,6 @@
 package de.foobar;
 
+import de.foobar.common.BasicProgram;
 import de.foobar.common.TimeManager;
 import de.foobar.keys.KeyboardLayout;
 import java.io.File;
@@ -58,7 +59,6 @@ public class CorsairColorManager {
 
 			boolean debugMode = params.containsKey("debug");
 
-			//TODO Add parameter for maximu execution time
 			boolean ignoreKeyboardMode = params.containsKey("ignorekeyboard");
 
 			int executionTime = -1;
@@ -70,6 +70,18 @@ public class CorsairColorManager {
 				catch (final Exception e)
 				{
 					System.out.println("cannot parse duration time.. use default");
+				}
+			}
+
+			if(params.containsKey("framerate"))
+			{
+				try{
+					int frameRate = Integer.valueOf(params.get("framerate"));
+					frameRate = 1000 / frameRate;
+					BasicProgram.FRAME_RATE = frameRate;
+				}catch (final Exception e)
+				{
+					System.out.println("cannot parse framerate.. use default");
 				}
 			}
 

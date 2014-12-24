@@ -194,8 +194,9 @@ public class USBDeviceController {
 		return null;
 	}
 
-	public void sendColors(final Map<Integer, Color> colorMap)
+	public synchronized void sendColors(final Map<Integer, Color> colorMap)
 	{
+		long time = System.currentTimeMillis();
 		final byte[] red_val = new byte[144];
 		final byte[] green_val = new byte[144];
 		final byte[] blue_val = new byte[144];
@@ -290,7 +291,7 @@ public class USBDeviceController {
 			}
 			//System.out.println(resultUsb + " bytes sent");
 		}
-
+		//System.out.println((System.currentTimeMillis() - time) + " ms to send usb data");
 	}
 
 }

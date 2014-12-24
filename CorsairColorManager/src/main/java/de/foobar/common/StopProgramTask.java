@@ -13,6 +13,6 @@ public class StopProgramTask extends Thread implements Runnable {
 
 	@Override
 	public void run() {
-		basic.stop();
+		basic.stopProgram();
 	}
 }

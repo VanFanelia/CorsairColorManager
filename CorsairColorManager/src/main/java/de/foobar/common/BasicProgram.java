@@ -26,9 +26,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  *
  * Editor: van on 09.11.14.
  */
-public class BasicProgram implements Runnable {
+public class BasicProgram extends Thread {
 
-	public static final int FRAME_RATE = 33; // in Milliseconds 30 frames/Second;
+	public static int FRAME_RATE = 33; // in Milliseconds 30 frames/Second;
 
 	public static final int DEFAULT_LAYER = 3;
 
@@ -119,10 +119,12 @@ public class BasicProgram implements Runnable {
 			}
 			this.stopper = new StopProgramTask(this);
 			Runtime.getRuntime().addShutdownHook(stopper);
-			this.timerPool = Executors.newScheduledThreadPool(5000);
+			this.timerPool = Executors.newScheduledThreadPool(10);
 			this.timerPool.schedule(this.stopper, this.getMaxProgramDuration(), TimeUnit.SECONDS);
 
 			this.timerPool.schedule(this.getStartActionRule(), 1, TimeUnit.MILLISECONDS);
+
+			this.setPriority(this.getPriority()+1);
 			this.timerPool.scheduleWithFixedDelay(this, FRAME_RATE, FRAME_RATE, TimeUnit.MILLISECONDS);
 		}
 		catch (final Exception e)
@@ -133,15 +135,16 @@ public class BasicProgram implements Runnable {
 		}
 	}
 
-	public void stop() {
+	public void stopProgram() {
 		System.out.println("Shutdown!");
 		this.timerPool.shutdown();
 		this.controller.shutdownLibUsb();
 	}
 
 	@Override
-	public void run()
+	public synchronized void run()
 	{
+
 		final Map<Integer, Color> keyboardColors = SharedListController.get().calculateCurrentColors(this.debugMode);
 		if(this.isDebugMode())
 		{
