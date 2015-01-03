@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=JNativeHook-2.0.0-RC5.jar -DgroupId=org.jnativehook -DartifactId=jnativehook -Dversion=2.0.0-RC5 -Dpackaging=jar

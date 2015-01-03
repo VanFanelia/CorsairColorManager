@@ -63,7 +63,7 @@ public class ColorHelper {
 		return new Color(red, green,blue,alpha);
 	}
 
-	public static Color calculateHSVColorChange(final Color startColor, final Color endColor, final float percentDone, float direction)
+	public static Color calculateHSVColorChange(final Color startColor, final Color endColor, final float percentDone,final float direction)
 	{
 		final HSVColor startHSVColor = new HSVColor(startColor);
 		final HSVColor endHSVColor = new HSVColor(endColor);
