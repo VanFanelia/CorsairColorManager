@@ -75,6 +75,19 @@ public class SetContinuousColor extends AbstractColorRule {
 	public SetContinuousColor() {
 	}
 
+	@Override
+	public SetContinuousColor clone() throws CloneNotSupportedException
+	{
+		final SetContinuousColor clone = (SetContinuousColor) super.clone();
+		clone.lineColorTmp = this.lineColorTmp;
+		clone.color = this.color;
+		clone.interval = this.interval;
+		clone.inLoop = this.inLoop;
+		clone.timeRunning = this.timeRunning;
+		clone.periodicExecution = null;
+		return clone;
+	}
+
 	public String getLineColorTmp() {
 		return lineColorTmp;
 	}

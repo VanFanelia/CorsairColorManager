@@ -152,6 +152,23 @@ public class KeyLine extends AbstractColorRule {
 	public KeyLine() {
 	}
 
+	@Override
+	public KeyLine clone() throws CloneNotSupportedException
+	{
+		final KeyLine clone = (KeyLine) super.clone();
+		clone.lineColorTmp = this.lineColorTmp;
+		clone.lineColor = this.lineColor;
+		clone.keyShowDuration = this.keyShowDuration;
+		clone.keyInterval = this.keyInterval;
+		clone.backgroundColorTemp = this.backgroundColorTemp;
+		clone.backgroundColor = this.backgroundColor;
+		clone.inLoop = this.inLoop;
+		clone.timeRunning = this.timeRunning;
+		clone.periodicExecution = null;
+		clone.currentFocus = new HashMap<Integer, KeyReference>();
+		return clone;
+	}
+
 	public String getLineColorTmp() {
 		return lineColorTmp;
 	}

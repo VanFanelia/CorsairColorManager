@@ -1,35 +1,23 @@
 package de.foobar.rules;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.common.BasicProgram;
-import de.foobar.color.ColorHelper;
 import de.foobar.exception.ProgramParseException;
+import de.foobar.keys.Key;
+import de.foobar.keys.KeyGroup;
+import de.foobar.keys.KeyReference;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.awt.*;
-
 /**
  * Editor: van on 28.10.14.
  */
-public class SetColor extends AbstractColorRule {
-
-    @JsonProperty("color")
-    private String colorTmp;
-
-	@JsonIgnore
-	private Color color;
-
-
+public class OnKeyPress extends AbstractColorRule {
 
 	@Override
 	public void run()
 	{
-		super.setColorForAllKeys( this.color);
-		System.out.println(this.getKeys());
-		System.out.println(this.color);
+		// do nothing, just jump to doAfter
 		super.scheduleDoAfter(this.getDelay());
 	}
 
@@ -40,34 +28,35 @@ public class SetColor extends AbstractColorRule {
 		if (this.getDelay() < 0) {
 			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
 		}
-
-		this.color = ColorHelper.convertRGBAHexColorToColor(this.colorTmp);
+		for(final KeyReference keyReference: this.getKeys())
+		{
+			if(keyReference instanceof KeyGroup)
+			{
+				final KeyGroup group = (KeyGroup) keyReference;
+				for(final Key keyInGroup : group.getKeyList())
+				{
+					basicProgram.registerOnKeyPressRuleForKey(keyInGroup, this);
+				}
+			}
+			else {
+				basicProgram.registerOnKeyPressRuleForKey((Key) keyReference, this);
+			}
+		}
 	}
 
 	@Override
-	public SetColor clone() throws CloneNotSupportedException
+	public OnKeyPress clone() throws CloneNotSupportedException
 	{
-		final SetColor clone = (SetColor) super.clone();
-		clone.colorTmp = this.colorTmp;
-		clone.color = this.color;
+		final OnKeyPress clone = (OnKeyPress) super.clone();
 		return clone;
 	}
 
-	public SetColor() {
+	public OnKeyPress() {
 	}
 
-	public SetColor(final String colorTmp, final int delay) {
-        this.colorTmp = colorTmp;
+	public OnKeyPress(final int delay) {
         this.setDelay(delay);
     }
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(final Color color) {
-		this.color = color;
-	}
 
 	@Override
     public String toString() {

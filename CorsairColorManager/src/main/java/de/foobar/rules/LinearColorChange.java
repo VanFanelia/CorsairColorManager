@@ -97,6 +97,20 @@ public class LinearColorChange extends AbstractColorRule {
 
 	}
 
+	@Override
+	public LinearColorChange clone() throws CloneNotSupportedException
+	{
+		final LinearColorChange clone = (LinearColorChange) super.clone();
+		clone.startColorTmp = this.startColorTmp;
+		clone.startColor = this.startColor;
+		clone.endColorTmp = this.endColorTmp;
+		clone.endColor = this.endColor;
+		clone.duration = this.duration;
+		clone.inLoop = this.inLoop;
+		clone.timeRunning = this.timeRunning;
+		clone.periodicExecution = null;
+		return clone;
+	}
 
     public Color getStartColor() {
         return startColor;

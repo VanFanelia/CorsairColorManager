@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.cache.SharedListController;
 import de.foobar.exception.ProgramParseException;
+import de.foobar.keys.Key;
 import de.foobar.keys.KeyGroup;
+import de.foobar.keys.KeyReference;
 import de.foobar.keys.KeyboardLayout;
 import de.foobar.libusb.USBDeviceController;
 import de.foobar.rules.AbstractColorRule;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.jnativehook.GlobalScreen;
 
 /**
  *
@@ -82,6 +85,9 @@ public class BasicProgram extends Thread {
 	@JsonIgnore
 	private int maxProgramDuration = MAX_PROGRAM_DURATION;
 
+	@JsonIgnore
+	private Map<Key, List<AbstractColorRule>> onKeyPressRuleMap = new HashMap<Key, List<AbstractColorRule>>();
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -117,6 +123,10 @@ public class BasicProgram extends Thread {
 					throw e;
 				}
 			}
+			// init global Hook
+			GlobalScreen.getInstance().addNativeKeyListener(new KeyInputListener(this));
+			GlobalScreen.registerNativeHook();
+
 			this.stopper = new StopProgramTask(this);
 			Runtime.getRuntime().addShutdownHook(stopper);
 			this.timerPool = Executors.newScheduledThreadPool(10);
@@ -132,6 +142,24 @@ public class BasicProgram extends Thread {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 			this.controller.shutdownLibUsb();
+		}
+	}
+
+	public void runRulesForKeyPressed(final Key pressed) throws CloneNotSupportedException {
+		List<AbstractColorRule> toExecute = this.onKeyPressRuleMap.get(pressed);
+		toExecute = toExecute == null? new ArrayList<AbstractColorRule>() : toExecute;
+		for(final AbstractColorRule rule : toExecute)
+		{
+			for(final AbstractColorRule doAfterRule : rule.getDoAfterRules())
+			{
+				final AbstractColorRule clone = doAfterRule.clone();
+				if (doAfterRule.getKeys().contains(Key.$PRESSED)) {
+					final ArrayList<KeyReference> pressedKeys = new ArrayList<KeyReference>();
+					pressedKeys.add(pressed);
+					clone.setKeys(pressedKeys);
+				}
+				this.timerPool.schedule(clone, 1, TimeUnit.MICROSECONDS);
+			}
 		}
 	}
 
@@ -315,7 +343,7 @@ public class BasicProgram extends Thread {
 		this.groups = groups;
 	}
 
-	public void setMaxProgramDuration(int maxProgramDuration)
+	public void setMaxProgramDuration(final int maxProgramDuration)
 	{
 		if (maxProgramDuration <= 0)
 		{
@@ -327,5 +355,26 @@ public class BasicProgram extends Thread {
 
 	public int getMaxProgramDuration() {
 		return maxProgramDuration;
+	}
+
+	public Map<Key, List<AbstractColorRule>> getOnKeyPressRuleMap() {
+		return onKeyPressRuleMap;
+	}
+
+	public void setOnKeyPressRuleMap(final Map<Key, List<AbstractColorRule>> onKeyPressRuleMap) {
+		this.onKeyPressRuleMap = onKeyPressRuleMap;
+	}
+
+	public void registerOnKeyPressRuleForKey(final Key key,final AbstractColorRule rule)
+	{
+
+		if (!this.onKeyPressRuleMap.containsKey(key))
+		{
+			this.onKeyPressRuleMap.put(key, new ArrayList<AbstractColorRule>());
+		}
+		if(! this.onKeyPressRuleMap.get(key).contains(rule))
+		{
+			this.onKeyPressRuleMap.get(key).add(rule);
+		}
 	}
 }

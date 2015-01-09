@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import de.foobar.common.BasicProgram;
 import de.foobar.cache.SharedListController;
+import de.foobar.common.BasicProgram;
 import de.foobar.exception.ProgramParseException;
 import de.foobar.keys.Key;
 import de.foobar.keys.KeyGroup;
@@ -34,9 +34,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 		@JsonSubTypes.Type(value = SetContinuousColor.class, name = "SetContinuousColor"),
 		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange"),
 		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange"),
-		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine")
+		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine"),
+		@JsonSubTypes.Type(value = OnKeyPress.class, name = "OnKeyPress")
 })
-public abstract class AbstractColorRule extends TimerTask implements NeedInit{
+public abstract class AbstractColorRule extends TimerTask implements NeedInit, Cloneable{
 
     /**
      * Reference Name of alias
@@ -141,6 +142,28 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 		}
 	}
 
+	public AbstractColorRule clone() throws CloneNotSupportedException
+	{
+		final AbstractColorRule clone = (AbstractColorRule) super.clone();
+		clone.setAlias(this.alias);
+		clone.setBasicProgram(this.basicProgram);
+
+
+		clone.keys = new ArrayList<>();
+		for(final KeyReference key: this.keys)
+		{
+			clone.keys.add(key);
+		}
+
+		clone.doAfterRules = new ArrayList<>();
+		for(final AbstractColorRule rule : this.doAfterRules){
+			clone.getDoAfterRules().add(rule);
+		}
+		clone.setDelay(this.getDelay());
+		clone.setLayer(this.getLayer());
+		return clone;
+	}
+
 	public String getAlias() {
         return alias;
     }
@@ -169,7 +192,7 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 		return basicProgram;
 	}
 
-	public void setBasicProgram(BasicProgram basicProgram) {
+	public void setBasicProgram(final BasicProgram basicProgram) {
 		this.basicProgram = basicProgram;
 	}
 
@@ -177,11 +200,29 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit{
 		return delay;
 	}
 
-	public void setDelay(int delay) {
+	public void setDelay(final int delay) {
 		this.delay = delay;
 	}
 
+	public List<String> getKeyListTmp() {
+		return keyListTmp;
+	}
 
+	public void setKeyListTmp(final List<String> keyListTmp) {
+		this.keyListTmp = keyListTmp;
+	}
+
+	public List<String> getDoAfterListTmp() {
+		return doAfterListTmp;
+	}
+
+	public void setDoAfterListTmp(final List<String> doAfterListTmp) {
+		this.doAfterListTmp = doAfterListTmp;
+	}
+
+	public void setLayer(final int layer) {
+		this.layer = layer;
+	}
 
 	@Override
 	public String toString() {

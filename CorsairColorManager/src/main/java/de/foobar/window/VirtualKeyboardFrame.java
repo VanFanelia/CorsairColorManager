@@ -43,7 +43,7 @@ public class VirtualKeyboardFrame extends JFrame {
 
 	public void changeButtonColor(final Integer keyNumber, final Color color)
 	{
-		final Key currentKey = KeyToNumber.getKey(this.keyboardLayout, keyNumber);
+		final Key currentKey = KeyToNumber.getKeyForUSBInt(this.keyboardLayout, keyNumber);
 		if(this.buttons.containsKey(currentKey))
 		{
 			this.buttons.get(currentKey).setColor(color);

@@ -33,6 +33,13 @@ public class HSVColorChange extends LinearColorChange {
 		return ColorHelper.calculateHSVColorChange(startColor, endColor, percentDone, direction);
 	}
 
+	@Override
+	public HSVColorChange clone() throws CloneNotSupportedException
+	{
+		final HSVColorChange clone = (HSVColorChange) super.clone();
+		clone.direction = this.direction;
+		return clone;
+	}
 
 	@Override
 	public String toString() {

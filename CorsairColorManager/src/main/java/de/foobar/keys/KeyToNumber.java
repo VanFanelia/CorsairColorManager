@@ -147,10 +147,12 @@ public final class KeyToNumber {
 
 	public static final HashMap<KeyboardLayout, HashMap<Key, Integer>> ENUMTOINT = new HashMap<KeyboardLayout, HashMap<Key,Integer>>();
 
+	public static final HashMap<KeyboardLayout, HashMap<Integer, Key>> KEYCODE_TO_INT = new HashMap<>();
 	static {
 
 		final HashMap<Integer, Key> deIntToEnum = new HashMap<Integer, Key>();
 		final HashMap<Key, Integer> deEnumToInt = new HashMap<Key, Integer>();
+		final HashMap<Integer, Key> deKeyCodeToInt = new HashMap<Integer, Key>();
 
 		deIntToEnum.put(0, ESC);
 		deIntToEnum.put(1, ACCENT_KEY_CIRCUMFLEX);
@@ -270,14 +272,129 @@ public final class KeyToNumber {
 			deEnumToInt.put(entry.getValue(), entry.getKey());
 		}
 
+		//deKeyCodeToInt.put(0, ESC);
+		//deKeyCodeToInt.put(1, ACCENT_KEY_CIRCUMFLEX);
+		//deKeyCodeToInt.put(2, TAB);
+		//deKeyCodeToInt.put(3, SHIFT_HOLD);
+		//deKeyCodeToInt.put(4, SHIFT_LEFT);
+		//deKeyCodeToInt.put(5, STRG_LEFT);
+		//deKeyCodeToInt.put(6, F12);
+		//deKeyCodeToInt.put(7, ACCENT_KEY_ACUTE);
+		//deKeyCodeToInt.put(8, SPECIAL_KEY_LOCK);
+		//deKeyCodeToInt.put(9, NUM_7);
+		//deKeyCodeToInt.put(12, F1);
+		//deKeyCodeToInt.put(13, N1);
+		deKeyCodeToInt.put(16, Q);
+		deKeyCodeToInt.put(30, A);
+		//deKeyCodeToInt.put(16, ARROW_GREATER);
+		//deKeyCodeToInt.put(17, WINDOWS_LEFT);
+		//deKeyCodeToInt.put(18, PRINT);
+		//deKeyCodeToInt.put(20, MEDIA_MUTE);
+		//deKeyCodeToInt.put(21, NUM_8);
+		//deKeyCodeToInt.put(24, F2);
+		//deKeyCodeToInt.put(25, N2);
+		//deKeyCodeToInt.put(26, W);
+		//deKeyCodeToInt.put(27, S);
+		//deKeyCodeToInt.put(28, Y);
+		//deKeyCodeToInt.put(29, ALT_LEFT);
+		//deKeyCodeToInt.put(30, ROLL);
+		//deKeyCodeToInt.put(31, BACKSPACE);
+		//deKeyCodeToInt.put(32, MEDIA_STOP);
+		//deKeyCodeToInt.put(33, NUM_9);
+		//deKeyCodeToInt.put(36, F3);
+		//deKeyCodeToInt.put(37, N3);
+		//deKeyCodeToInt.put(38, E);
+		//deKeyCodeToInt.put(39, D);
+		//deKeyCodeToInt.put(40, X);
+		//deKeyCodeToInt.put(42, BREAK);
+		//deKeyCodeToInt.put(43, ENTF);
+		//deKeyCodeToInt.put(44, MEDIA_LEFT);
+		//deKeyCodeToInt.put(48, F4);
+		//deKeyCodeToInt.put(49, N4);
+		//deKeyCodeToInt.put(50, R);
+		//deKeyCodeToInt.put(51, F);
+		//deKeyCodeToInt.put(52, C);
+		//deKeyCodeToInt.put(53, SPACE);
+		//deKeyCodeToInt.put(54, INSERT);
+		//deKeyCodeToInt.put(55, END);
+		//deKeyCodeToInt.put(56, MEDIA_PLAY);
+		//deKeyCodeToInt.put(57, NUM_4);
+		//deKeyCodeToInt.put(60, F5);
+		//deKeyCodeToInt.put(61, N5);
+		//deKeyCodeToInt.put(62, T);
+		//deKeyCodeToInt.put(63, G);
+		//deKeyCodeToInt.put(64, V);
+		//deKeyCodeToInt.put(66, POS1);
+		//deKeyCodeToInt.put(67, PAGE_DOWN);
+		//deKeyCodeToInt.put(68, MEDIA_RIGHT);
+		//deKeyCodeToInt.put(69, NUM_5);
+		//deKeyCodeToInt.put(72, F6);
+		//deKeyCodeToInt.put(73, N6);
+		//deKeyCodeToInt.put(74, Z);
+		//deKeyCodeToInt.put(75, H);
+		//deKeyCodeToInt.put(76, B);
+		//deKeyCodeToInt.put(78, PAGE_UP);
+		//deKeyCodeToInt.put(79, SHIFT_RIGHT);
+		//deKeyCodeToInt.put(80, NUM);
+		//deKeyCodeToInt.put(81, NUM_6);
+		//deKeyCodeToInt.put(84, F7);
+		//deKeyCodeToInt.put(85, N7);
+		//deKeyCodeToInt.put(86, U);
+		//deKeyCodeToInt.put(87, J);
+		//deKeyCodeToInt.put(88, N);
+		//deKeyCodeToInt.put(89, ALT_GR);
+		//deKeyCodeToInt.put(90, PLUS);
+		//deKeyCodeToInt.put(91, STRG_RIGHT);
+		//deKeyCodeToInt.put(92, NUM_DIVIDE);
+		//deKeyCodeToInt.put(93, NUM_1);
+		//deKeyCodeToInt.put(96, F8);
+		//deKeyCodeToInt.put(97, N8);
+		//deKeyCodeToInt.put(98, I);
+		//deKeyCodeToInt.put(99, K);
+		//deKeyCodeToInt.put(100, M);
+		//deKeyCodeToInt.put(101, WINDOWS_RIGHT);
+		//deKeyCodeToInt.put(103, ARROW_UP);
+		//deKeyCodeToInt.put(104, NUM_MULTIPLY);
+		//deKeyCodeToInt.put(105, NUM_2);
+		//deKeyCodeToInt.put(108, F9);
+		//deKeyCodeToInt.put(109, N9);
+		//deKeyCodeToInt.put(110, O);
+		//deKeyCodeToInt.put(111, L);
+		//deKeyCodeToInt.put(112, SEMICOLON);
+		//deKeyCodeToInt.put(113, CONTEXT_MENU);
+		//deKeyCodeToInt.put(114, HASH);
+		//deKeyCodeToInt.put(115, ARROW_LEFT);
+		//deKeyCodeToInt.put(116, NUM_MINUS);
+		//deKeyCodeToInt.put(117, NUM_3);
+		//deKeyCodeToInt.put(120, F10);
+		//deKeyCodeToInt.put(121, N0);
+		//deKeyCodeToInt.put(122, P);
+		//deKeyCodeToInt.put(123, OE);
+		//deKeyCodeToInt.put(124, DOUBLE_POINT);
+		//deKeyCodeToInt.put(126, ENTER);
+		//deKeyCodeToInt.put(127, ARROW_DOWN);
+		//deKeyCodeToInt.put(128, NUM_PLUS);
+		//deKeyCodeToInt.put(129, NUM_0);
+		//deKeyCodeToInt.put(132, F11);
+		//deKeyCodeToInt.put(133, SS);
+		//deKeyCodeToInt.put(134, UE);
+		//deKeyCodeToInt.put(135, AE);
+		//deKeyCodeToInt.put(136, MINUS);
+		//deKeyCodeToInt.put(137, SPECIAL_KEY_LIGHT);
+		//deKeyCodeToInt.put(139, ARROW_RIGHT);
+		//deKeyCodeToInt.put(140, NUM_ENTER);
+		//deKeyCodeToInt.put(141, NUM_COMMA);
+
+
 		// add to maps
 		INTTOENUM.put(KeyboardLayout.DE, deIntToEnum);
 		ENUMTOINT.put(KeyboardLayout.DE, deEnumToInt);
-
+		KEYCODE_TO_INT.put(KeyboardLayout.DE, deKeyCodeToInt);
 
 		// Englisch Layout
 		final HashMap<Integer, Key> enIntToEnum = new HashMap<Integer, Key>();
 		final HashMap<Key, Integer> enEnumToInt = new HashMap<Key, Integer>();
+		// TODO: add Keycodes for englisch Layout
 
         enIntToEnum.put(1, TILDE);
         enIntToEnum.put(2, ESC);
@@ -406,13 +523,17 @@ public final class KeyToNumber {
 
 	/**
 	 * get Key by number
-	 * @param number
-	 * @param keyboardLayout
-	 * @return
+	 * @param number the number to set the key by usb
+	 * @param keyboardLayout the keyboard layout
+	 * @return the key to handle
 	 */
-	public static Key getKey(final KeyboardLayout keyboardLayout, final int number)
+	public static Key getKeyForUSBInt(final KeyboardLayout keyboardLayout, final int number)
 	{
 		return INTTOENUM.get(keyboardLayout).get(number);
+	}
+
+	public static Key getKeyForKeyPressInt(final KeyboardLayout keyboardLayout, final int inputNumber){
+		return KEYCODE_TO_INT.get(keyboardLayout).get(inputNumber);
 	}
 
 	public static Set<Key> getKeyList(final KeyboardLayout layout)

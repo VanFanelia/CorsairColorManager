@@ -5,6 +5,7 @@ package de.foobar.keys;
  */
 public enum Key implements KeyReference {
 	NONE,
+	$PRESSED,
 	ESC,
 	ACCENT_KEY_CIRCUMFLEX,
 	TAB,
