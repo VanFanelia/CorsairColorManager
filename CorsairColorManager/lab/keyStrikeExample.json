@@ -19,6 +19,7 @@
             "delay": "1",
             "alias": "doOnKeyPress",
             "keys": ["ALL_KEYS"],
+            "cancelOld": true,
             "doAfter": ["drop"]
         },
         {

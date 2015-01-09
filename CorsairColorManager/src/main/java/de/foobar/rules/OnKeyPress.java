@@ -1,5 +1,6 @@
 package de.foobar.rules;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.common.BasicProgram;
 import de.foobar.exception.ProgramParseException;
 import de.foobar.keys.Key;
@@ -13,6 +14,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Editor: van on 28.10.14.
  */
 public class OnKeyPress extends AbstractColorRule {
+
+	@JsonProperty("cancelOld")
+	private boolean cancelOld = false;
 
 	@Override
 	public void run()
@@ -48,6 +52,7 @@ public class OnKeyPress extends AbstractColorRule {
 	public OnKeyPress clone() throws CloneNotSupportedException
 	{
 		final OnKeyPress clone = (OnKeyPress) super.clone();
+		clone.cancelOld = this.cancelOld;
 		return clone;
 	}
 
@@ -57,6 +62,15 @@ public class OnKeyPress extends AbstractColorRule {
 	public OnKeyPress(final int delay) {
         this.setDelay(delay);
     }
+
+
+	public boolean isCancelOld() {
+		return cancelOld;
+	}
+
+	public void setCancelOld(boolean cancelOld) {
+		this.cancelOld = cancelOld;
+	}
 
 	@Override
     public String toString() {
@@ -72,5 +86,6 @@ public class OnKeyPress extends AbstractColorRule {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this,false);
     }
+
 
 }

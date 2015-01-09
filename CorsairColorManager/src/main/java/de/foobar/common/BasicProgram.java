@@ -11,6 +11,7 @@ import de.foobar.keys.KeyboardLayout;
 import de.foobar.libusb.USBDeviceController;
 import de.foobar.rules.AbstractColorRule;
 import de.foobar.rules.ColorMixingRule;
+import de.foobar.rules.OnKeyPress;
 import de.foobar.window.VirtualKeyboardFrame;
 import java.awt.*;
 import java.util.ArrayList;
@@ -88,6 +89,9 @@ public class BasicProgram extends Thread {
 	@JsonIgnore
 	private Map<Key, List<AbstractColorRule>> onKeyPressRuleMap = new HashMap<Key, List<AbstractColorRule>>();
 
+	@JsonIgnore
+	private Map<KeyReference, AbstractColorRule> currentlyPlayedAnimation = new HashMap<KeyReference, AbstractColorRule>();
+
 	public Map<String, KeyGroup> getGroupMap() {
 		return groupMap;
 	}
@@ -158,6 +162,20 @@ public class BasicProgram extends Thread {
 					pressedKeys.add(pressed);
 					clone.setKeys(pressedKeys);
 				}
+				if(((OnKeyPress) rule).isCancelOld())
+				{
+					synchronized (this.currentlyPlayedAnimation)
+					{
+						if(this.currentlyPlayedAnimation.containsKey(pressed))
+						{
+							this.currentlyPlayedAnimation.get(pressed).cancel();
+							this.currentlyPlayedAnimation.remove(pressed);
+						}
+						this.currentlyPlayedAnimation.put(pressed, clone);
+
+					}
+				}
+
 				this.timerPool.schedule(clone, 1, TimeUnit.MICROSECONDS);
 			}
 		}
