@@ -19,10 +19,13 @@ public class KeyInputListener implements NativeKeyListener {
 	@Override
 	public void nativeKeyPressed(final NativeKeyEvent nativeKeyEvent) {
 		printlnNativeKeyEvent(nativeKeyEvent);
-		final Key pressed = KeyToNumber.getKeyForKeyPressInt(this.currentProgram.getKeyboardLayout(), nativeKeyEvent.getKeyCode());
+		final int keycode = nativeKeyEvent.getKeyCode() == 0? 1000000 + nativeKeyEvent.getRawCode() : nativeKeyEvent.getKeyCode();
 		try {
-			currentProgram.runRulesForKeyPressed(pressed);
-		} catch (CloneNotSupportedException e) {
+			final Key pressed = KeyToNumber.getKeyForKeyPressInt(this.currentProgram.getKeyboardLayout(), keycode);
+			if(pressed != null) {
+				currentProgram.runRulesForKeyPressed(pressed);
+			}
+		} catch (final CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
 	}
