@@ -113,7 +113,7 @@ public class BasicProgram extends Thread {
 		try {
 			if(isDebugMode())
 			{
-				window = new VirtualKeyboardFrame(this.keyboardLayout, "K70RGB-Debug-Window");
+				window = new VirtualKeyboardFrame(this.keyboardLayout,this, "K70RGB-Debug-Window");
 			}
 			//init keyboard
 			try {

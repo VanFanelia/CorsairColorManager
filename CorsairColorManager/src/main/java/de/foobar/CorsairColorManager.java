@@ -1,8 +1,8 @@
 package de.foobar;
 
-import de.foobar.common.BasicProgram;
-import de.foobar.common.TimeManager;
 import de.foobar.keys.KeyboardLayout;
+import de.foobar.window.ProgramOption;
+import de.foobar.window.SettingsWindow;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
@@ -14,10 +14,13 @@ import org.apache.commons.io.IOUtils;
  */
 public class CorsairColorManager {
 
+
 	public CorsairColorManager() {
+
 	}
 
-	public static void main(final String args[]) throws Exception{
+	public static void main(final String args[]) throws Exception
+	{
 		if(args.length >= 1)
 		{
 			// Keyboard Layout
@@ -25,9 +28,12 @@ public class CorsairColorManager {
 			for(int i=1; i < args.length; i++)
 			{
 				final int indexOfEqual = args[i].indexOf('=');
-				if(indexOfEqual == -1){
+				if(indexOfEqual == -1)
+				{
 					params.put(args[i].toLowerCase(), "");
-				}else {
+				}
+				else
+				{
 					final String key = args[i].substring(0, indexOfEqual);
 					final String value = args[i].substring(indexOfEqual+1);
 					params.put(key.toLowerCase(), value.toLowerCase());
@@ -48,18 +54,19 @@ public class CorsairColorManager {
 
 			// Program
 			System.out.println("Start load Program ...");
-			final File file = new File(args[0]);
-			if(!file.exists())
+			File file = null;
+			String json = "";
+			if(args.length > 0 )
 			{
-				System.out.println("could not find file ...");
-				System.exit(1);
+				file = new File(args[0]);
+				final FileInputStream stream = new FileInputStream(file);
+				json = IOUtils.toString(stream, "UTF8");
 			}
-			final FileInputStream stream = new FileInputStream(file);
-			final String json = IOUtils.toString(stream, "UTF8");
 
-			boolean debugMode = params.containsKey("debug");
 
-			boolean ignoreKeyboardMode = params.containsKey("ignorekeyboard");
+			final boolean debugMode = params.containsKey("debug");
+
+			final boolean ignoreKeyboardMode = params.containsKey("ignorekeyboard");
 
 			int executionTime = -1;
 			if(params.containsKey("duration"))
@@ -73,17 +80,29 @@ public class CorsairColorManager {
 				}
 			}
 
+			int frameRate = 1000 / 30;
 			if(params.containsKey("framerate"))
 			{
 				try{
-					int frameRate = Integer.valueOf(params.get("framerate"));
+					frameRate = Integer.valueOf(params.get("framerate"));
 					frameRate = 1000 / frameRate;
-					BasicProgram.FRAME_RATE = frameRate;
 				}catch (final Exception e)
 				{
 					System.out.println("cannot parse framerate.. use default");
 				}
 			}
+
+			final ProgramOption programOption = new ProgramOption();
+			programOption.setCurrentProgram(file);
+			programOption.setFrameRate(frameRate);
+			programOption.setIgnoreNonexistentKeyboard(ignoreKeyboardMode);
+			programOption.setShowVirtualKeyboard(debugMode);
+			programOption.setProgramCode(json);
+			programOption.setKeyboardLayout(keyboardLayout);
+			programOption.setProgramDuration(executionTime);
+
+			final SettingsWindow window = new SettingsWindow(programOption);
+			/*
 
 			try{
 				final TimeManager tm = new TimeManager();
@@ -100,6 +119,7 @@ public class CorsairColorManager {
 				}
 				System.exit(7);
 			}
+			*/
 
 		} else {
 			System.out.println("Need a path to a json file... ");

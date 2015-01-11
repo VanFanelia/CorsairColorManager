@@ -1,9 +1,11 @@
 package de.foobar.window;
 
+import de.foobar.common.BasicProgram;
 import de.foobar.keys.Key;
 import de.foobar.keys.KeyToNumber;
 import de.foobar.keys.KeyboardLayout;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import javax.swing.*;
 
@@ -16,8 +18,11 @@ public class VirtualKeyboardFrame extends JFrame {
 
 	private KeyboardLayout keyboardLayout;
 
-	public VirtualKeyboardFrame(final KeyboardLayout keyboardLayout, final String title) throws HeadlessException {
+	private BasicProgram basicProgram;
+
+	public VirtualKeyboardFrame(final KeyboardLayout keyboardLayout, final BasicProgram basicProgram, final String title) throws HeadlessException {
 		super(title);
+		this.basicProgram = basicProgram;
 		this.keyboardLayout = keyboardLayout;
 		initWindow();
 	}
@@ -39,6 +44,10 @@ public class VirtualKeyboardFrame extends JFrame {
 			container.add(button);
 			this.buttons.put(key, button);
 		}
+	}
+
+	public void windowClosing(final WindowEvent e){
+		this.basicProgram.stopProgram();
 	}
 
 	public void changeButtonColor(final Integer keyNumber, final Color color)
