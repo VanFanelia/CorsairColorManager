@@ -17,8 +17,8 @@ public class KeyInputListener implements NativeKeyListener {
 	}
 
 	@Override
-	public void nativeKeyPressed(final NativeKeyEvent nativeKeyEvent) {
-		printlnNativeKeyEvent(nativeKeyEvent);
+	public void nativeKeyPressed(final NativeKeyEvent nativeKeyEvent)
+	{
 		final int keycode = nativeKeyEvent.getKeyCode() == 0? 1000000 + nativeKeyEvent.getRawCode() : nativeKeyEvent.getKeyCode();
 		try {
 			final Key pressed = KeyToNumber.getKeyForKeyPressInt(this.currentProgram.getKeyboardLayout(), keycode);
@@ -32,21 +32,14 @@ public class KeyInputListener implements NativeKeyListener {
 
 	@Override
 	public void nativeKeyReleased(final NativeKeyEvent nativeKeyEvent) {
-		printlnNativeKeyEvent(nativeKeyEvent);
+
 	}
 
 	@Override
 	public void nativeKeyTyped(final NativeKeyEvent nativeKeyEvent) {
-		printlnNativeKeyEvent(nativeKeyEvent);
+
 	}
 
-	public static void printlnNativeKeyEvent(final NativeKeyEvent event)
-	{
-		System.out.println("Char: "+ event.getKeyChar());
-		System.out.println("Code: "+ event.getKeyCode());
-		System.out.println("paramString: "+ event.paramString());
-		System.out.println("rawCode: " + event.getRawCode());
-	}
 
 	public BasicProgram getCurrentProgram() {
 		return currentProgram;

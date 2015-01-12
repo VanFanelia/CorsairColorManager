@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -134,6 +135,12 @@ public class BasicProgram extends Thread {
 			final Logger logger = Logger.getLogger("org.jnativehook");
 			logger.setLevel(Level.OFF);
 			// init global Hook
+
+			Handler[] handlers = Logger.getLogger("").getHandlers();
+			for (int i = 0; i < handlers.length; i++) {
+				handlers[i].setLevel(Level.WARNING);
+			}
+
 			GlobalScreen.getInstance().addNativeKeyListener(new KeyInputListener(this));
 			GlobalScreen.registerNativeHook();
 
