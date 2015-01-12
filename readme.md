@@ -3,41 +3,21 @@
 ### Description ###
 
 ####What is this program about?####
-This program includes a driver for the corsair k70rgb keyboard and a toolbox to write colorprograms for the background lights.
+This program includes a driver for the corsair k70rgb keyboard and a toolbox to write your own programs for the background lights.
 
-
-####What the structure of this tool?####
-The base of the program is the linux driver of CalcProgrammer1 (https://github.com/CalcProgrammer1). To control the colors of the keyboard it continuously reads color codes from a memcached "server". This allows the programmer to manipulate colors dynamically over a common standard.
-The next layer of this project is the java program. To give everyone the ability to write cool color effects without knowledge about memcached, the java program convert simple json rules to shiny color effects.
-
-hierarchy 
-- C++ program for keyboard control
-- Memcached "Server" for color exchange support
-- Java program to execute color rules
-- JSON program in human readable form
-
+The base of the program is the linux driver of CalcProgrammer1 (https://github.com/CalcProgrammer1).
+His work is used to controll the LED Lights by an java program which interprets costum programs written in a json-syntax.
+So its now easier for non developer to write color effects without deep knowledge of programming.
 
 #### What does i need to execute?####
-Dependencies
-- You have to install memcached server on your machine
-- you need libusb (libusb-0.1)
-- java jre
-
-Execute: (compiled source in CorsairColorManager/lab)
-- start the linux driver by execute: ./keyboardColorChanger
-- start the java program: java -jar CorsairColorManager.jar <pathToYourJSONProgram>
-
+Dependencies:
+- You have to install a java jre (see google how to get JAVA JRE if you haven't install it yet)
+- start the java program by executing the "CorsairColorManager.jar" or by console with: "java -jar CorsairColorManager.jar"
+- sometimes the keyboard has issues with access to the device. try ls-usb and set CHMOD on the right /dev/<devicebus> to fix it temporally
 
 ####Know issues / todos:####
-- more color rules :)
-- register key presses and animate
-- group keys
-- add key rules like ALL_KEY - "WASD"
-- remove fixed frame rate of 30 frames / second.
-- only linux supported in c++ driver.
-- color mixing rules for multiple color settings per key
-- alpha channel support
-
+- only tested with linux. windows still have issues.
+- sometimes problems with device access
 
 ####Greetings####
 Special thanks to:
@@ -45,112 +25,101 @@ Special thanks to:
 - The corsair forum community for inspiration and discussions
 
 
-### Howto write a json program ###
-To write a new program in json you just need some meta information and some color-change rules. The meta-information are stored in the base object:
-
-### Basic program attributes ###
-
-##### colorMixingRule #####
-Value: OVERRIDE, ADDITION, SUBTRACT, AVERAGE, ADDITION_WITH_ALPHA, SUBTRACT_WITH_ALPHA
-
-Only one global color mixing rule can be set. It describe the behavior of a key if multiple colors are set. Currently only the override Method is supported.
-
-##### startAction #####
-Value: String (name)
-
-Define the first rule which starts after loading the program.
-
-##### rules #####
-Value: Array of objects
-
-Contains a list of different rules which specified for the current program
-
-
-### General Color Rule attributes  ###
-Every role need some basic settings. These settings are:
-
-##### delay #####
-Value: int (milliseconds)
-
-Time value in milliseconds until the "doAfter" rules will start
-
-##### alias #####
-Value: String (name)
-
-Contains the name of the rule. A rule-name has to be unique.
-
-##### keys #####
-Value: Array of String
-
-A list of key names who are effected by this rule.
-
-##### doAfter #####
-Value: Array of String
-
-Contains a list of rule names (alias) to execute after the delay.
+### write your own program ###
+To write a new program in json you just need some meta information and some color-change rules. 
+A program for the RGB-keyboard is a json object including a list of rules. Eg. this simple program sets the color of the keys: "W","A","S" and "D":<br/></p>
+```json
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "setRed",
+    "rules": [
+        {
+            "type": "SetColor",
+            "delay": "1000",
+            "color": "ff0000ff",
+            "alias": "setRed",
+            "keys": ["W","A","S","D"],
+            "doAfter" :  []
+        }
+    ]
+}
+```
+A program can have the following parameters:
+|Key | Values |
+|-------------|
+|startAction <name> | The name of the first rule to execute after program starts (program entry point) |
+|groups <Array of json objects> | You can define a group as a set of keys. You can later use the groups in your rules to handle your keys |
+|rules <Array of json objects> | Contains a list of available rules (json objects) |
+|colorMixingRule (default OVERRIDE) | Describe howto handle if 2 colors are set for one key. Currently only OVERRIDE is implemented. |
 
 
+#### Colors ####
+Every rule has one or more colors specified. A color is definied by an 6 or 8 Character long string representing the color in a RGB-scheme. Eg. the color orange can be defined by:
+| red | green | blue | alpha |
+|----------------------------| 
+| FF  |  AA   |  00  | FF    | 
 
-### SetColor ###
-The SetColor -rule is the a standard rule. You can set a color for specified keys.
+The alpha value is optional. Default is FF (=255 = 100% visible).
+If you have 2 colors on different layers the alpha value can used to create half transparent layers.
+      
 
-##### type #####
-Value: String (SetColor)
+### Rules ###
 
-the type attribute contains the name of the current rule
+Every rule can have the following parameters:
+| Key | Values |
+|--------------|
+|alias	<name> | The name of the rule (for references) |
+|keys	[] Strings | A list of keys or groups who are effected by this rule |
+|doAfter [] Strings | List of rule names executed after this current rule has finished |
+|delay	int | milliseconds until the doAfter-rules are executed |
+|layer	int (1-5) | defines the layer of this rule (1-5). Each key can have up to 5 layers (1-5). Every layer can have a color. Layer 1 is in the background, Layer 5 in the foreground |
 
-##### color #####
-Value: String - hexadecimal color code
+#### SetColor ####
 
-Contains the color to set. the values are given in hexadecimal values in the format RRGGBBAA where RR=red, GG=green, BB=blue and AA=alpha. The alpha channel is optional, the default value is FF(255). So colors like FFAA00 are valid.
+This rule simply set a color of some keys;
 
-
-
-### LinearColorChange ###
-A linear color change is a transformation between to colors. The transformation is a simple difference calculation between to colors. The difference is calculated for each color-channel.
-
-Example: A transformation from yellow (#FFFF00) to blue(#0000FF) will decrease the red- and the green color channel and at the same time increase the blue channel. At the middle of the transformation the color grey (#808080) will be reached.
-
-##### type #####
-Value: String (LinearColorChange)
-
-the type attribute contains the name of the current rule
-
-##### startColor #####
-Value: String - hexadecimal color code
-
-Contains the start color of the fade. the values are given in hexadecimal values in the format RRGGBBAA where RR=red, GG=green, BB=blue and AA=alpha. The alpha channel is optional, the default value is FF(255). So colors like FFAA00 are valid.
-
-##### startColor #####
-Value: String - hexadecimal color code
-
-Contains the end color.
-
-##### duration #####
-Value: int (milliseconds)
-
-The duration of this animation in milliseconds.
+| Key | Values |
+|--------------|
+| color	<Color> | The color to set in hexadezimal RedGreenBlueAlpha |
 
 
-### HSVColorChange ###
-The HSV-color-change rule is a transformation between to colors. The transformation is a walk on the HSV color circle. This means, a transformation from yellow (#FFFF00) to blue (#0000FF) will be calculated by a degree walk from 60° to 240°. The middle of the transformation is the color with 150°. In the yellow-blue example it would be light-green (#00FF80).
+#### KeyLine ####
 
-##### type #####
-Value: String (LinearColorChange)
+This rule create a line. Every effected key will be displayed for a short time and all given keys will be handled sequenced.
 
-the type attribute contains the name of the current rule
+| Key | Values |
+|--------------|
+|lineColor	<Color> |The color of the current key |
+|backgroundColor	<Color> |The to set when the key disappear |
+|keyShowDuration	int (milliseconds) |The time in milliseconds a single key will be shown |
+|keyInterval	int (milliseconds) |time (ms) until the next key in line will be shown |
 
-##### startColor #####
-Value: String - hexadecimal color code
+#### LinearColorChange ####
 
-Contains the start color of the fade. the values are given in hexadecimal values in the format RRGGBBAA where RR=red, GG=green, BB=blue and AA=alpha. The alpha channel is optional, the default value is FF(255). So colors like FFAA00 are valid.
+Animate a color transfer between to colors (linear change by rgb values)
 
-##### startColor #####
-Value: String - hexadecimal color code
+| Key | Values |
+|--------------|
+|startColor	<Color> |The start color |
+|endColor	<Color> |The color after the animated fade |
+|duration	int (milliseconds) |the duration of the color transformation |
 
-Contains the end color.
 
-##### duration #####
-Value: int (milliseconds)
+#### HSVColorChange ####
 
-The duration of this animation in milliseconds.
+Animate a color transfer between to colors based on the HSV Color wheel model. The color transfer animated by degree change.
+
+| Key | Values |
+|--------------|
+|startColor	<Color> |The start color |
+|endColor	<Color> |The color after the animated fade |
+|duration	int (milliseconds) |the duration of the color transformation |
+
+#### OnKeyPress ####
+
+This rule react on a key input. It executes the doAfterRule if one of the keys defined in the key list is pressed.
+You can use "$PRESSED" as a variable in the doAfterKeyRules. This variable will be filled with pressed key. (currently only one the rules after the OnKeyPress-rule will replace the variable).
+
+| Key | Values |
+|--------------|
+|cancelOld <boolean> | if true, the old thread will be stopped if it has not finished yet | 
