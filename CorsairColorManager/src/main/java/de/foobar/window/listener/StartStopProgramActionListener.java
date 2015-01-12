@@ -36,6 +36,7 @@ public class StartStopProgramActionListener implements ActionListener
 			if (basicProgram != null)
 			{
 				basicProgram.stopProgram();
+				basicProgram = null;
 			}
 			startButton.setText(" Start Program ");
 			this.isRunning = false;
