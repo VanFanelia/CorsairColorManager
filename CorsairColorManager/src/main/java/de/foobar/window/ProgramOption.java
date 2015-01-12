@@ -25,6 +25,18 @@ public class ProgramOption {
 	public ProgramOption() {
 	}
 
+	public static ProgramOption getDebugProgramOptions()
+	{
+		ProgramOption result = new ProgramOption();
+		result.setFrameRate(30);
+		result.setIgnoreNonexistentKeyboard(true);
+		result.setShowVirtualKeyboard(true);
+		result.setProgramDuration(300);
+		result.setKeyboardLayout(KeyboardLayout.DE);
+		result.setProgramCode("{}");
+		return result;
+	}
+
 	public File getCurrentProgram() {
 		return currentProgram;
 	}
@@ -80,4 +92,5 @@ public class ProgramOption {
 	public void setProgramCode(final String programCode) {
 		this.programCode = programCode;
 	}
+
 }

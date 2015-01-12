@@ -30,7 +30,16 @@ public class VirtualKeyboardFrame extends JFrame {
 	private void initWindow() {
 		this.setSize(940,340);
 		this.setVisible(true);
-		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		try
+		{
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+		}
 
 		final Container container= this.getContentPane();
 		container.setLayout(null);

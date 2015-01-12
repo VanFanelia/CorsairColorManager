@@ -43,6 +43,5 @@ public class VirtualKeyboardItemListener implements ItemListener
 	public void itemStateChanged(final ItemEvent e)
 	{
 		this.programOption.setShowVirtualKeyboard(this.virtualKeyboard.isSelected());
-		System.out.println(e);
 	}
 }

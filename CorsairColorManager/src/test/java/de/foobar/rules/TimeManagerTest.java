@@ -6,6 +6,7 @@ import de.foobar.exception.ProgramParseException;
 import de.foobar.keys.Key;
 import de.foobar.keys.KeyToNumber;
 import de.foobar.keys.KeyboardLayout;
+import de.foobar.window.ProgramOption;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
@@ -36,7 +37,10 @@ public class TimeManagerTest {
 
 		System.out.println(json);
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 	}
 
 	@Test(expected = ProgramParseException.class)
@@ -48,7 +52,10 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 		System.out.println(json);
-		tm.parseProgram(json, KeyboardLayout.DE);
+
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+		tm.parseProgram(programOption);
 	}
 
 	@Test
@@ -68,7 +75,10 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 
@@ -89,7 +99,10 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 
@@ -107,7 +120,10 @@ public class TimeManagerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 

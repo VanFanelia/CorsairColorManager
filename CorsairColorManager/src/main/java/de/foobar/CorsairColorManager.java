@@ -80,12 +80,11 @@ public class CorsairColorManager {
 				}
 			}
 
-			int frameRate = 1000 / 30;
+			int frameRate = 30;
 			if(params.containsKey("framerate"))
 			{
 				try{
 					frameRate = Integer.valueOf(params.get("framerate"));
-					frameRate = 1000 / frameRate;
 				}catch (final Exception e)
 				{
 					System.out.println("cannot parse framerate.. use default");
@@ -102,24 +101,7 @@ public class CorsairColorManager {
 			programOption.setProgramDuration(executionTime);
 
 			final SettingsWindow window = new SettingsWindow(programOption);
-			/*
 
-			try{
-				final TimeManager tm = new TimeManager();
-				tm.parseProgram(json, keyboardLayout, debugMode, ignoreKeyboardMode, executionTime);
-			}
-			catch (final Exception e)
-			{
-				System.out.println("Cannot parse and execute program ... Exception: " + e.getMessage());
-				try{
-					stream.close();
-				}
-				catch (final Exception closeException){
-					//empty
-				}
-				System.exit(7);
-			}
-			*/
 
 		} else {
 			System.out.println("Need a path to a json file... ");

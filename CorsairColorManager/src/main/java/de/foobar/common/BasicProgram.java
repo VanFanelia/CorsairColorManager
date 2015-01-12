@@ -12,6 +12,7 @@ import de.foobar.libusb.USBDeviceController;
 import de.foobar.rules.AbstractColorRule;
 import de.foobar.rules.ColorMixingRule;
 import de.foobar.rules.OnKeyPress;
+import de.foobar.window.ProgramOption;
 import de.foobar.window.VirtualKeyboardFrame;
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -110,10 +113,11 @@ public class BasicProgram extends Thread {
 	 */
 	public void startProgram()
 	{
+
 		try {
 			if(isDebugMode())
 			{
-				window = new VirtualKeyboardFrame(this.keyboardLayout,this, "K70RGB-Debug-Window");
+				this.window = new VirtualKeyboardFrame(this.keyboardLayout,this, "K70RGB-Debug-Window");
 			}
 			//init keyboard
 			try {
@@ -127,9 +131,14 @@ public class BasicProgram extends Thread {
 					throw e;
 				}
 			}
+			final Logger logger = Logger.getLogger("org.jnativehook");
+			logger.setLevel(Level.OFF);
 			// init global Hook
 			GlobalScreen.getInstance().addNativeKeyListener(new KeyInputListener(this));
 			GlobalScreen.registerNativeHook();
+
+
+			//remove console debug log
 
 			this.stopper = new StopProgramTask(this);
 			Runtime.getRuntime().addShutdownHook(stopper);
@@ -147,6 +156,15 @@ public class BasicProgram extends Thread {
 			e.printStackTrace();
 			this.controller.shutdownLibUsb();
 		}
+	}
+
+	public void initProgram(final ProgramOption programOption)
+	{
+		this.setDebugMode(programOption.isShowVirtualKeyboard());
+		this.setIgnoreKeyboardMode(programOption.isIgnoreNonexistentKeyboard());
+		this.setKeyboardLayout(programOption.getKeyboardLayout());
+		this.setMaxProgramDuration(programOption.getProgramDuration());
+		BasicProgram.FRAME_RATE = 1000 / (programOption.getFrameRate());
 	}
 
 	public void runRulesForKeyPressed(final Key pressed) throws CloneNotSupportedException {

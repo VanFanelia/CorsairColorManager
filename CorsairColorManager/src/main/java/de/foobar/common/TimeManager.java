@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.foobar.exception.ProgramParseException;
-import de.foobar.keys.KeyboardLayout;
+import de.foobar.window.ProgramOption;
+import java.io.IOException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import java.io.IOException;
 
 /**
  * Editor: van on 28.10.14.
@@ -20,30 +19,16 @@ public class TimeManager {
 
     public TimeManager() { }
 
-	public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout, final boolean debugMode,
-	                         final boolean ignoreKeyboardMode, final int duration)
-			throws IOException, ProgramParseException {
+	public void parseProgram(final ProgramOption programOption) throws IOException, ProgramParseException {
 		try {
-			this.currentProgram = parseJsonToObject(jsonRules);
+			this.currentProgram = parseJsonToObject(programOption.getProgramCode());
+			this.currentProgram.initProgram(programOption);
 			this.currentProgram.initObjects();
-			this.currentProgram.setDebugMode(debugMode);
-			this.currentProgram.setIgnoreKeyboardMode(ignoreKeyboardMode);
-			this.currentProgram.setKeyboardLayout(keyboardLayout);
-			this.currentProgram.setMaxProgramDuration(duration);
-			this.start();
 		}catch (final IOException e){
 			e.printStackTrace();
 			throw new ProgramParseException("General IOException", e);
 		}
 	}
-
-    /**
-     * Convert a json rule string in objects and execute them.
-     * @param jsonRules
-     */
-    public void parseProgram(final String jsonRules, final KeyboardLayout keyboardLayout) throws IOException, ProgramParseException {
-	    this.parseProgram(jsonRules, keyboardLayout, false, false, BasicProgram.MAX_PROGRAM_DURATION);
-    }
 
 	/**
 	 * use object Mapper to create Object
@@ -64,8 +49,14 @@ public class TimeManager {
     /**
      * start current program
      */
-    private void start() {
-		this.currentProgram.startProgram();
+    public boolean start()
+    {
+	    if(this.currentProgram != null)
+	    {
+		    this.currentProgram.startProgram();
+		    return true;
+	    }
+	    return false;
     }
 
     /**

@@ -32,7 +32,8 @@ public class JKeyboardButton extends JButton {
 		this.setMargin(new Insets(2, 2, 2, 2));
 		this.setContentAreaFilled(true);
 		this.setForeground(this.color);
-		String label = DEKeyLabel.getLabelForKey(this.key);
+		this.setBackground(Color.BLACK);
+			String label = DEKeyLabel.getLabelForKey(this.key);
 		label = "".equals(label) ? this.key.name() : label;
 		this.setText(label);
 		this.setFocusPainted(false);
@@ -47,7 +48,7 @@ public class JKeyboardButton extends JButton {
 	{
 		this.color = color;
 		this.setForeground(color);
-		this.setBackground(color.BLACK);
+		this.setBackground(Color.BLACK);
 
 		final Border border = BorderFactory.createLineBorder(this.color,2,false);
 		this.setBorder(border);

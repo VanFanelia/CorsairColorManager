@@ -3,11 +3,10 @@ package de.foobar.rules;
 import de.foobar.common.BasicProgram;
 import de.foobar.common.TimeManager;
 import de.foobar.exception.ProgramParseException;
-import de.foobar.keys.KeyboardLayout;
+import de.foobar.window.ProgramOption;
+import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-
-import java.io.InputStream;
 
 /**
  * Editor: van on 26.11.14.
@@ -25,7 +24,10 @@ public class LayerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 
@@ -41,7 +43,10 @@ public class LayerTest {
 
 		final String json = IOUtils.toString(stream, "UTF8");
 
-		tm.parseProgram(json, KeyboardLayout.DE);
+		final ProgramOption programOption = ProgramOption.getDebugProgramOptions();
+		programOption.setProgramCode(json);
+
+		tm.parseProgram(programOption);
 		System.out.println(json);
 		final BasicProgram bp = tm.getCurrentProgram();
 

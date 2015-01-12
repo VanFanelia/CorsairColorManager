@@ -1,8 +1,11 @@
 package de.foobar.window;
 
+import de.foobar.common.BasicProgram;
 import de.foobar.keys.KeyboardLayout;
+import de.foobar.window.listener.DurationFieldListener;
 import de.foobar.window.listener.FileChooserActionListener;
 import de.foobar.window.listener.IgnoreNonExistentKeyboardItemListener;
+import de.foobar.window.listener.StartStopProgramActionListener;
 import de.foobar.window.listener.VirtualKeyboardItemListener;
 import java.awt.*;
 import java.io.File;
@@ -18,6 +21,8 @@ import javax.swing.text.NumberFormatter;
  */
 public class SettingsWindow extends JFrame {
 
+	private BasicProgram basicProgram;
+
 	private File selectedFile;
 
 	private JTextField fileNameField;
@@ -28,6 +33,8 @@ public class SettingsWindow extends JFrame {
 
 	private ProgramOption programOption;
 
+	private Boolean isRunning = false;
+
 	public SettingsWindow() throws HeadlessException
 	{
 		super("Settings for Corsair Keyboard");
@@ -37,6 +44,7 @@ public class SettingsWindow extends JFrame {
 	public SettingsWindow(final ProgramOption programOption) throws HeadlessException {
 		super("Settings for Corsair Keyboard");
 		this.programOption = programOption;
+		this.basicProgram = basicProgram;
 		initWindow();
 
 	}
@@ -68,7 +76,12 @@ public class SettingsWindow extends JFrame {
 
 		this.fileNameField = new JTextField();
 		this.fileNameField.setEditable(false);
+		if(programOption.getCurrentProgram() != null)
+		{
+			this.fileNameField.setText(programOption.getCurrentProgram().getName());
+		}
 		addComponent(container, gbl, this.fileNameField, 0, 1, 1, 1, 1.0, 1.0);
+
 
 		final JButton openFileButton = new JButton("Choose Program");
 		openFileButton.addActionListener(new FileChooserActionListener(this));
@@ -83,13 +96,13 @@ public class SettingsWindow extends JFrame {
 		addComponent(container, gbl, keyboardLayoutComboBox, 0, 2, 2, 1, 1.0, 1.0);
 
 		//boolean debugMode = params.containsKey("debug");
-		final JCheckBox showKeyboardCheckBox = new JCheckBox( "show virtual keyboard", true );
+		final JCheckBox showKeyboardCheckBox = new JCheckBox( "show virtual keyboard", this.getProgramOption().isShowVirtualKeyboard() );
 		showKeyboardCheckBox.addItemListener(new VirtualKeyboardItemListener(this.getProgramOption(), showKeyboardCheckBox));
 		showKeyboardCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
 		addComponent(container, gbl, showKeyboardCheckBox, 0, 3, 1, 1, 0, 1.0);
 
 		//boolean ignoreKeyboardMode = params.containsKey("ignorekeyboard");
-		final JCheckBox ignoreKeyboardCheckBox = new JCheckBox( "ignore nonexistent keyboard", true );
+		final JCheckBox ignoreKeyboardCheckBox = new JCheckBox( "ignore nonexistent keyboard", this.getProgramOption().isIgnoreNonexistentKeyboard() );
 		ignoreKeyboardCheckBox.addItemListener(new IgnoreNonExistentKeyboardItemListener(this.getProgramOption(), ignoreKeyboardCheckBox));
 		ignoreKeyboardCheckBox.setHorizontalTextPosition(SwingConstants.LEFT);
 		addComponent( container, gbl, ignoreKeyboardCheckBox, 0, 4, 1, 1, 0, 1.0 );
@@ -98,18 +111,18 @@ public class SettingsWindow extends JFrame {
 		final NumberFormat format = NumberFormat.getInstance();
 		final NumberFormatter formatter = new NumberFormatter(format);
 		formatter.setValueClass(Integer.class);
-		formatter.setMinimum(0);
+		formatter.setMinimum(Integer.MIN_VALUE);
 		formatter.setMaximum(Integer.MAX_VALUE);
+		formatter.setAllowsInvalid(true);
 		final DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
-		otherSymbols.setDecimalSeparator((char) 0);
-		otherSymbols.setGroupingSeparator((char) 0);
 		final DecimalFormat decimalFormat = new DecimalFormat();
 		decimalFormat.setDecimalFormatSymbols(otherSymbols);
 		formatter.setFormat(decimalFormat);
 		// If you want the value to be committed on each keystroke instead of focus lost
 		formatter.setCommitsOnValidEdit(true);
 		this.durationTextField = new JFormattedTextField(formatter);
-		this.durationTextField.setText("300");
+		this.durationTextField.setText(String.valueOf(this.getProgramOption().getProgramDuration()));
+		this.durationTextField.getDocument().addDocumentListener(new DurationFieldListener(this.getProgramOption(), this.durationTextField));
 
 		addComponent(container, gbl, this.durationTextField, 0, 5, 1, 1, 0.25, 1.0);
 
@@ -123,25 +136,26 @@ public class SettingsWindow extends JFrame {
 		frameRateFormatter.setValueClass(Integer.class);
 		frameRateFormatter.setMinimum(0);
 		frameRateFormatter.setMaximum(300);
+		formatter.setAllowsInvalid(true);
 		final DecimalFormatSymbols frameRateDecimalSymbol = new DecimalFormatSymbols();
-		frameRateDecimalSymbol.setDecimalSeparator((char) 0);
-		frameRateDecimalSymbol.setGroupingSeparator((char) 0);
 		final DecimalFormat frameRateDecimalFormat = new DecimalFormat();
 		frameRateDecimalFormat.setDecimalFormatSymbols(frameRateDecimalSymbol);
 		frameRateFormatter.setFormat(frameRateDecimalFormat);
 		// If you want the value to be committed on each keystroke instead of focus lost
 		frameRateFormatter.setCommitsOnValidEdit(true);
-		this.durationTextField = new JFormattedTextField(frameRateFormatter);
-		this.durationTextField.setText("30");
+		this.frameRateTextField = new JFormattedTextField(frameRateFormatter);
+		this.frameRateTextField.setText(String.valueOf(this.getProgramOption().getFrameRate()));
+		this.frameRateTextField.getDocument().addDocumentListener(new DurationFieldListener(this.getProgramOption(), this.frameRateTextField));
 
-		addComponent(container, gbl, this.durationTextField, 0, 6, 1, 1, 1.0, 1.0);
+
+		addComponent(container, gbl, this.frameRateTextField, 0, 6, 1, 1, 1.0, 1.0);
 
 		final JLabel frameRateLabel = new JLabel("frames per second");
 		addComponent(container, gbl, frameRateLabel, 1, 6, 1, 1, 1.0, 1.0);
 
 		// Buttons
 		final JButton startButton = new JButton(" Start Program ");
-		startButton.addActionListener(new FileChooserActionListener(this));
+		startButton.addActionListener(new StartStopProgramActionListener(this.basicProgram, this.getProgramOption(), startButton, this.isRunning));
 		addComponent(container, gbl, startButton, 0, 7, 2, 1, 1.0, 1.0);
 
 		this.setVisible(true);
