@@ -43,6 +43,5 @@ public class IgnoreNonExistentKeyboardItemListener implements ItemListener
 	public void itemStateChanged(final ItemEvent e)
 	{
 		this.programOption.setIgnoreNonexistentKeyboard(this.nonKeyboardCheckBox.isSelected());
-		System.out.println(e);
 	}
 }

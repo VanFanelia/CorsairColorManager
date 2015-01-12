@@ -49,10 +49,6 @@ public class FileChooserActionListener implements ActionListener {
 
 			System.out.println( file.getName() );
 		}
-		else
-		{
-			System.out.println("");
-		}
 	}
 
 }
