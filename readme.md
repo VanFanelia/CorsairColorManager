@@ -44,9 +44,11 @@ A program for the RGB-keyboard is a json object including a list of rules. Eg. t
     ]
 }
 ```
+
 A program can have the following parameters:
+
 |Key | Values |
-|-------------|
+|----|--------|
 |startAction <name> | The name of the first rule to execute after program starts (program entry point) |
 |groups <Array of json objects> | You can define a group as a set of keys. You can later use the groups in your rules to handle your keys |
 |rules <Array of json objects> | Contains a list of available rules (json objects) |
@@ -55,8 +57,9 @@ A program can have the following parameters:
 
 #### Colors ####
 Every rule has one or more colors specified. A color is definied by an 6 or 8 Character long string representing the color in a RGB-scheme. Eg. the color orange can be defined by:
+
 | red | green | blue | alpha |
-|----------------------------| 
+|-----|-------|------|-------| 
 | FF  |  AA   |  00  | FF    | 
 
 The alpha value is optional. Default is FF (=255 = 100% visible).
@@ -64,10 +67,10 @@ If you have 2 colors on different layers the alpha value can used to create half
       
 
 ### Rules ###
-
 Every rule can have the following parameters:
+
 | Key | Values |
-|--------------|
+|-----|--------|
 |alias	<name> | The name of the rule (for references) |
 |keys	[] Strings | A list of keys or groups who are effected by this rule |
 |doAfter [] Strings | List of rule names executed after this current rule has finished |
@@ -79,7 +82,7 @@ Every rule can have the following parameters:
 This rule simply set a color of some keys;
 
 | Key | Values |
-|--------------|
+|-----|--------|
 | color	<Color> | The color to set in hexadezimal RedGreenBlueAlpha |
 
 
@@ -88,7 +91,7 @@ This rule simply set a color of some keys;
 This rule create a line. Every effected key will be displayed for a short time and all given keys will be handled sequenced.
 
 | Key | Values |
-|--------------|
+|-----|--------|
 |lineColor	<Color> |The color of the current key |
 |backgroundColor	<Color> |The to set when the key disappear |
 |keyShowDuration	int (milliseconds) |The time in milliseconds a single key will be shown |
@@ -99,7 +102,7 @@ This rule create a line. Every effected key will be displayed for a short time a
 Animate a color transfer between to colors (linear change by rgb values)
 
 | Key | Values |
-|--------------|
+|-----|--------|
 |startColor	<Color> |The start color |
 |endColor	<Color> |The color after the animated fade |
 |duration	int (milliseconds) |the duration of the color transformation |
@@ -110,7 +113,7 @@ Animate a color transfer between to colors (linear change by rgb values)
 Animate a color transfer between to colors based on the HSV Color wheel model. The color transfer animated by degree change.
 
 | Key | Values |
-|--------------|
+|-----|--------|
 |startColor	<Color> |The start color |
 |endColor	<Color> |The color after the animated fade |
 |duration	int (milliseconds) |the duration of the color transformation |
@@ -121,5 +124,5 @@ This rule react on a key input. It executes the doAfterRule if one of the keys d
 You can use "$PRESSED" as a variable in the doAfterKeyRules. This variable will be filled with pressed key. (currently only one the rules after the OnKeyPress-rule will replace the variable).
 
 | Key | Values |
-|--------------|
+|-----|--------|
 |cancelOld <boolean> | if true, the old thread will be stopped if it has not finished yet | 
