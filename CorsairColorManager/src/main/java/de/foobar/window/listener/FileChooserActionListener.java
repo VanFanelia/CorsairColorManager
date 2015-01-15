@@ -27,6 +27,7 @@ public class FileChooserActionListener implements ActionListener {
 
 		final JFileChooser fc = new JFileChooser();
 		fc.setFileFilter( new FileNameExtensionFilter("Corsair program ", "txt", "json", "keyboard" ) );
+		fc.setCurrentDirectory(new File("."));
 
 		final int state = fc.showOpenDialog( null );
 

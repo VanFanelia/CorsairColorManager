@@ -1,0 +1,153 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "start",
+    "groups": [
+
+        { "name" : "ALL_KEYS", "keys" : ["ESC", "ACCENT_KEY_CIRCUMFLEX", "TAB", "SHIFT_HOLD", "SHIFT_LEFT", "STRG_LEFT", "F12", "ACCENT_KEY_ACUTE", "SPECIAL_KEY_LOCK", "NUM_7", "F1", "N1", "Q", "A", "ARROW_GREATER", "WINDOWS_LEFT", "PRINT", "MEDIA_MUTE", "NUM_8", "F2", "N2", "W", "S", "Y", "ALT_LEFT", "ROLL", "BACKSPACE", "MEDIA_STOP", "NUM_9", "F3", "N3", "E", "D", "X", "BREAK", "ENTF", "MEDIA_LEFT", "F4", "N4", "R", "F", "C", "SPACE", "INSERT", "END", "MEDIA_PLAY", "NUM_4", "F5", "N5", "T", "G", "V", "POS1", "PAGE_DOWN", "MEDIA_RIGHT", "NUM_5", "F6", "N6", "Z", "H", "B", "PAGE_UP", "SHIFT_RIGHT", "NUM", "NUM_6", "F7", "N7", "U", "J", "N", "ALT_GR", "PLUS", "STRG_RIGHT", "NUM_DIVIDE", "NUM_1", "F8", "N8", "I", "K", "M", "WINDOWS_RIGHT", "ARROW_UP", "NUM_MULTIPLY", "NUM_2", "F9", "N9", "O", "L", "SEMICOLON", "CONTEXT_MENU", "HASH", "ARROW_LEFT", "NUM_MINUS", "NUM_3", "F10", "N0", "P", "OE", "DOUBLE_POINT", "ENTER", "ARROW_DOWN", "NUM_PLUS", "NUM_0", "F11", "SS", "UE", "AE", "MINUS", "SPECIAL_KEY_LIGHT", "ARROW_RIGHT", "NUM_ENTER", "NUM_COMMA"]},
+        { "name" : "Ocean", "keys":  ["ESC", "ACCENT_KEY_CIRCUMFLEX", "TAB", "SHIFT_HOLD", "SHIFT_LEFT", "STRG_LEFT", "F12", "ACCENT_KEY_ACUTE", "SPECIAL_KEY_LOCK", "F1", "N1", "Q", "A", "ARROW_GREATER", "WINDOWS_LEFT", "PRINT", "F2", "N2", "W", "S", "Y", "ALT_LEFT", "ROLL", "BACKSPACE", "F3", "N3", "E", "D", "X", "BREAK", "ENTF", "F4", "N4", "R", "F", "C", "SPACE", "INSERT", "END", "F5", "N5", "T", "G", "V", "POS1", "PAGE_DOWN", "F6", "N6", "Z", "H", "B", "PAGE_UP", "SHIFT_RIGHT", "F7", "N7", "U", "J", "N", "ALT_GR", "PLUS", "STRG_RIGHT", "F8", "N8", "I", "K", "M", "WINDOWS_RIGHT", "ARROW_UP", "F9", "N9", "O", "L", "SEMICOLON", "CONTEXT_MENU", "HASH", "ARROW_LEFT", "F10", "N0", "P", "OE", "DOUBLE_POINT", "ENTER", "ARROW_DOWN", "F11", "SS", "UE", "AE", "MINUS", "SPECIAL_KEY_LIGHT", "ARROW_RIGHT"]},
+        { "name" : "Line1", "keys" : ["ESC","ACCENT_KEY_CIRCUMFLEX","TAB","SHIFT_HOLD","SHIFT_LEFT","STRG_LEFT","ARROW_GREATER","WINDOWS_LEFT"]},
+        { "name" : "Line2", "keys" : ["N1","Q","A","Y","ALT_LEFT"]},
+        { "name" : "Line3", "keys" : ["F1","N2","W","S","X"]},
+        { "name" : "Line4", "keys" : ["F2","N3","E","D","C"]},
+        { "name" : "Line5", "keys" : ["F3","N4","R","F","V"]},
+        { "name" : "Line6", "keys" : ["F4","N5","T","G","B","SPACE"]},
+        { "name" : "Line7", "keys" : ["N6","Z","H","N"]},
+        { "name" : "Line8", "keys" : ["F5","N7","U","J","M"]},
+        { "name" : "Line9", "keys" : ["F6","N8","I","K","SEMICOLON"]},
+        { "name" : "Line10", "keys" : ["F7","N9","O","L","DOUBLE_POINT","ALT_GR"]},
+        { "name" : "Line11", "keys" : ["F8","N0","P","OE","MINUS","WINDOWS_RIGHT"]},
+        { "name" : "Line12", "keys" : ["F9","SS","UE","AE","CONTEXT_MENU"]},
+        { "name" : "Line13", "keys" : ["F10","ACCENT_KEY_ACUTE","PLUS","HASH","SHIFT_RIGHT","STRG_RIGHT"]},
+        { "name" : "Line14", "keys" : ["F11","F12","BACKSPACE","ENTER"]},
+        { "name" : "Line15", "keys" : ["PRINT","INSERT","ENTF","ARROW_LEFT","SPECIAL_KEY_LIGHT"]},
+        { "name" : "Line16", "keys" : ["ROLL","POS1","END","ARROW_UP","ARROW_DOWN","SPECIAL_KEY_LOCK"]},
+        { "name" : "Line17", "keys" : ["BREAK","PAGE_UP","PAGE_DOWN","ARROW_RIGHT"]},
+
+
+        { "name" : "beach", "keys" : ["NUM","NUM_7","NUM_4","NUM_1","NUM_0","NUM_MULTIPLY","NUM_9","NUM_6","NUM_3","NUM_COMMA","MEDIA_RIGHT","NUM_MINUS","NUM_PLUS","NUM_ENTER"]},
+        { "name" : "palmWood", "keys" : ["NUM_8","NUM_5","NUM_2"]},
+        { "name" : "palmGreen", "keys" : ["NUM_DIVIDE","MEDIA_PLAY","MEDIA_STOP", "MEDIA_MUTE","MEDIA_LEFT"] },
+
+        { "name" : "ESC_neighbours", "keys" : ["ACCENT_KEY_CIRCUMFLEX","N1"]},
+        { "name" : "ACCENT_KEY_CIRCUMFLEX_neighbours", "keys" : ["ESC","N1","TAB"]},
+        { "name" : "TAB_neighbours", "keys" : ["ACCENT_KEY_CIRCUMFLEX","N1","Q","SHIFT_HOLD"]},
+        { "name" : "SHIFT_HOLD_neighbours", "keys" : ["SHIFT_LEFT","ARROW_GREATER","A","Q","TAB"]},
+        { "name" : "SHIFT_neighbours", "keys" : ["SHIFT_HOLD","ARROW_GREATER","STRG_LEFT"]},
+        { "name" : "STRG_LEFT_neighbours", "keys" : ["SHIFT","ARROW_GREATER","WINDOWS_LEFT"]},
+        { "name" : "N1_neighbours", "keys" : ["ESC","ACCENT_KEY_CIRCUMFLEX","F1","N2","Q","TAB"]},
+        { "name" : "Q_neighbours", "keys" : ["N1","N2","W","A","TAB","SHIFT_HOLD"]},
+        { "name" : "A_neighbours", "keys" : ["Q","W","S","Y","ARROW_GREATER","SHIFT_HOLD"]},
+        { "name" : "ARROW_GREATER_neighbours", "keys" : ["SHIFT_HOLD","SHIFT","STRG_LEFT","WINDOWS_LEFT","Y","A"]},
+        { "name" : "WINDOWS_LEFT_neighbours", "keys" : ["STRG_LEFT","ARROW_GREATER","Y","ALT"]},
+        { "name" : "Y_neighbours", "keys" : ["ARROW_GREATER","A","S","X","ALT_LEFT","WINDOWS_LEFT"]},
+        { "name" : "ALT_LEFT_neighbours", "keys" : ["WINDOWS_LEFT","Y","X"]},
+
+        { "name" : "F1_neighbours", "keys" : ["F2","N2","N1"]},
+        { "name" : "N2_neighbours", "keys" : ["F1","F2","N1","N3","Q","W"]},
+        { "name" : "W_neighbours", "keys" :  ["N2","N3","Q","E","A","S"]},
+        { "name" : "S_neighbours", "keys" : ["W","E","A","D","Y","X"]},
+        { "name" : "X_neighbours", "keys" : ["S","D","Y","C","ALT_LEFT"]},
+
+        { "name" : "F2_neighbours", "keys" : ["F1","F3","N2","N3"]},
+        { "name" : "N3_neighbours", "keys" : ["F2","F3","N2","N4","W","E"]},
+        { "name" : "E_neighbours", "keys" : ["N3","N4","W","R","S","D"]},
+        { "name" : "D_neighbours", "keys" : ["E","R","S","F","X","C"]},
+        { "name" : "C_neighbours", "keys" : ["D","F","X","V"]},
+
+        { "name" : "F3_neighbours", "keys" : ["F2","F4","N3","N4"]},
+        { "name" : "N4_neighbours", "keys" : ["F3","F4","N3","N5","E","R"]},
+        { "name" : "R_neighbours", "keys" : ["N4","N5","E","T","D","F"]},
+        { "name" : "F_neighbours", "keys" : ["R","T","D","G","C","V"]},
+        { "name" : "V_neighbours", "keys" : ["F","G","C","B"]},
+
+        { "name" : "F4_neighbours", "keys" : ["F3","N4","N5"]},
+        { "name" : "N5_neighbours", "keys" : ["F4","4","6","R","T"]},
+        { "name" : "T_neighbours", "keys" : ["N5","N6","R","Z","F","G"]},
+        { "name" : "G_neighbours", "keys" : ["T","Z","F","H","V","B"]},
+        { "name" : "B_neighbours", "keys" : ["G","H","V","N","SPACE"]},
+        { "name" : "SPACE_neighbours", "keys" : ["B","N"]},
+
+        { "name" : "N6_neighbours", "keys" : ["F5","N5","N7","T","Z"]},
+        { "name" : "Z_neighbours", "keys" : ["N6","N7","T","U","G","H"]},
+        { "name" : "H_neighbours", "keys" : ["Z","U","G","J","B","N"]},
+        { "name" : "N_neighbours", "keys" : ["H","J","B","M","Space"]},
+
+        { "name" : "F5_neighbours", "keys" : ["F6","N6","N7"]},
+        { "name" : "N7_neighbours", "keys" : ["F5","F6","N6","N8","Z","U"]},
+        { "name" : "U_neighbours", "keys" : [""]},
+
+    ],
+    "rules": [
+        {"alias":"start","type": "SetColor","delay":1, "color":"ffffffff","keys":[],"doAfter":["waterBackground","beach","palmWood","palmGreen","Delay1Second","sl1"]},
+
+        {"alias":"beach","type": "SetColor","delay":1, "color":"f5cc4dff","keys":["beach"]},
+        {"alias":"palmWood","type": "SetColor","delay":1, "color":"825201ff","keys":["palmWood"]},
+        {"alias":"palmGreen","type": "SetColor","delay":1, "color":"386c1b","keys":["palmGreen"]},
+        {"alias":"waterBackground","type":"SetColor", "delay": 1, "color":"1c55a0ff", "keys":["Line1","Line2","Line3","Line4","Line5","Line6","Line7","Line8","Line9","Line10","Line11","Line12","Line13","Line14","Line15","Line16","Line17"]},
+
+        {"alias":"Delay1Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl2","Delay2Second"]},
+        {"alias":"Delay2Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl3","Delay3Second"]},
+        {"alias":"Delay3Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl4","Delay4Second"]},
+        {"alias":"Delay4Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl5","Delay5Second"]},
+        {"alias":"Delay5Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl6","Delay6Second"]},
+        {"alias":"Delay6Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl7","Delay7Second"]},
+        {"alias":"Delay7Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl8","Delay8Second"]},
+        {"alias":"Delay8Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl9","Delay9Second"]},
+        {"alias":"Delay9Second","type": "SetColor", "delay":1000, "color":"ffffffff","keys":[],"doAfter":["sl10"]},
+
+
+        {"alias": "sl1", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line1","Line11"], "doAfter" :  ["sl1b"]},
+        {"alias": "sl1b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line1","Line11"], "doAfter" :  ["sl1"] },
+
+        {"alias": "sl2", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line2","Line12"], "doAfter" :  ["sl2b"]},
+        {"alias": "sl2b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line2","Line12"], "doAfter" :  ["sl2"] },
+
+        {"alias": "sl3", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line3","Line13"], "doAfter" :  ["sl3b"]},
+        {"alias": "sl3b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line3","Line13"], "doAfter" :  ["sl3"] },
+
+        {"alias": "sl4", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line4","Line14"], "doAfter" :  ["sl4b"]},
+        {"alias": "sl4b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line4","Line14"], "doAfter" :  ["sl4"] },
+
+        {"alias": "sl5", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line5","Line15"], "doAfter" :  ["sl5b"]},
+        {"alias": "sl5b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line5","Line15"], "doAfter" :  ["sl5"] },
+
+        {"alias": "sl6", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line6","Line16"], "doAfter" :  ["sl6b"]},
+        {"alias": "sl6b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line6","Line16"], "doAfter" :  ["sl6"] },
+
+        {"alias": "sl7", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line7","Line17"], "doAfter" :  ["sl7b"]},
+        {"alias": "sl7b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line7","Line17"], "doAfter" :  ["sl7"] },
+
+        {"alias": "sl8", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line8"], "doAfter" :  ["sl8b"]},
+        {"alias": "sl8b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line8"], "doAfter" :  ["sl8"] },
+
+        {"alias": "sl9", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line9"], "doAfter" :  ["sl9b"]},
+        {"alias": "sl9b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line9"], "doAfter" :  ["sl9"] },
+
+        {"alias": "sl10", "delay": 0, "type": "LinearColorChange", "startColor": "1c55a0", "endColor": "1c8ca0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line10"], "doAfter" :  ["sl10b"]},
+        {"alias": "sl10b","delay": 4000, "type": "LinearColorChange", "startColor": "1c8ca0", "endColor": "1c55a0", "duration": 3000, "layer": 3, "direction":1,
+            "keys": ["Line10"], "doAfter" :  ["sl10"] },
+
+        {"alias": "doOnKeyPress", "type": "OnKeyPress", "delay": "1", "keys": ["Ocean"], "cancelOld": true, "doAfter": ["drop"]},
+        {"alias": "drop", "type": "LinearColorChange", "delay": 0, "startColor": "ffffffaa", "endColor": "ffffff00", "duration": 2000, "layer": 4, "keys": ["$PRESSED"], "doAfter" : []}
+
+    ]
+}
