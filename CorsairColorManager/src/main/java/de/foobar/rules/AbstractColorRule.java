@@ -63,6 +63,9 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 	@JsonProperty("delay")
 	private int delay = 0;
 
+	@JsonProperty("startDelay")
+	private int startDelay = 0;
+
 	@JsonProperty("layer")
 	private int layer = basicProgram.DEFAULT_LAYER;
 
@@ -77,12 +80,20 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 		this.doAfterRules = doAfterRules;
 	}
 
+	public void run()
+	{
+
+	}
+
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
 	{
 		this.basicProgram = basicProgram;
 		final Map<String,AbstractColorRule> ruleMap = basicProgram.getRuleMap();
 		for(final String rule: doAfterListTmp)
 		{
+			if(rule.contains("$PRESSED")){
+				continue;
+			}
 			if(!ruleMap.containsKey(rule))
 			{
 				throw new ProgramParseException("cannot find role: " + rule);
@@ -118,7 +129,10 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 
 		for(final AbstractColorRule rule: this.getDoAfterRules())
 		{
-			programTimer.schedule( rule, delay, TimeUnit.MILLISECONDS );
+			if(rule.getStartDelay() > 0) {
+
+			}
+			programTimer.schedule( rule, (delay + rule.getStartDelay()), TimeUnit.MILLISECONDS );
 		}
 	}
 
@@ -160,6 +174,7 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 			clone.getDoAfterRules().add(rule);
 		}
 		clone.setDelay(this.getDelay());
+		clone.setStartDelay(this.getStartDelay());
 		clone.setLayer(this.getLayer());
 		return clone;
 	}
@@ -222,6 +237,14 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 
 	public void setLayer(final int layer) {
 		this.layer = layer;
+	}
+
+	public int getStartDelay() {
+		return startDelay;
+	}
+
+	public void setStartDelay(final int startDelay) {
+		this.startDelay = startDelay;
 	}
 
 	@Override

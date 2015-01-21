@@ -50,7 +50,9 @@ public class LinearColorChange extends AbstractColorRule {
 	private ScheduledFuture periodicExecution;
 
 	@Override
-	public synchronized void run() {
+	public synchronized void run()
+	{
+		super.run();
 		if(!this.isInLoop()) {
 			//start Linear
 			this.setInLoop(true);
@@ -58,7 +60,7 @@ public class LinearColorChange extends AbstractColorRule {
 			this.setPeriodicExecution(programTimer.scheduleWithFixedDelay( this, BasicProgram.FRAME_RATE, BasicProgram.FRAME_RATE, TimeUnit.MILLISECONDS ));
 
 			super.setColorForAllKeys(this.getStartColor());
-			final int delayCalculated = this.getDuration() + this.getDelay();
+			final int delayCalculated = this.getDuration() + this.getDelay() ;
 			super.scheduleDoAfter(delayCalculated);
 		}
 		else

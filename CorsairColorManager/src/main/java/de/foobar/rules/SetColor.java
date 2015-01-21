@@ -27,9 +27,8 @@ public class SetColor extends AbstractColorRule {
 	@Override
 	public void run()
 	{
+		super.run();
 		super.setColorForAllKeys( this.color);
-		System.out.println(this.getKeys());
-		System.out.println(this.color);
 		super.scheduleDoAfter(this.getDelay());
 	}
 

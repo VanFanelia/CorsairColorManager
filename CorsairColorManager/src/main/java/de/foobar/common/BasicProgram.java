@@ -136,7 +136,7 @@ public class BasicProgram extends Thread {
 			logger.setLevel(Level.OFF);
 			// init global Hook
 
-			Handler[] handlers = Logger.getLogger("").getHandlers();
+			final Handler[] handlers = Logger.getLogger("").getHandlers();
 			for (int i = 0; i < handlers.length; i++) {
 				handlers[i].setLevel(Level.WARNING);
 			}
@@ -177,9 +177,33 @@ public class BasicProgram extends Thread {
 	public void runRulesForKeyPressed(final Key pressed) throws CloneNotSupportedException {
 		List<AbstractColorRule> toExecute = this.onKeyPressRuleMap.get(pressed);
 		toExecute = toExecute == null? new ArrayList<AbstractColorRule>() : toExecute;
+
 		for(final AbstractColorRule rule : toExecute)
 		{
-			for(final AbstractColorRule doAfterRule : rule.getDoAfterRules())
+
+			final ArrayList<AbstractColorRule> addAdditionalRuleList = new ArrayList<>();
+			// check $PRESSED in rule names
+			for(final String doAfterRuleTmp: rule.getDoAfterListTmp())
+			{
+				if(doAfterRuleTmp.contains("$PRESSED"))
+				{
+					final String searchForName = doAfterRuleTmp.replace("$PRESSED",pressed.name());
+					if(this.ruleMap.containsKey(searchForName))
+					{
+						final AbstractColorRule toAdd = this.ruleMap.get(searchForName);
+						addAdditionalRuleList.add(toAdd);
+					}else{
+						System.out.println("there is no rule: " + searchForName + ". cannot add & execute dynamic rule");
+					}
+
+				}
+			}
+
+			final ArrayList<AbstractColorRule> executeList = new ArrayList<>();
+			executeList.addAll(addAdditionalRuleList);
+			executeList.addAll(rule.getDoAfterRules());
+
+			for(final AbstractColorRule doAfterRule : executeList)
 			{
 				final AbstractColorRule clone = doAfterRule.clone();
 				if (doAfterRule.getKeys().contains(Key.$PRESSED)) {
@@ -201,7 +225,7 @@ public class BasicProgram extends Thread {
 					}
 				}
 
-				this.timerPool.schedule(clone, 1, TimeUnit.MICROSECONDS);
+				this.timerPool.schedule(clone, 1 + (clone.getStartDelay() * 1000), TimeUnit.MICROSECONDS);
 			}
 		}
 	}

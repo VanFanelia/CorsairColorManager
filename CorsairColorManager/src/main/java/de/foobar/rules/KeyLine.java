@@ -55,7 +55,9 @@ public class KeyLine extends AbstractColorRule {
 	private HashMap<Integer, KeyReference> currentFocus = new HashMap<Integer, KeyReference>();
 
 	@Override
-	public synchronized void run() {
+	public synchronized void run()
+	{
+		super.run();
 		if(!this.isInLoop()) {
 			//start Linear
 			this.setInLoop(true);

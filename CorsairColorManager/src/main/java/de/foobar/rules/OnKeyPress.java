@@ -21,6 +21,7 @@ public class OnKeyPress extends AbstractColorRule {
 	@Override
 	public void run()
 	{
+		super.run();
 		// do nothing, just jump to doAfter
 		super.scheduleDoAfter(this.getDelay());
 	}
