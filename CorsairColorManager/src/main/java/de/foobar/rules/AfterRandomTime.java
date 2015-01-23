@@ -1,67 +1,56 @@
 package de.foobar.rules;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import de.foobar.common.BasicProgram;
-import de.foobar.color.ColorHelper;
 import de.foobar.exception.ProgramParseException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.awt.*;
-
 /**
  * Editor: van on 28.10.14.
  */
-public class SetColor extends AbstractColorRule {
+public class AfterRandomTime extends AbstractColorRule {
 
-    @JsonProperty("color")
-    private String colorTmp;
-
-	@JsonIgnore
-	private Color color;
-
-
+	@JsonProperty("timeRange")
+	private int timeRange = 1000;
 
 	@Override
 	public void run()
 	{
 		super.run();
-		super.setColorForAllKeys( this.color);
-		super.scheduleDoAfter(this.getDelay());
+		// do nothing, just jump to doAfter
+		final int randomDelay = (int) (Math.random() * timeRange);
+		//System.out.println(randomDelay);
+		super.scheduleDoAfter(this.getDelay() + randomDelay);
 	}
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
 	{
 		super.initObjects(basicProgram);
 
-		this.color = ColorHelper.convertRGBAHexColorToColor(this.colorTmp);
+		if (this.getTimeRange() < 0) {
+			throw new ProgramParseException("the timeRange has to be a unsigned integer value (32bit) ");
+		}
 	}
 
 	@Override
-	public SetColor clone() throws CloneNotSupportedException
+	public AfterRandomTime clone() throws CloneNotSupportedException
 	{
-		final SetColor clone = (SetColor) super.clone();
-		clone.colorTmp = this.colorTmp;
-		clone.color = this.color;
+		final AfterRandomTime clone = (AfterRandomTime) super.clone();
+		clone.timeRange = this.timeRange;
 		return clone;
 	}
 
-	public SetColor() {
+	public AfterRandomTime() {
 	}
 
-	public SetColor(final String colorTmp, final int delay) {
-        this.colorTmp = colorTmp;
-        this.setDelay(delay);
-    }
-
-	public Color getColor() {
-		return color;
+	public int getTimeRange() {
+		return timeRange;
 	}
 
-	public void setColor(final Color color) {
-		this.color = color;
+	public void setTimeRange(int timeRange) {
+		this.timeRange = timeRange;
 	}
 
 	@Override
@@ -78,5 +67,6 @@ public class SetColor extends AbstractColorRule {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this,false);
     }
+
 
 }

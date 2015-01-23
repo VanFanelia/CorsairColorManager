@@ -35,7 +35,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 		@JsonSubTypes.Type(value = LinearColorChange.class, name = "LinearColorChange"),
 		@JsonSubTypes.Type(value = HSVColorChange.class, name = "HSVColorChange"),
 		@JsonSubTypes.Type(value = KeyLine.class, name = "KeyLine"),
-		@JsonSubTypes.Type(value = OnKeyPress.class, name = "OnKeyPress")
+		@JsonSubTypes.Type(value = OnKeyPress.class, name = "OnKeyPress"),
+		@JsonSubTypes.Type(value = AfterRandomTime.class, name = "AfterRandomTime"),
+		@JsonSubTypes.Type(value = DoRandomRule.class, name ="DoRandomRule")
 })
 public abstract class AbstractColorRule extends TimerTask implements NeedInit, Cloneable{
 
@@ -87,6 +89,9 @@ public abstract class AbstractColorRule extends TimerTask implements NeedInit, C
 
 	public void initObjects(final BasicProgram basicProgram) throws ProgramParseException
 	{
+		if (this.getDelay() < 0) {
+			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
+		}
 		this.basicProgram = basicProgram;
 		final Map<String,AbstractColorRule> ruleMap = basicProgram.getRuleMap();
 		for(final String rule: doAfterListTmp)

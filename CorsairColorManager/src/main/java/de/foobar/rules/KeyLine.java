@@ -143,10 +143,6 @@ public class KeyLine extends AbstractColorRule {
 	{
 		super.initObjects(basicProgram);
 
-		if (this.getDelay() < 0) {
-			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
-		}
-
 		this.lineColor = ColorHelper.convertRGBAHexColorToColor(this.lineColorTmp);
 		this.backgroundColor = ColorHelper.convertRGBAHexColorToColor(this.backgroundColorTemp);
 	}

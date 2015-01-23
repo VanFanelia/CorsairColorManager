@@ -30,9 +30,6 @@ public class OnKeyPress extends AbstractColorRule {
 	{
 		super.initObjects(basicProgram);
 
-		if (this.getDelay() < 0) {
-			throw new ProgramParseException("the delay has to be a unsigned integer value (32bit) ");
-		}
 		for(final KeyReference keyReference: this.getKeys())
 		{
 			if(keyReference instanceof KeyGroup)

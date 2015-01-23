@@ -1,0 +1,107 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "start",
+    "groups": [
+        { "name" : "ALL_KEYS", "keys" : ["ESC", "ACCENT_KEY_CIRCUMFLEX", "TAB", "SHIFT_HOLD", "SHIFT_LEFT", "STRG_LEFT", "F12", "ACCENT_KEY_ACUTE", "SPECIAL_KEY_LOCK", "NUM_7", "F1", "N1", "Q", "A", "ARROW_GREATER", "WINDOWS_LEFT", "PRINT", "MEDIA_MUTE", "NUM_8", "F2", "N2", "W", "S", "Y", "ALT_LEFT", "ROLL", "BACKSPACE", "MEDIA_STOP", "NUM_9", "F3", "N3", "E", "D", "X", "BREAK", "ENTF", "MEDIA_LEFT", "F4", "N4", "R", "F", "C", "SPACE", "INSERT", "END", "MEDIA_PLAY", "NUM_4", "F5", "N5", "T", "G", "V", "POS1", "PAGE_DOWN", "MEDIA_RIGHT", "NUM_5", "F6", "N6", "Z", "H", "B", "PAGE_UP", "SHIFT_RIGHT", "NUM", "NUM_6", "F7", "N7", "U", "J", "N", "ALT_GR", "PLUS", "STRG_RIGHT", "NUM_DIVIDE", "NUM_1", "F8", "N8", "I", "K", "M", "WINDOWS_RIGHT", "ARROW_UP", "NUM_MULTIPLY", "NUM_2", "F9", "N9", "O", "L", "SEMICOLON", "CONTEXT_MENU", "HASH", "ARROW_LEFT", "NUM_MINUS", "NUM_3", "F10", "N0", "P", "OE", "DOUBLE_POINT", "ENTER", "ARROW_DOWN", "NUM_PLUS", "NUM_0", "F11", "SS", "UE", "AE", "MINUS", "SPECIAL_KEY_LIGHT", "ARROW_RIGHT", "NUM_ENTER", "NUM_COMMA"]},
+        { "name" : "Line1", "keys" : ["ESC","ACCENT_KEY_CIRCUMFLEX","TAB","SHIFT_HOLD","SHIFT_LEFT","STRG_LEFT","ARROW_GREATER","WINDOWS_LEFT"]},
+        { "name" : "Line2", "keys" : ["N1","Q","A","Y","ALT_LEFT"]},
+        { "name" : "Line3", "keys" : ["F1","N2","W","S","X"]},
+        { "name" : "Line4", "keys" : ["F2","N3","E","D","C"]},
+        { "name" : "Line5", "keys" : ["F3","N4","R","F","V"]},
+        { "name" : "Line6", "keys" : ["F4","N5","T","G","B","SPACE"]},
+        { "name" : "Line7", "keys" : ["N6","Z","H","N"]},
+        { "name" : "Line8", "keys" : ["F5","N7","U","J","M"]},
+        { "name" : "Line9", "keys" : ["F6","N8","I","K","SEMICOLON"]},
+        { "name" : "Line10", "keys" : ["F7","N9","O","L","DOUBLE_POINT","ALT_GR"]},
+        { "name" : "Line11", "keys" : ["F8","N0","P","OE","MINUS","WINDOWS_RIGHT"]},
+        { "name" : "Line12", "keys" : ["F9","SS","UE","AE","CONTEXT_MENU"]},
+        { "name" : "Line13", "keys" : ["F10","ACCENT_KEY_ACUTE","PLUS","HASH","SHIFT_RIGHT","STRG_RIGHT"]},
+        { "name" : "Line14", "keys" : ["F11","F12","BACKSPACE","ENTER"]},
+        { "name" : "Line15", "keys" : ["PRINT","INSERT","ENTF","ARROW_LEFT","SPECIAL_KEY_LIGHT"]},
+        { "name" : "Line16", "keys" : ["ROLL","POS1","END","ARROW_UP","ARROW_DOWN","SPECIAL_KEY_LOCK"]},
+        { "name" : "Line17", "keys" : ["BREAK","PAGE_UP","PAGE_DOWN","ARROW_RIGHT"]},
+        { "name" : "Line18", "keys" : ["MEDIA_STOP","NUM","NUM_7","NUM_4","NUM_1","NUM_0"]},
+        { "name" : "Line19", "keys" : ["MEDIA_MUTE","MEDIA_LEFT","NUM_DIVIDE","NUM_8","NUM_5","NUM_2"]},
+        { "name" : "Line20", "keys" : ["MEDIA_PLAY","NUM_MULTIPLY","NUM_9","NUM_6","NUM_3","NUM_COMMA"]},
+        { "name" : "Line21", "keys" : ["MEDIA_RIGHT","NUM_MINUS","NUM_PLUS","NUM_ENTER"]}
+
+    ],
+    "rules": [
+
+        {"alias":"start","type": "SetColor","delay":1, "color":"ffffffff","keys":[],"doAfter":["setBlack"]},
+        {"alias":"setBlack","type": "SetColor","delay":1, "layer":"1", "color":"222222ff","keys":["ALL_KEYS"],"doAfter":["AfterRandomTime","AfterRandomTime","AfterRandomTime","AfterRandomTime","AfterRandomTime"]},
+
+        {"alias":"AfterRandomTime", "type": "AfterRandomTime", "timeRange":300, "layer":"1", "color":"222222ff","keys":["ALL_KEYS"], "doAfter":["DoRandomRule"]},
+        {"alias":"DoRandomRule", "type": "DoRandomRule", "keys":["ALL_KEYS"], "doAfter":["mLine1","mLine2","mLine3","mLine4","mLine5","mLine6","mLine7","mLine8","mLine9","mLine10","mLine11","mLine12","mLine13","mLine14","mLine15","mLine16","mLine17","mLine18","mLine19","mLine20","mLine21"]},
+
+
+
+        {"alias": "mLine1", "type": "KeyLine", "delay": 0, "keys": ["ESC","ACCENT_KEY_CIRCUMFLEX","TAB","SHIFT_HOLD","SHIFT_LEFT","STRG_LEFT","ARROW_GREATER","WINDOWS_LEFT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine2", "type": "KeyLine", "delay": 0, "keys": ["N1","Q","A","Y","ALT_LEFT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine3", "type": "KeyLine", "delay": 0, "keys": ["F1","N2","W","S","X"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine4", "type": "KeyLine", "delay": 0, "keys": ["F2","N3","E","D","C"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine5", "type": "KeyLine", "delay": 0, "keys": ["F3","N4","R","F","V"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine6", "type": "KeyLine", "delay": 0, "keys": ["F4","N5","T","G","B","SPACE"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine7", "type": "KeyLine", "delay": 0, "keys": ["N6","Z","H","N"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine8", "type": "KeyLine", "delay": 0, "keys": ["F5","N7","U","J","M"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine9", "type": "KeyLine", "delay": 0, "keys": ["F6","N8","I","K","SEMICOLON"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine10", "type": "KeyLine", "delay": 0, "keys": ["F7","N9","O","L","DOUBLE_POINT","ALT_GR"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine11", "type": "KeyLine", "delay": 0, "keys": ["F8","N0","P","OE","MINUS","WINDOWS_RIGHT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine12", "type": "KeyLine", "delay": 0, "keys": ["F9","SS","UE","AE","CONTEXT_MENU"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine13", "type": "KeyLine", "delay": 0, "keys": ["F10","ACCENT_KEY_ACUTE","PLUS","HASH","SHIFT_RIGHT","STRG_RIGHT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine14", "type": "KeyLine", "delay": 0, "keys": ["F11","F12","BACKSPACE","ENTER"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine15", "type": "KeyLine", "delay": 0, "keys": ["PRINT","INSERT","ENTF","ARROW_LEFT","SPECIAL_KEY_LIGHT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine16", "type": "KeyLine", "delay": 0, "keys": ["ROLL","POS1","END","ARROW_UP","ARROW_DOWN","SPECIAL_KEY_LOCK"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine17", "type": "KeyLine", "delay": 0, "keys": ["BREAK","PAGE_UP","PAGE_DOWN","ARROW_RIGHT"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine18", "type": "KeyLine", "delay": 0, "keys": ["MEDIA_STOP","NUM","NUM_7","NUM_4","NUM_1","NUM_0"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine19", "type": "KeyLine", "delay": 0, "keys": ["MEDIA_MUTE","MEDIA_LEFT","NUM_DIVIDE","NUM_8","NUM_5","NUM_2"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine20", "type": "KeyLine", "delay": 0, "keys": ["MEDIA_PLAY","NUM_MULTIPLY","NUM_9","NUM_6","NUM_3","NUM_COMMA"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+        {"alias": "mLine21", "type": "KeyLine", "delay": 0, "keys": ["MEDIA_RIGHT","NUM_MINUS","NUM_PLUS","NUM_ENTER"], "doAfter": ["AfterRandomTime"],
+            "lineColor": "00ff00ff", "keyShowDuration": 1000, "keyInterval" : 50, "backgroundColor": "222222ff", "layer": 3},
+
+
+        {"alias":"setGreen","type": "SetColor","delay":1, "layer":5, "color":"00ff00ff","keys":["ALL_KEYS"],"doAfter":[]}
+
+    ]
+}
+
