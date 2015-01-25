@@ -23,7 +23,13 @@ public class DoRandomRule extends AbstractColorRule {
 		{
 			Collections.shuffle(this.getDoAfterRules());
 			final AbstractColorRule first = this.getDoAfterRules().get(0);
-			programTimer.schedule( first, (this.getDelay() + first.getStartDelay()), TimeUnit.MILLISECONDS );
+			final AbstractColorRule clone;
+			try {
+				clone = first.clone();
+				programTimer.schedule( clone, (this.getDelay() + clone.getStartDelay()), TimeUnit.MILLISECONDS );
+			} catch (final CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
