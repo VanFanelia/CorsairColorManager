@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 
 /**
  *
@@ -141,9 +142,19 @@ public class BasicProgram extends Thread {
 				handlers[i].setLevel(Level.WARNING);
 			}
 
-			GlobalScreen.getInstance().addNativeKeyListener(new KeyInputListener(this));
-			GlobalScreen.registerNativeHook();
 
+			try {
+				GlobalScreen.registerNativeHook();
+			}
+			catch (NativeHookException ex) {
+				System.err.println("There was a problem registering the native hook.");
+				System.err.println(ex.getMessage());
+
+				System.exit(1);
+			}
+
+			GlobalScreen.addNativeKeyListener(new KeyInputListener(this));
+			GlobalScreen.registerNativeHook();
 
 			//remove console debug log
 

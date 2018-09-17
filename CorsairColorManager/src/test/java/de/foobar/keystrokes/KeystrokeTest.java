@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
@@ -19,12 +20,16 @@ public class KeystrokeTest implements NativeKeyListener {
 
 		ExecutorService es = new ExecutorService();
 
-//		GlobalScreen.getInstance().setEventDispatcher(es);
+		try {
+			GlobalScreen.registerNativeHook();
+		}
+		catch (NativeHookException ex) {
+			System.err.println("There was a problem registering the native hook.");
+			System.err.println(ex.getMessage());
+			System.exit(1);
+		}
 
-		GlobalScreen.getInstance().addNativeKeyListener(keystrokeTest);
-
-		GlobalScreen.registerNativeHook();
-
+		GlobalScreen.addNativeKeyListener(keystrokeTest);
 
 		while(true)
 		{
