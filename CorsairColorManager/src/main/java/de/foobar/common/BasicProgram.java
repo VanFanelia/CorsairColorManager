@@ -41,7 +41,7 @@ public class BasicProgram extends Thread {
 
 	public static final int DEFAULT_LAYER = 3;
 
-	public static final int MAX_PROGRAM_DURATION = 3600;// in seconds
+	public static final int MAX_PROGRAM_DURATION = 60 * 60 * 24 * 7 * 31 * 12;// in seconds
 
 	@JsonIgnore()
 	private ColorMixingRule colorMixingRule;

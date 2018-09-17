@@ -1,0 +1,14 @@
+{
+    "colorMixingRule": "OVERRIDE",
+    "startAction" : "start",
+    "groups": [
+
+        { "name" : "ALL_KEYS", "keys" : ["ESC", "ACCENT_KEY_CIRCUMFLEX", "TAB", "SHIFT_HOLD", "SHIFT_LEFT", "STRG_LEFT", "F12", "ACCENT_KEY_ACUTE", "SPECIAL_KEY_LOCK", "NUM_7", "F1", "N1", "Q", "A", "ARROW_GREATER", "WINDOWS_LEFT", "PRINT", "MEDIA_MUTE", "NUM_8", "F2", "N2", "W", "S", "Y", "ALT_LEFT", "ROLL", "BACKSPACE", "MEDIA_STOP", "NUM_9", "F3", "N3", "E", "D", "X", "BREAK", "ENTF", "MEDIA_LEFT", "F4", "N4", "R", "F", "C", "SPACE", "INSERT", "END", "MEDIA_PLAY", "NUM_4", "F5", "N5", "T", "G", "V", "POS1", "PAGE_DOWN", "MEDIA_RIGHT", "NUM_5", "F6", "N6", "Z", "H", "B", "PAGE_UP", "SHIFT_RIGHT", "NUM", "NUM_6", "F7", "N7", "U", "J", "N", "ALT_GR", "PLUS", "STRG_RIGHT", "NUM_DIVIDE", "NUM_1", "F8", "N8", "I", "K", "M", "WINDOWS_RIGHT", "ARROW_UP", "NUM_MULTIPLY", "NUM_2", "F9", "N9", "O", "L", "SEMICOLON", "CONTEXT_MENU", "HASH", "ARROW_LEFT", "NUM_MINUS", "NUM_3", "F10", "N0", "P", "OE", "DOUBLE_POINT", "ENTER", "ARROW_DOWN", "NUM_PLUS", "NUM_0", "F11", "SS", "UE", "AE", "MINUS", "SPECIAL_KEY_LIGHT", "ARROW_RIGHT", "NUM_ENTER", "NUM_COMMA"]}
+    ],
+    "rules": [
+        {"alias":"start","type": "SetColor", "layer": 1, "delay":1, "color":"336699ff","keys":["ALL_KEYS"],"doAfter":[]},
+
+        {"alias": "doOnKeyPress", "type": "OnKeyPress", "delay": "1", "keys": ["ALL_KEYS"], "cancelOld": true, "doAfter": ["drop"]},
+        {"alias": "drop", "type": "LinearColorChange", "delay": 0, "startColor": "ffffffaa", "endColor": "ffffff00", "duration": 2000, "layer": 4, "keys": ["$PRESSED"], "doAfter" : []}
+    ]
+}
